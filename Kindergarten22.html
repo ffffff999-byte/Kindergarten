@@ -1,0 +1,2518 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>منصة براعم — متابعة مهارات رياض الأطفال</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=Cairo:wght@600;700;900&family=Lalezar&display=swap" rel="stylesheet">
+<style>
+/* ====================== متغيرات الهوية البصرية ====================== */
+:root {
+  /* ألوان مستوحاة من ورشة فنون أطفال - دافئة ومتفائلة */
+  --c-cream: #fef8ed;
+  --c-sun: #ffc857;
+  --c-coral: #ff7e5f;
+  --c-mint: #06d6a0;
+  --c-sky: #4ecdc4;
+  --c-lavender: #a78bfa;
+  --c-rose: #fb7185;
+  --c-deep: #2d3047;
+  --c-ink: #1a1a2e;
+  --c-paper: #ffffff;
+  --c-soft: #f1f5f9;
+  --c-line: #e2e8f0;
+
+  --shadow-soft: 0 4px 24px rgba(45, 48, 71, 0.08);
+  --shadow-pop: 0 8px 32px rgba(255, 126, 95, 0.25);
+  --shadow-card: 0 10px 30px rgba(45, 48, 71, 0.12);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Tajawal', sans-serif;
+  background:
+    radial-gradient(circle at 20% 10%, rgba(255, 200, 87, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 80% 90%, rgba(167, 139, 250, 0.12) 0%, transparent 40%),
+    var(--c-cream);
+  color: var(--c-ink);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+/* أنماط الخطوط المخصصة */
+.display-font { font-family: 'Lalezar', 'Cairo', sans-serif; letter-spacing: 0.5px; }
+.heading-font { font-family: 'Cairo', sans-serif; }
+
+/* ====================== الشريط العلوي ====================== */
+.topbar {
+  background: linear-gradient(135deg, var(--c-deep) 0%, #3b3e5f 100%);
+  color: white;
+  padding: 16px 28px;
+  box-shadow: var(--shadow-soft);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  border-bottom: 4px solid var(--c-sun);
+}
+
+.topbar-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.brand-logo {
+  width: 52px;
+  height: 52px;
+  background: linear-gradient(135deg, var(--c-sun), var(--c-coral));
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  box-shadow: var(--shadow-pop);
+  transform: rotate(-3deg);
+  transition: transform 0.3s;
+}
+.brand-logo:hover { transform: rotate(3deg) scale(1.05); }
+
+.brand-name {
+  font-family: 'Lalezar', 'Cairo', sans-serif;
+  font-size: 30px;
+  color: white;
+  letter-spacing: 1px;
+}
+.brand-tagline {
+  font-size: 12px;
+  color: rgba(255,255,255,0.7);
+  margin-top: -4px;
+}
+
+.topbar-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 12px;
+  font-family: 'Tajawal', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.btn:hover { transform: translateY(-2px); }
+
+.btn-primary {
+  background: var(--c-sun);
+  color: var(--c-deep);
+  box-shadow: 0 4px 14px rgba(255, 200, 87, 0.4);
+}
+.btn-primary:hover { background: #ffb83d; }
+
+.btn-ghost {
+  background: rgba(255,255,255,0.1);
+  color: white;
+  backdrop-filter: blur(10px);
+}
+.btn-ghost:hover { background: rgba(255,255,255,0.2); }
+
+.btn-coral { background: var(--c-coral); color: white; }
+.btn-coral:hover { background: #f86a47; }
+
+.btn-mint { background: var(--c-mint); color: white; }
+.btn-mint:hover { background: #04b88a; }
+
+.btn-sm { padding: 7px 13px; font-size: 13px; }
+
+/* ====================== التنقل بين التبويبات ====================== */
+.nav-tabs {
+  max-width: 1400px;
+  margin: 24px auto 0;
+  padding: 0 28px;
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.tab-btn {
+  padding: 12px 22px;
+  background: white;
+  border: 2px solid transparent;
+  border-radius: 14px 14px 0 0;
+  font-family: 'Tajawal', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  color: var(--c-deep);
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  position: relative;
+  top: 2px;
+}
+.tab-btn:hover { background: var(--c-soft); }
+.tab-btn.active {
+  background: white;
+  border-color: var(--c-sun);
+  border-bottom-color: white;
+  color: var(--c-deep);
+  box-shadow: 0 -4px 12px rgba(0,0,0,0.04);
+}
+.tab-btn.active::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  right: 0;
+  left: 0;
+  height: 4px;
+  background: linear-gradient(to left, var(--c-sun), var(--c-coral));
+  border-radius: 14px 14px 0 0;
+}
+
+.tab-icon {
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ====================== المحتوى الرئيسي ====================== */
+.main {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 28px 60px;
+  background: white;
+  border-radius: 0 0 24px 24px;
+  box-shadow: var(--shadow-soft);
+}
+
+.tab-panel { display: none; padding: 32px 0; }
+.tab-panel.active { display: block; animation: fadeUp 0.4s ease-out; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ====================== لوحة التحكم (Dashboard) ====================== */
+.dash-greeting {
+  background: linear-gradient(135deg, #fff5e6 0%, #ffe8d6 100%);
+  border-radius: 20px;
+  padding: 28px 32px;
+  margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
+}
+.dash-greeting::before {
+  content: '✨';
+  position: absolute;
+  left: 24px;
+  top: 16px;
+  font-size: 80px;
+  opacity: 0.15;
+  transform: rotate(-15deg);
+}
+.dash-greeting h2 {
+  font-family: 'Cairo', sans-serif;
+  font-size: 28px;
+  color: var(--c-deep);
+  margin-bottom: 6px;
+}
+.dash-greeting p { color: #5a5e7a; font-size: 15px; }
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+  margin-bottom: 32px;
+}
+
+.stat-card {
+  background: white;
+  border-radius: 18px;
+  padding: 22px;
+  border: 1px solid var(--c-line);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+}
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-card);
+}
+.stat-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--card-color, var(--c-sun));
+  opacity: 0.06;
+  z-index: 0;
+}
+.stat-card > * { position: relative; z-index: 1; }
+
+.stat-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: var(--card-color, var(--c-sun));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  font-size: 24px;
+  color: white;
+}
+
+.stat-label { font-size: 13px; color: #64748b; margin-bottom: 4px; }
+.stat-value {
+  font-family: 'Cairo', sans-serif;
+  font-size: 32px;
+  font-weight: 900;
+  color: var(--c-deep);
+  line-height: 1;
+}
+.stat-trend {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 12px;
+  padding: 3px 10px;
+  border-radius: 10px;
+  background: rgba(6, 214, 160, 0.12);
+  color: #047857;
+  font-weight: 700;
+}
+
+/* قسم الإجراءات السريعة */
+.quick-section {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 22px;
+  margin-bottom: 30px;
+}
+@media (max-width: 880px) { .quick-section { grid-template-columns: 1fr; } }
+
+.panel-card {
+  background: white;
+  border: 1px solid var(--c-line);
+  border-radius: 18px;
+  padding: 24px;
+}
+
+.panel-card h3 {
+  font-family: 'Cairo', sans-serif;
+  font-size: 18px;
+  margin-bottom: 16px;
+  color: var(--c-deep);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* مخطط شريطي بسيط للوحدات */
+.bar-chart { display: flex; flex-direction: column; gap: 14px; }
+.bar-row { display: flex; align-items: center; gap: 12px; }
+.bar-label { width: 130px; font-size: 13px; font-weight: 700; color: var(--c-deep); }
+.bar-track {
+  flex: 1;
+  height: 26px;
+  background: var(--c-soft);
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+}
+.bar-fill {
+  height: 100%;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 10px;
+  color: white;
+  font-weight: 700;
+  font-size: 12px;
+  transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* قائمة الإشعارات */
+.activity-list { display: flex; flex-direction: column; gap: 10px; max-height: 320px; overflow-y: auto; }
+.activity-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--c-soft);
+  font-size: 13px;
+}
+.activity-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 16px;
+}
+.activity-text { flex: 1; }
+.activity-time { font-size: 11px; color: #94a3b8; }
+
+/* ====================== قسم الأطفال ====================== */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 22px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.section-title {
+  font-family: 'Cairo', sans-serif;
+  font-size: 24px;
+  color: var(--c-deep);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.section-title-icon {
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg, var(--c-sun), var(--c-coral));
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 22px;
+}
+
+.search-bar {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.search-input {
+  padding: 10px 16px;
+  border: 1.5px solid var(--c-line);
+  border-radius: 12px;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 14px;
+  background: white;
+  min-width: 220px;
+  transition: border-color 0.2s;
+}
+.search-input:focus { outline: none; border-color: var(--c-sun); }
+
+.filter-select {
+  padding: 10px 14px;
+  border: 1.5px solid var(--c-line);
+  border-radius: 12px;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 14px;
+  background: white;
+  cursor: pointer;
+}
+
+/* بطاقات الأطفال */
+.children-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 18px;
+}
+
+.child-card {
+  background: white;
+  border: 1px solid var(--c-line);
+  border-radius: 18px;
+  padding: 20px;
+  position: relative;
+  transition: all 0.3s;
+  cursor: pointer;
+  overflow: hidden;
+}
+.child-card::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0; left: 0;
+  height: 6px;
+  background: var(--card-bg, linear-gradient(to left, var(--c-sun), var(--c-coral)));
+}
+.child-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-card);
+  border-color: transparent;
+}
+
+.child-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--avatar-bg, var(--c-sun));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  color: white;
+  font-weight: 900;
+  margin-bottom: 12px;
+  font-family: 'Cairo', sans-serif;
+}
+
+.child-name { font-family: 'Cairo', sans-serif; font-size: 18px; font-weight: 700; color: var(--c-deep); }
+.child-meta { font-size: 12px; color: #64748b; margin-top: 4px; }
+
+.child-progress {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.progress-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #475569;
+}
+.progress-track {
+  height: 6px;
+  background: var(--c-soft);
+  border-radius: 6px;
+  overflow: hidden;
+  margin-top: 3px;
+}
+.progress-fill {
+  height: 100%;
+  border-radius: 6px;
+  transition: width 0.8s;
+}
+
+.child-actions {
+  display: flex;
+  gap: 6px;
+  margin-top: 14px;
+}
+.child-actions .btn { flex: 1; justify-content: center; padding: 6px 10px; font-size: 12px; }
+
+/* ====================== المعايير النمائية ====================== */
+.standards-intro {
+  background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+  border-right: 5px solid var(--c-mint);
+  padding: 18px 22px;
+  border-radius: 14px;
+  margin-bottom: 24px;
+  font-size: 14px;
+  color: #065f46;
+}
+
+.domains-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.domain-card {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid var(--c-line);
+  transition: all 0.3s;
+  cursor: pointer;
+}
+.domain-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-card); }
+
+.domain-header {
+  padding: 22px 22px 18px;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+.domain-header::after {
+  content: var(--domain-emoji, '🌟');
+  position: absolute;
+  left: -10px;
+  bottom: -20px;
+  font-size: 100px;
+  opacity: 0.15;
+}
+.domain-name { font-family: 'Cairo', sans-serif; font-size: 19px; font-weight: 900; margin-bottom: 4px; }
+.domain-en { font-size: 11px; opacity: 0.85; }
+
+.domain-body { padding: 18px 22px 20px; }
+.domain-stat { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 8px; }
+.domain-stat strong { color: var(--c-deep); }
+
+.domain-skills {
+  margin-top: 12px;
+  font-size: 12px;
+  color: #64748b;
+  line-height: 1.7;
+}
+
+.skill-tag {
+  display: inline-block;
+  padding: 3px 9px;
+  background: var(--c-soft);
+  border-radius: 8px;
+  margin: 2px 0 2px 4px;
+  font-size: 11px;
+  color: var(--c-deep);
+}
+
+/* ====================== الوحدات ====================== */
+.units-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 18px;
+}
+
+.unit-card {
+  background: white;
+  border-radius: 18px;
+  padding: 22px;
+  border: 1px solid var(--c-line);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+.unit-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-card); }
+
+.unit-emoji {
+  font-size: 48px;
+  margin-bottom: 10px;
+  display: inline-block;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+}
+
+.unit-status {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.status-active { background: #dcfce7; color: #166534; }
+.status-completed { background: #dbeafe; color: #1e40af; }
+.status-upcoming { background: #fef3c7; color: #92400e; }
+
+.unit-name { font-family: 'Cairo', sans-serif; font-size: 19px; font-weight: 700; color: var(--c-deep); margin-bottom: 4px; }
+.unit-period { font-size: 12px; color: #94a3b8; margin-bottom: 14px; }
+
+.unit-progress-circle {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 14px 0;
+}
+.circle-progress {
+  position: relative;
+  width: 60px;
+  height: 60px;
+}
+.circle-bg {
+  width: 100%; height: 100%;
+  border-radius: 50%;
+  background: conic-gradient(var(--circle-color, var(--c-mint)) calc(var(--pct) * 1%), var(--c-soft) 0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.circle-inner {
+  width: 48px;
+  height: 48px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 14px;
+  color: var(--c-deep);
+}
+.unit-info-text { flex: 1; }
+.unit-info-text small { color: #94a3b8; font-size: 11px; }
+.unit-info-text strong { display: block; font-size: 15px; color: var(--c-deep); margin-top: 2px; }
+
+.unit-objectives {
+  padding: 12px;
+  background: var(--c-soft);
+  border-radius: 12px;
+  margin-top: 12px;
+  font-size: 12px;
+}
+.unit-objectives strong { display: block; margin-bottom: 6px; color: var(--c-deep); }
+.unit-objectives ul { list-style: none; padding: 0; }
+.unit-objectives li { padding: 3px 0; padding-right: 14px; position: relative; color: #475569; }
+.unit-objectives li::before { content: '✓'; position: absolute; right: 0; color: var(--c-mint); font-weight: 900; }
+
+/* ====================== صفحة تقييم الطفل ====================== */
+.assessment-page {
+  display: none;
+  padding: 32px 0;
+}
+.assessment-page.active { display: block; animation: fadeUp 0.4s; }
+
+.assess-header {
+  background: linear-gradient(135deg, var(--c-deep), #3b3e5f);
+  color: white;
+  border-radius: 20px;
+  padding: 28px;
+  display: flex;
+  gap: 22px;
+  align-items: center;
+  margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
+}
+.assess-header::before {
+  content: '';
+  position: absolute;
+  left: -40px;
+  top: -40px;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, var(--c-sun) 0%, transparent 70%);
+  opacity: 0.3;
+}
+
+.assess-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--c-sun);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  color: var(--c-deep);
+  font-weight: 900;
+  font-family: 'Cairo', sans-serif;
+  flex-shrink: 0;
+  z-index: 1;
+}
+
+.assess-info { flex: 1; z-index: 1; }
+.assess-info h2 { font-family: 'Cairo', sans-serif; font-size: 26px; margin-bottom: 4px; }
+.assess-info p { opacity: 0.85; font-size: 14px; }
+
+.assess-back-btn {
+  background: rgba(255,255,255,0.15);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: 'Tajawal', sans-serif;
+  font-weight: 700;
+  z-index: 1;
+}
+
+/* جدول التقييم بالمعايير النمائية */
+.assess-domain-block {
+  background: white;
+  border: 1px solid var(--c-line);
+  border-radius: 18px;
+  margin-bottom: 18px;
+  overflow: hidden;
+}
+.assess-domain-header {
+  padding: 16px 22px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'Cairo', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+}
+.assess-domain-body { padding: 8px 22px 18px; }
+
+.skill-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--c-line);
+}
+.skill-row:last-child { border-bottom: none; }
+.skill-text { font-size: 14px; color: var(--c-deep); }
+.skill-rating { display: flex; gap: 6px; }
+
+.rating-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 2px solid var(--c-line);
+  background: white;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+.rating-btn:hover { transform: scale(1.1); }
+.rating-btn.active-1 { background: #fee2e2; border-color: #dc2626; }
+.rating-btn.active-2 { background: #fef3c7; border-color: #d97706; }
+.rating-btn.active-3 { background: #d1fae5; border-color: #059669; }
+
+.rating-legend {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin: 0 0 18px;
+  font-size: 12px;
+  color: #64748b;
+}
+.legend-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  background: var(--c-soft);
+  border-radius: 10px;
+}
+.legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+/* ====================== مودال إضافة طفل ====================== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(45, 48, 71, 0.55);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  backdrop-filter: blur(6px);
+  padding: 20px;
+}
+.modal-overlay.show { display: flex; animation: fadeIn 0.2s; }
+@keyframes fadeIn { from {opacity:0} to {opacity:1} }
+
+.modal {
+  background: white;
+  border-radius: 22px;
+  padding: 28px;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 30px 70px rgba(0,0,0,0.3);
+  animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+@keyframes slideUp { from {transform: translateY(20px); opacity:0} to {transform: translateY(0); opacity:1} }
+
+.modal h3 {
+  font-family: 'Cairo', sans-serif;
+  font-size: 22px;
+  color: var(--c-deep);
+  margin-bottom: 18px;
+}
+
+.modal-field { margin-bottom: 14px; }
+.modal-field label {
+  display: block;
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--c-deep);
+  margin-bottom: 6px;
+}
+.modal-field input, .modal-field select {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1.5px solid var(--c-line);
+  border-radius: 10px;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 14px;
+  transition: border-color 0.2s;
+}
+.modal-field input:focus, .modal-field select:focus { outline: none; border-color: var(--c-sun); }
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 22px;
+}
+.modal-actions .btn { flex: 1; justify-content: center; }
+
+/* الجزء السفلي للنسبة الإجمالية */
+.summary-card {
+  background: linear-gradient(135deg, #fff5e6, #ffe8d6);
+  border-radius: 18px;
+  padding: 22px;
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  flex-wrap: wrap;
+}
+.summary-card .summary-icon {
+  width: 70px; height: 70px;
+  background: var(--c-sun);
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+}
+.summary-text h4 { font-family: 'Cairo', sans-serif; font-size: 18px; color: var(--c-deep); }
+.summary-text p { font-size: 13px; color: #64748b; margin-top: 2px; }
+.summary-percent {
+  margin-right: auto;
+  font-family: 'Lalezar', 'Cairo', sans-serif;
+  font-size: 48px;
+  color: var(--c-coral);
+  line-height: 1;
+}
+
+/* ====================== التذييل ====================== */
+.footer-credit {
+  background: linear-gradient(135deg, #1a1a2e, #2d3047);
+  color: white;
+  padding: 18px 28px;
+  text-align: center;
+  margin-top: 50px;
+  font-size: 14px;
+}
+.footer-credit a {
+  color: var(--c-sun);
+  text-decoration: none;
+  font-weight: 700;
+  margin-right: 6px;
+}
+.footer-credit a:hover { text-decoration: underline; }
+
+/* مؤشر التحميل */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #94a3b8;
+}
+.empty-state-icon { font-size: 60px; margin-bottom: 14px; opacity: 0.5; }
+.empty-state h4 { font-family: 'Cairo', sans-serif; font-size: 18px; color: var(--c-deep); margin-bottom: 6px; }
+
+/* استجابة للجوال */
+@media (max-width: 640px) {
+  .topbar { padding: 14px 18px; }
+  .brand-name { font-size: 24px; }
+  .main { padding: 0 16px 40px; border-radius: 0; }
+  .nav-tabs { padding: 0 16px; }
+  .section-header { flex-direction: column; align-items: stretch; }
+  .search-input { min-width: 0; flex: 1; }
+}
+
+/* تأثيرات الخلفية الزخرفية */
+.bg-decoration {
+  position: fixed;
+  pointer-events: none;
+  opacity: 0.07;
+  z-index: 0;
+}
+.bg-decoration.bd1 { top: 100px; right: 5%; font-size: 80px; }
+.bg-decoration.bd2 { bottom: 100px; left: 5%; font-size: 100px; }
+
+/* قائمة اختيار الطفل للطباعة */
+.print-picker-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 400px;
+  overflow-y: auto;
+  margin: 10px 0;
+  padding: 4px;
+}
+
+.print-picker-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background: #f8fafc;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: right;
+  font-family: 'Tajawal', sans-serif;
+  width: 100%;
+}
+.print-picker-item:hover {
+  background: #fff5e6;
+  border-color: var(--c-sun);
+  transform: translateX(-3px);
+}
+.print-picker-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 900;
+  font-family: 'Cairo', sans-serif;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.print-picker-info { flex: 1; }
+.print-picker-name { font-weight: 700; color: var(--c-deep); font-size: 14px; }
+.print-picker-meta { font-size: 11px; color: #64748b; margin-top: 2px; }
+.print-picker-arrow {
+  background: var(--c-sun);
+  color: var(--c-deep);
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 12px;
+}
+
+/* ============================================================
+   منطقة الطباعة - تقرير PDF احترافي
+   ============================================================ */
+#printArea {
+  display: none;
+}
+
+@page {
+  size: A4 portrait;
+  margin: 10mm;
+}
+
+@media print {
+  /* إخفاء كل شيء عدا منطقة الطباعة */
+  body > *:not(#printArea) { display: none !important; }
+  body {
+    background: white !important;
+    margin: 0;
+    padding: 0;
+  }
+  #printArea {
+    display: block !important;
+    width: 100%;
+  }
+  .bg-decoration { display: none !important; }
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+}
+
+/* تنسيق ورقة التقرير */
+.report-page {
+  width: 190mm;
+  margin: 0 auto;
+  padding: 0;
+  font-family: 'Tajawal', sans-serif;
+  color: #1a1a2e;
+  page-break-after: always;
+}
+.report-page:last-child { page-break-after: auto; }
+
+.report-header {
+  background: linear-gradient(135deg, #2d3047, #3b3e5f);
+  color: white;
+  padding: 14px 20px;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  position: relative;
+  overflow: hidden;
+}
+.report-header::before {
+  content: '🌱';
+  position: absolute;
+  left: 14px;
+  top: 8px;
+  font-size: 36px;
+  opacity: 0.25;
+}
+
+.report-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #ffc857;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #2d3047;
+  font-weight: 900;
+  font-size: 28px;
+  font-family: 'Cairo', sans-serif;
+  flex-shrink: 0;
+}
+
+.report-title-block { flex: 1; }
+.report-platform { font-size: 11px; opacity: 0.7; }
+.report-child-name { font-family: 'Cairo', sans-serif; font-size: 20px; font-weight: 900; margin: 2px 0; }
+.report-child-meta { font-size: 11px; opacity: 0.85; }
+
+.report-date {
+  font-size: 10px;
+  background: rgba(255,255,255,0.15);
+  padding: 5px 10px;
+  border-radius: 8px;
+}
+
+/* ملخص أعلى التقرير */
+.report-summary {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.report-summary-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 10px 12px;
+  text-align: center;
+}
+.report-summary-card .label { font-size: 10px; color: #64748b; margin-bottom: 2px; }
+.report-summary-card .value {
+  font-family: 'Cairo', sans-serif;
+  font-size: 22px;
+  font-weight: 900;
+  color: #2d3047;
+}
+.report-summary-card.highlight {
+  background: linear-gradient(135deg, #fff5e6, #ffe8d6);
+  border-color: #ffc857;
+}
+.report-summary-card.highlight .value { color: #ff7e5f; }
+
+/* جدول المعايير */
+.report-domain {
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  margin-bottom: 8px;
+  overflow: hidden;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+/* السماح للمجالات الكبيرة بالامتداد عبر صفحات */
+.report-domain.large {
+  page-break-inside: auto;
+  break-inside: auto;
+}
+
+.report-domain-header {
+  padding: 7px 14px;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 700;
+  font-size: 12px;
+}
+.report-domain-header .pct {
+  background: rgba(255,255,255,0.25);
+  padding: 2px 10px;
+  border-radius: 8px;
+  font-size: 11px;
+}
+
+.report-skill {
+  display: grid;
+  grid-template-columns: 1fr 70px 32px;
+  align-items: center;
+  padding: 5px 12px;
+  font-size: 11px;
+  border-bottom: 1px solid #f1f5f9;
+  gap: 8px;
+}
+.report-skill:last-child { border-bottom: none; }
+
+.skill-bar-track {
+  height: 8px;
+  background: #f1f5f9;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.skill-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+}
+
+.skill-rating-badge {
+  width: 28px;
+  height: 24px;
+  border-radius: 6px;
+  color: white;
+  font-weight: 900;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cairo', sans-serif;
+}
+.rating-1-bg { background: #dc2626; }
+.rating-2-bg { background: #d97706; }
+.rating-3-bg { background: #059669; }
+.rating-0-bg { background: #94a3b8; }
+
+/* ملاحظات + توقيع */
+.report-footer-section {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: 1fr 180px;
+  gap: 10px;
+}
+
+.notes-box {
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 11px;
+}
+.notes-box strong { color: #2d3047; display: block; margin-bottom: 4px; }
+.notes-line {
+  border-bottom: 1px dotted #94a3b8;
+  height: 14px;
+  margin-bottom: 4px;
+}
+
+.signature-box {
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 11px;
+  text-align: center;
+}
+.signature-box .label { color: #64748b; margin-bottom: 22px; }
+.signature-box .line {
+  border-top: 1.5px solid #2d3047;
+  padding-top: 4px;
+  font-weight: 700;
+}
+
+.report-footer {
+  margin-top: 8px;
+  text-align: center;
+  font-size: 9px;
+  color: #94a3b8;
+  padding: 6px;
+  border-top: 1px solid #e2e8f0;
+}
+.report-footer .credit { color: #2d3047; font-weight: 700; }
+</style>
+</head>
+<body>
+
+<!-- زخرفة خلفية -->
+<div class="bg-decoration bd1">🎈</div>
+<div class="bg-decoration bd2">🌈</div>
+
+<!-- ====================== الشريط العلوي ====================== -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="brand-logo">🌱</div>
+      <div>
+        <div class="brand-name display-font">بَراعِم</div>
+        <div class="brand-tagline">متابعة مهارات رياض الأطفال • نظام نور ١٤٤٦هـ</div>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <button class="btn btn-ghost btn-sm" onclick="openPrintPickerModal()">🖨️ طباعة طفل</button>
+      <button class="btn btn-ghost btn-sm" onclick="importData()">📤 استيراد</button>
+      <button class="btn btn-primary" onclick="openAddChildModal()">+ إضافة طفل</button>
+    </div>
+  </div>
+</header>
+
+<!-- ====================== التنقل بين التبويبات ====================== -->
+<nav class="nav-tabs">
+  <button class="tab-btn active" data-tab="dashboard">
+    <span class="tab-icon">📊</span> لوحة التحكم
+  </button>
+  <button class="tab-btn" data-tab="children">
+    <span class="tab-icon">👶</span> الأطفال
+  </button>
+  <button class="tab-btn" data-tab="standards">
+    <span class="tab-icon">🎯</span> المعايير النمائية
+  </button>
+  <button class="tab-btn" data-tab="units">
+    <span class="tab-icon">📚</span> وحدات المنهج
+  </button>
+  <button class="tab-btn" data-tab="reports">
+    <span class="tab-icon">📈</span> التقارير
+  </button>
+</nav>
+
+<!-- ====================== المحتوى الرئيسي ====================== -->
+<main class="main">
+
+  <!-- ========== لوحة التحكم ========== -->
+  <section class="tab-panel active" id="panel-dashboard">
+    <div class="dash-greeting">
+      <h2>أهلاً بك أيتها المعلمة! 🌟</h2>
+      <p>هذه نظرة سريعة على فصل البراعم — تقدّم رائع هذا الأسبوع.</p>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card" style="--card-color: #ffc857;">
+        <div class="stat-icon">👶</div>
+        <div class="stat-label">عدد الأطفال</div>
+        <div class="stat-value" id="statChildren">0</div>
+        <div class="stat-trend">↑ مسجَّل في الفصل</div>
+      </div>
+      <div class="stat-card" style="--card-color: #06d6a0;">
+        <div class="stat-icon">🎯</div>
+        <div class="stat-label">المجالات النمائية</div>
+        <div class="stat-value">١٠</div>
+        <div class="stat-trend">حسب نظام نور ١٤٤٦هـ</div>
+      </div>
+      <div class="stat-card" style="--card-color: #ff7e5f;">
+        <div class="stat-icon">📚</div>
+        <div class="stat-label">وحدات المنهج</div>
+        <div class="stat-value">7</div>
+        <div class="stat-trend">للفصل الدراسي</div>
+      </div>
+      <div class="stat-card" style="--card-color: #a78bfa;">
+        <div class="stat-icon">⭐</div>
+        <div class="stat-label">متوسط التقدّم</div>
+        <div class="stat-value" id="statProgress">٠٪</div>
+        <div class="stat-trend">عبر جميع المهارات</div>
+      </div>
+    </div>
+
+    <div class="quick-section">
+      <div class="panel-card">
+        <h3>📊 تقدّم وحدات المنهج</h3>
+        <div class="bar-chart" id="unitsBarChart"></div>
+      </div>
+      <div class="panel-card">
+        <h3>📌 آخر النشاطات</h3>
+        <div class="activity-list">
+          <div class="activity-item">
+            <div class="activity-icon" style="background:#dcfce7; color:#166534;">✓</div>
+            <div class="activity-text">تم تحديث مهارات <strong>سارة محمد</strong><br><span class="activity-time">منذ 5 دقائق</span></div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-icon" style="background:#dbeafe; color:#1e40af;">📚</div>
+            <div class="activity-text">بدأت وحدة <strong>الماء</strong><br><span class="activity-time">اليوم</span></div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-icon" style="background:#fef3c7; color:#92400e;">⭐</div>
+            <div class="activity-text">إنجاز جديد في مجال اللغة والتواصل<br><span class="activity-time">أمس</span></div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-icon" style="background:#fce7f3; color:#9f1239;">🎨</div>
+            <div class="activity-text">نشاط فني جماعي مكتمل<br><span class="activity-time">قبل يومين</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== قائمة الأطفال ========== -->
+  <section class="tab-panel" id="panel-children">
+    <div class="section-header">
+      <div class="section-title">
+        <div class="section-title-icon">👶</div>
+        قائمة الأطفال
+      </div>
+      <div class="search-bar">
+        <input type="text" class="search-input" id="childSearch" placeholder="🔍 ابحث باسم الطفل..." oninput="renderChildren()">
+        <select class="filter-select" id="filterGender" onchange="renderChildren()">
+          <option value="all">جميع الأطفال</option>
+          <option value="male">الأولاد</option>
+          <option value="female">البنات</option>
+        </select>
+        <button class="btn btn-coral" onclick="openAddChildModal()">+ طفل جديد</button>
+      </div>
+    </div>
+    <div class="children-grid" id="childrenGrid"></div>
+  </section>
+
+  <!-- ========== المعايير النمائية ========== -->
+  <section class="tab-panel" id="panel-standards">
+    <div class="section-header">
+      <div class="section-title">
+        <div class="section-title-icon">🎯</div>
+        معايير التعلم النمائية
+      </div>
+    </div>
+    <div class="standards-intro">
+      <strong>📖 المهارات النمائية من نظام نور ١٤٤٦هـ:</strong> منظومة شاملة معتمدة من وزارة التعليم لمتابعة مهارات أطفال الروضة عبر <strong>عشرة مجالات نمائية</strong> رسمية تغطي جميع جوانب نمو الطفل: الوطنية والدراسات الاجتماعية، التربية الإسلامية، اللغة والقراءة المبكرة، الفنون، العلوم، نهج التعلم، الرياضيات، التقنية، الصحة والتطور البدني، والتطور الاجتماعي العاطفي.
+    </div>
+    <div class="domains-grid" id="domainsGrid"></div>
+  </section>
+
+  <!-- ========== وحدات المنهج ========== -->
+  <section class="tab-panel" id="panel-units">
+    <div class="section-header">
+      <div class="section-title">
+        <div class="section-title-icon">📚</div>
+        وحدات المنهج الوطني
+      </div>
+    </div>
+    <div class="standards-intro" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-color: #3b82f6; color:#1e3a8a;">
+      <strong>📘 المنهج الوطني لرياض الأطفال:</strong> يتضمّن سبع وحدات منهجية مترابطة تُقدَّم على مدار العام الدراسي. كل وحدة تدمج مجالات النمو الستة من خلال خبرات تعلّم نشطة وألعاب تعليمية وأنشطة استكشافية.
+    </div>
+    <div class="units-grid" id="unitsGrid"></div>
+  </section>
+
+  <!-- ========== التقارير ========== -->
+  <section class="tab-panel" id="panel-reports">
+    <div class="section-header">
+      <div class="section-title">
+        <div class="section-title-icon">📈</div>
+        التقارير والإحصائيات
+      </div>
+    </div>
+    <div class="panel-card">
+      <h3>📊 توزيع مستويات الإتقان عبر المجالات النمائية</h3>
+      <div id="reportsContent" style="margin-top: 20px;"></div>
+    </div>
+  </section>
+
+  <!-- ========== صفحة تقييم الطفل (تظهر عند اختيار طفل) ========== -->
+  <section class="assessment-page" id="panel-assessment">
+    <div class="assess-header">
+      <button class="assess-back-btn" onclick="closeAssessment()">→ الرجوع</button>
+      <div class="assess-avatar" id="assessAvatar">س</div>
+      <div class="assess-info">
+        <h2 id="assessName">اسم الطفل</h2>
+        <p id="assessMeta">المعلومات</p>
+      </div>
+      <button class="btn btn-primary" id="assessPrintBtn" onclick="printCurrentChild()" style="z-index:1;">🖨️ طباعة / حفظ PDF</button>
+    </div>
+    <div class="rating-legend">
+      <span class="legend-pill"><span class="legend-dot" style="background:#dc2626"></span> ١ — يحتاج دعم</span>
+      <span class="legend-pill"><span class="legend-dot" style="background:#d97706"></span> ٢ — في طور النمو</span>
+      <span class="legend-pill"><span class="legend-dot" style="background:#059669"></span> ٣ — أتقن المهارة</span>
+    </div>
+    <div id="assessmentContent"></div>
+    <div class="summary-card">
+      <div class="summary-icon">🏆</div>
+      <div class="summary-text">
+        <h4>التقدّم الإجمالي للطفل</h4>
+        <p>متوسط الإتقان عبر جميع المعايير النمائية</p>
+      </div>
+      <div class="summary-percent" id="summaryPercent">٠٪</div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ====================== مودال اختيار طفل للطباعة ====================== -->
+<div class="modal-overlay" id="printPickerModal" onclick="if(event.target===this)closePrintPickerModal()">
+  <div class="modal">
+    <h3>🖨️ اختاري الطفل لطباعة تقريره</h3>
+    <p style="font-size:13px; color:#64748b; margin-bottom:14px;">سيتم فتح نافذة الطباعة لاختيار الطابعة أو حفظ التقرير بصيغة PDF.</p>
+    <div class="print-picker-list" id="printPickerList"></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" style="background:#f1f5f9; color:#475569; width:100%; justify-content:center;" onclick="closePrintPickerModal()">إغلاق</button>
+    </div>
+  </div>
+</div>
+
+<!-- ====================== مودال إضافة طفل ====================== -->
+<div class="modal-overlay" id="addChildModal" onclick="if(event.target===this)closeAddChildModal()">
+  <div class="modal">
+    <h3>👶 إضافة طفل جديد</h3>
+    <div class="modal-field">
+      <label>اسم الطفل</label>
+      <input type="text" id="newChildName" placeholder="مثال: سارة محمد">
+    </div>
+    <div class="modal-field">
+      <label>تاريخ الميلاد</label>
+      <input type="date" id="newChildDob">
+    </div>
+    <div class="modal-field">
+      <label>الجنس</label>
+      <select id="newChildGender">
+        <option value="female">أنثى</option>
+        <option value="male">ذكر</option>
+      </select>
+    </div>
+    <div class="modal-field">
+      <label>المستوى</label>
+      <select id="newChildLevel">
+        <option value="kg1">المستوى الأول (KG1) — 3 سنوات</option>
+        <option value="kg2">المستوى الثاني (KG2) — 4 سنوات</option>
+        <option value="kg3" selected>المستوى الثالث (KG3) — 5 سنوات</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" style="background:#f1f5f9; color:#475569;" onclick="closeAddChildModal()">إلغاء</button>
+      <button class="btn btn-primary" onclick="saveNewChild()">💾 حفظ</button>
+    </div>
+  </div>
+</div>
+
+<!-- ====================== منطقة الطباعة (تظهر فقط أثناء الطباعة) ====================== -->
+<div id="printArea"></div>
+
+<!-- ====================== التذييل ====================== -->
+<footer class="footer-credit">
+  ✦ منصة بَراعِم — مصممة بحبّ لمعلمات رياض الأطفال ✦
+  &nbsp;|&nbsp; تصميم د/فواز
+  <a href="https://t.me/TAqhjT3MFVE1Yzk0" target="_blank">تفضل للمزيد هنا</a>
+</footer>
+
+<script>
+/* ============================================================
+   البيانات: مجالات التعلم النمائية الثمانية الرسمية
+   من نظام نور 1446هـ - وزارة التعليم - رياض الأطفال
+   ============================================================ */
+const DOMAINS = [
+  {
+    id: 'social_studies',
+    name: 'الوطنية والدراسات الاجتماعية',
+    en: 'National & Social Studies',
+    color: '#1e6091',
+    emoji: '🇸🇦',
+    skills: [
+      'إظهار الاحترام للأقران المختلفين',
+      'إظهار الاهتمام ببعض الألعاب التقليدية الشعبية',
+      'إظهار المعرفة بالحياة الفطرية في المملكة العربية السعودية',
+      'إظهار اهتمامه بمصادر المياه في المملكة العربية السعودية',
+      'إظهار فخره واعتزازه بنفسه بوصفه مسلماً',
+      'إظهار فخره واعتزازه بنفسه بوصفه مواطناً سعودياً',
+      'إظهار فهمه للعلاقة بين العرض والطلب',
+      'إظهار فهمه لمفهوم المقايضة ومعرفته بالملابس التقليدية السعودية',
+      'إظهار معرفته بأن اللغة العربية هي اللغة الرسمية في المملكة',
+      'إظهار معرفته بملوك المملكة العربية السعودية',
+      'الالتزام بحقوق وواجبات أعضاء المجموعات التي يشارك بها',
+      'التحدث عن أهمية الخدمات التي يقدمها أصحاب المهن للمجتمع',
+      'التحدث عن بعض سمات المناخ في مناطق المملكة المختلفة',
+      'التعاون والالتزام بالأنظمة وقوانين المنزل والروضة والمجتمع',
+      'التعبير عن مدى تقديره لوطنه واعتزازه به',
+      'التعرف على بعض الجوانب الجغرافية في المملكة العربية السعودية',
+      'التعرف على فئات العملة السعودية وأنواعها المختلفة',
+      'التعريف بنفسه بوصفه عضواً في المجتمع',
+      'التمييز بين الرغبات والاحتياجات',
+      'تتبع تسلسل الأحداث في قصة تاريخية',
+      'تسمية بعض التضاريس في المملكة العربية السعودية',
+      'تسمية بعض المعالم التاريخية في المملكة العربية السعودية',
+      'تسمية بعض مكونات أطباق الطعام التقليدية',
+      'شرح أهمية الموارد الطبيعية للمملكة العربية السعودية',
+      'فهم أن العمل يعود علينا بالمنفعة الاقتصادية',
+      'فهم عامل مرور الزمن وأحداث الماضي',
+      'معرفة المعالم المهمة في المدينة وأهم مدن المملكة',
+      'معرفة موقع المملكة العربية السعودية',
+      'ممارسة سلوكيات بناء المواطنة',
+      'وصف بعض التقاليد الثقافية في المملكة العربية السعودية'
+    ]
+  },
+  {
+    id: 'islamic',
+    name: 'التربية الإسلامية',
+    en: 'Islamic Education',
+    color: '#059669',
+    emoji: '🕌',
+    skills: [
+      'احترام الكبار من خلال التطبيق العملي وضرب الأمثلة',
+      'التحلي بالأخلاق الإسلامية من خلال ممارستها في الحياة اليومية',
+      'التعامل مع القرآن الكريم باحترام',
+      'التعبير عن المشاعر الدالة على حب الإسلام والانتماء إليه',
+      'ترديد بعض الأذكار بمفرده في المواقف الملائمة',
+      'تطبيق بعض أركان الإسلام بشكل عملي',
+      'تطبيق بعض الآداب الإسلامية بانتظام',
+      'تعداد أركان الإسلام',
+      'تلاوة بعض السور القصيرة',
+      'ذكر الصلاة على النبي ﷺ حين يُذكر اسمه',
+      'ذكر بعض أسماء الله الحسنى ومعانيها وحفظ المألوف منها',
+      'معرفة بعض المعلومات عن النبي محمد ﷺ وسيرته وصفاته'
+    ]
+  },
+  {
+    id: 'language',
+    name: 'التطور اللغوي والمعرفة المبكرة للقراءة والكتابة',
+    en: 'Language & Early Literacy',
+    color: '#a78bfa',
+    emoji: '📖',
+    skills: [
+      'اختيار الكتب التي تناسب اهتماماته',
+      'اختيار الكتب ومواد القراءة والكتابة وتقييمها والمفاضلة بينها',
+      'إدراك أن الرموز والكلمات المطبوعة تحمل معنى ويمكن أن تُقرأ',
+      'استخدام أكثر من مفردة للتعبير عن الشيء نفسه',
+      'استخدام الجموع بصورة صحيحة',
+      'استخدام الرسوم والإشارات التوضيحية في السياق للتنبؤ وفهم المفردات',
+      'استخدام الظروف لوصف الأفعال',
+      'استخدام اللغة لأغراض متقدمة (الاستدلال، حل المشكلات، التواصل)',
+      'استخدام المفردات التي تصف الأشياء والأحداث في الواقع والخيال',
+      'استخدام المفردات الدالة على الترتيب الزمني للأحداث',
+      'استخدام النفي',
+      'استخدام جمل تامة تراعي القواعد النحوية المتعلمة',
+      'استخدام جمل مركبة بفاعلية',
+      'استخدام قواعد السلوك الاجتماعي في التواصل اللفظي وغير اللفظي',
+      'استخدام قواعد الكتابة المناسبة',
+      'استخدام مصطلحات الملكية بشكل صحيح',
+      'استخدام نبرة ومستوى صوت ولهجة مناسبة في سياقات مختلفة',
+      'استنتاج الاتجاه الصحيح للقراءة من اليمين إلى اليسار',
+      'استنتاج محتوى القصة من الغلاف',
+      'استنتاج معاني الكلمات من السياق',
+      'إعادة سرد القصص مع إجراء تغييرات مقصودة',
+      'الإجابة عن أسئلة تتعلق بعناصر القصة الرئيسية',
+      'الاستجابة للعبارات والتعليمات باللغة الفصحى أو المحكية',
+      'الاستماع إلى أفكار الآخرين والاستجابة لها',
+      'الإمساك بأدوات الكتابة بطريقة صحيحة',
+      'التحدث بطريقة واضحة ومفهومة للكبار',
+      'التعاطف مع الشخصيات والأحداث في القصص أو الصور',
+      'التعامل مع الكتب بعناية',
+      'التعبير عن أفكاره الإبداعية عن طريق الرسم والكتابة',
+      'التعبير عن الذات بمهارة وبإطراد متزايد',
+      'التعرف على السجع في اللغة',
+      'التعرف على أنواع مختلفة من المواد المطبوعة',
+      'التمييز بين المذكر والمؤنث في الأسماء والصفات',
+      'التوفيق بين أجزاء الكلام بدقة',
+      'السؤال عن معاني اللافتات',
+      'الطلب من المعلمة كتابة قصص أو معلومات يسردها',
+      'المشاركة في الأنشطة التي تركز على القراءة والكتابة',
+      'المشاركة في حوار أو نقاش مستمر ضمن مجموعة',
+      'إنشاء 4-5 كلمات متفقة في القافية',
+      'بناء أنماط من الكلمات المتشابهة في الصوت',
+      'تأليف القصص القصيرة بأسلوبه واقعية أم خيالية',
+      'تجزئة أصوات الكلمات المكتوبة',
+      'تحليل كلمات مكونة من مقطع واحد وتحتوي على حرف علة',
+      'تذكر بعض معلومات النصوص الواقعية والخيالية',
+      'تذكر موضوع القصة بعد معرفة عنوانها والنظر إلى غلافها',
+      'تعديل وضعية الجسد للجلوس جلسة مناسبة',
+      'تقسيم المفردات إلى مقطعين',
+      'تمييز الاسم الشخصي وأسماء الأقران مكتوبة',
+      'تمييز العناصر الرئيسية للقصة (عنوان، مؤلف، شخصيات، أحداث)',
+      'تمييز زمن الفعل الماضي والمضارع والمستقبل',
+      'تنفيذ التعليمات المكونة من أكثر من خطوة',
+      'تهجئة كلمات مطبوعة ذات حروف مألوفة بدقة',
+      'توقع أحداث القصة بناءً على أجزائها المختلفة',
+      'حذف/استبدال بعض الأصوات في الكلمات',
+      'دمج/فصل الأصوات شفهياً للمفردات المكونة من مقطع واحد',
+      'دمج/فصل الكلمات المركبة باستخدام الصور',
+      'ذكر الكلمات التي تبدأ بالصوت نفسه',
+      'ربط أسماء الحروف بأشكالها الثلاثة (أول، وسط، آخر)',
+      'ربط مواقف القصص المسموعة بالتجارب الخاصة',
+      'سرد الأحداث والقصص بتلقائية واقعية أم خيالية',
+      'فهم تعليمات متعددة الخطوات في المواقف التعليمية',
+      'فهم الأسئلة التي تبدأ بـ لماذا وأين ومن',
+      'فهم معظم الإيماءات والإرشادات غير اللفظية',
+      'كتابة الاسم بطريقة صحيحة وواضحة',
+      'كتابة الحروف بأشكالها الثلاثة (أول، وسط، آخر)',
+      'كتابة الحروف بتحكم ودقة عالية',
+      'كتابة الكلمات باستخدام حروف يمكن تمييزها',
+      'محاكاة قواعد الكتابة الصحيحة',
+      'معرفة أضداد مفردات مألوفة والتمثيل بنظائر لها',
+      'معرفة علامات الترقيم الشائعة',
+      'معرفة مرادف مفردات مألوفة والتمثيل بنظائر لها',
+      'معرفة مؤلفي كتب مألوفة',
+      'نطق حروف الهجاء بوضوح',
+      'وضع مسافات مناسبة بين الكلمات'
+    ]
+  },
+  {
+    id: 'arts',
+    name: 'الفنون',
+    en: 'Arts',
+    color: '#ff7e5f',
+    emoji: '🎨',
+    skills: [
+      'ابتكار سلسلة من الحركات الخاصة مع أناشيد مصاحبة',
+      'أداء أدوار مختارة من قبل المعلمة',
+      'أداء حركات تتماشى مع سرعات الإيقاع المختلفة',
+      'أداء سلسلة من الحركات المرافقة للأناشيد فردياً أو جماعياً',
+      'استخدام الحركات الإيقاعية مع الأصوات للتعبير عن المشاعر',
+      'استخدام الملابس وملحقاتها أثناء أداء الحركات المرافقة',
+      'استكشاف الأفكار والعواطف من خلال حواريات اللعب الدرامي',
+      'التحدث عن الأناشيد والشخصيات والأحداث التي يصفونها',
+      'التعبير عن التجارب الشخصية بصنع أعمال فنية',
+      'التعبير عن معاني الأناشيد المختلفة',
+      'التمييز بين الواقع والخيال خلال سيناريوهات اللعب الدرامي',
+      'القدرة على التخطيط للعمل الفني',
+      'المشاركة بالأناشيد ذات الألحان والإيقاعات المتكررة',
+      'المشاركة في الأناشيد بكاملها أو مقطع منها فردياً أو جماعياً',
+      'إنتاج عمل فني بإبراز تفاصيله الواضحة يمكن التعرف عليه',
+      'إنشاد أناشيد ذات مقاطع متعددة بمفرده أو في مجموعات',
+      'تأليف الأناشيد والألحان التي تعبر عن الأفكار والمشاعر',
+      'تخطيط سيناريوهات اللعب الدرامي بالتعاون مع الآخرين',
+      'تذوق العمل الفني من خلال وصف جوانبه (الموضوع، اللون، الخطوط)',
+      'تقبل الاختلافات في التعبير الفني',
+      'تقليد الكبار والأقران واتباع حركاتهم',
+      'تمثيل الأدوار الاجتماعية والخيالية بمفرده أو مع الآخرين',
+      'تمييز بعض الأنماط السهلة من الإيقاع والنغمة والحدة',
+      'عرض الأعمال الفنية والتحدث عنها',
+      'مناقشة الأفكار مع أقرانه حول ما سيحدث خلال اللعب'
+    ]
+  },
+  {
+    id: 'science',
+    name: 'العلوم',
+    en: 'Science',
+    color: '#06d6a0',
+    emoji: '🔬',
+    skills: [
+      'إجراء تجارب توضح خصائص المواد الفيزيائية المختلفة',
+      'استكشاف كيفية تحرك الأشياء من خلال قوة الدفع والسحب',
+      'إظهار الاهتمام وحب الاستطلاع لكيفية عمل العالم',
+      'إظهار فهم أن المقدار والكمية يبقيان ثابتين',
+      'البدء في تحمل مسؤولية رعاية الكائنات الحية',
+      'التحقق من الفرضيات بتسجيل وتنظيم المعلومات والبيانات',
+      'القيام بالأعمال التي تظهر اهتماماً بالبيئة',
+      'الوصول إلى استنتاجات من خلال تحليل الأدلة والمعرفة السابقة',
+      'تحديد الفروق بين الخصائص الفيزيائية للأشياء وأسبابها',
+      'تفسير تغير مواطن الكائنات الحية تبعاً لنموها',
+      'توضيح العلاقة بين الكائنات الحية ودور الإنسان في رعايتها',
+      'جمع المعلومات من خلال ملاحظة الأشياء والأحداث ووصفها',
+      'شرح أحوال الطقس والتغيرات الجوية وتأثيرها على لباسنا',
+      'شرح التغيرات بين الفصول الأربعة وتأثيرها على لباسنا وأعمالنا',
+      'شرح دورة حياة الكائنات الحية (الإنجاب، النمو، التطور، الموت)',
+      'شرح كيف تلبي مواطن الكائنات الحية احتياجاتها المختلفة',
+      'طرح الأسئلة والمشاركة في تصميم التجارب',
+      'مقارنة السمات الأساسية لدورة حياة النبات أو الحيوان',
+      'مقارنة خصائص بعض المواد والأجسام الطبيعية',
+      'وصف بعض خصائص وأنماط الأجسام في السماء',
+      'وصف خصائص بعض المواد والأجسام الطبيعية',
+      'وصف كيفية تغير الخصائص الفيزيائية للأشياء',
+      'وضع الفرضيات والبدء في استخدام أدوات القياس باستقلالية'
+    ]
+  },
+  {
+    id: 'learning',
+    name: 'نهج التعلم',
+    en: 'Approaches to Learning',
+    color: '#d4a017',
+    emoji: '💡',
+    skills: [
+      'استمرارية المشاركة والانخراط في مهمة أو نشاط ما',
+      'الاستدلال عن أسباب بعض الظواهر الطبيعية',
+      'البحث عن أنشطة جديدة يكون فيها أكثر استقلالية',
+      'البحث والتجربة لاكتشاف المعلومات واختبار الأفكار',
+      'المثابرة على إكمال مهمة أو هدف عند مواجهة تحديات',
+      'تحديد المشكلات ومحاولة حلها باستراتيجيات متنوعة',
+      'تقديم الاقتراحات والأفكار حول كيفية تجربة اللعب',
+      'توظيف المعارف السابقة لإيجاد حلول مبتكرة للمشكلات',
+      'طرح أسئلة تحليلية عن العديد من المواضيع'
+    ]
+  },
+  {
+    id: 'math',
+    name: 'الرياضيات',
+    en: 'Mathematics',
+    color: '#4ecdc4',
+    emoji: '🔢',
+    skills: [
+      'اتباع تعليمات محددة تتعلق بتغيير حركة ومكان الأشياء',
+      'استخدام الأعداد الترتيبية (الأول، الثاني، الثالث...) لوصف عناصر السلسلة',
+      'استخدام البيانات الموجودة في رسم بياني بسيط للإجابة على أسئلة',
+      'استخدام مصطلحات رياضية لوصف الكميات والأحجام (طويل، أطول، قصير، أقصر، ثقيل...)',
+      'استخدام وحدات قياس معيارية وغير معيارية',
+      'التعبير عن الاحتمال باستخدام الكلمات (مؤكد، أقل احتمالاً)',
+      'التعرف على الأنماط التي تستخدم عدة عناصر متكررة عددية أو غير عددية',
+      'العد التنازلي من 20 إلى الأعداد السابقة',
+      'العد بالعشرات حتى 100',
+      'العد حتى 100',
+      'المقارنة بين نوعين أو ثلاثة أنواع من البيانات',
+      'إنشاء نماذج بسيطة لأشكال متماثلة بمفرده',
+      'تحديد العدد السابق والتالي لعدد ضمن 20',
+      'ترتيب الأحداث اليومية (صباحاً، ظهراً، مساءً) أو الأسبوعية',
+      'ترتيب خمسة أشياء حسب أحجامها',
+      'تسمية الأشكال الثنائية وثلاثية الأبعاد الشائعة في البيئة',
+      'تصنيف الأشكال ثلاثية الأبعاد',
+      'تصنيف البيانات إلى مجموعات حسب خصائص معينة',
+      'تعيين مواقع الأشياء باستخدام الكلمات',
+      'تكوين رسوم مختلفة بالأشكال الثنائية وثلاثية الأبعاد',
+      'تمثيل البيانات باستخدام المحسوسات أو الصور والرسوم البيانية',
+      'تمثيل العمليات السهلة في الجمع والطرح',
+      'تمديد أو إكمال الأنماط التي تستخدم عناصر متكررة',
+      'رسم الأشكال ثلاثية الأبعاد',
+      'فرز الأشياء وتصنيفها طبقاً لأكثر من خاصية',
+      'قراءة لوحة التقويم والأنشطة المرتبطة بالروتين اليومي أو الأسبوعي',
+      'قراءة الأعداد من 0 إلى 100',
+      'قراءة البيانات التي تم تمثيلها باستخدام المحسوسات أو الصور',
+      'كتابة الأعداد من 0 إلى 20',
+      'مقارنة الأشياء طبقاً لسمات قياس متنوعة (الطول، الارتفاع، الوزن، السرعة)',
+      'وصف احتمالية وقوع بعض الأحداث في مواقف معينة'
+    ]
+  },
+  {
+    id: 'technology',
+    name: 'التقنية',
+    en: 'Technology',
+    color: '#7c3aed',
+    emoji: '💻',
+    skills: [
+      'استخدام تطبيقات معالجة نصوص أو إنتاج الرسوم أو التطبيقات الصوتية',
+      'التعرف على بعض الرموز المختلفة في لوحة المفاتيح واختيارها',
+      'التعرف على كيفية عمل بعض الألعاب الميكانيكية',
+      'التمييز بين الأجهزة الرقمية من حيث إمكانية اتصالها بشبكة الإنترنت',
+      'تحديد بعض قواعد السلوك المناسب لاستخدام الأجهزة الرقمية والمواقع',
+      'ترتيب الخطوات لإكمال مهمة محددة باستخدام الخرائط الذهنية',
+      'تسمية إحدى أدوات التواصل الشائعة وتوضيح استخدامها',
+      'تسمية التقنيات المألوفة والتمييز بينها بحسب الهدف من استخدامها',
+      'تسمية موقع إلكتروني محدد وموثوق وتصفحه بدعم الكبار',
+      'تشغيل بعض الأجهزة الرقمية وإغلاقها'
+    ]
+  },
+  {
+    id: 'health',
+    name: 'الصحة والتطور البدني',
+    en: 'Health & Physical Development',
+    color: '#fb7185',
+    emoji: '🏃',
+    skills: [
+      'اتباع قواعد السلامة باستقلالية',
+      'أداء أنشطة العناية الشخصية والنظافة باستقلالية ومناقشة أهميتها',
+      'استخدام اليد بشكل مناسب للقيام بمهام محددة',
+      'استخدام عضلات الأصابع الدقيقة للقيام بمهام محددة',
+      'إظهار التناسق والتحكم باستخدام العضلات الكبرى',
+      'إظهار التوافق بين اليد والعين عند ممارسة الأنشطة الحركية',
+      'إظهار تصرفات مناسبة لحالات الطوارئ',
+      'التحكم والتناسق في العضلات الكبرى في الأنشطة الحركية',
+      'التوافق الحركي البصري عند ممارسة الأنشطة الحركية المختلفة',
+      'الحفاظ على التوازن والثبات أثناء أداء حركات معقدة',
+      'المعرفة ببعض أجزاء الجسم الداخلية وبعض وظائفها',
+      'تسمية بعض أنواع الأطعمة الصحية والمجموعات الغذائية',
+      'تعديل السلوك للالتزام بممارسات السلامة وتجنب الأخطار',
+      'توظيف الممارسات التي تقي من انتشار الأمراض المعدية',
+      'معرفة الأغذية غير الصحية وأهمية تجنبها',
+      'وصف المشاعر والحاجات الجسدية بمزيد من التحديد والدقة'
+    ]
+  },
+  {
+    id: 'social_emotional',
+    name: 'التطور الاجتماعي العاطفي',
+    en: 'Social & Emotional Development',
+    color: '#ec4899',
+    emoji: '💖',
+    skills: [
+      'اتباع القواعد والإجراءات باستقلالية',
+      'استخدام لغة أكثر نضجاً للتعبير عن مشاعره وأسبابها',
+      'استخدام مجموعة واسعة من الكلمات لإظهار التعاطف مع الآخرين',
+      'إظهار استقلالية متزايدة في القيام بمجموعة من الأنشطة والمهام',
+      'إظهار الفخر والاعتزاز بمنجزاته والتعبير عنها',
+      'إظهار القدرة على الانتظار (مكافأة التأخير) لفترات طويلة',
+      'إظهار فهم عميق للعلاقة بين الأفعال والنتائج',
+      'الانخراط في لعب تعاوني مستدام بما في ذلك الألعاب ذات القواعد',
+      'الانفصال عن الكبار المألوفين لديه بسهولة',
+      'التعبير عن محبته لبعض الكبار المألوفين لديه',
+      'التفاعل والتواصل المتبادل مع الكبار باحترام',
+      'التفاوض مع أقرانه للاتفاق على أدوارهم في اللعب',
+      'الشعور بقيمة الذات من خلال القدرة والكفاءة',
+      'القدرة على التحكم بعواطفه وتهدئة نفسه وإدارة إحباطاته',
+      'القدرة على فهم مشاعره ومشاعر الآخرين ووجهات نظرهم',
+      'تحديد الطفل لاحتياجاته ومشاعره واهتماماته',
+      'تعريف الطفل بنفسه بوصفه جزءاً من مجموعة',
+      'تكوين الصداقات مع الأقران والحفاظ عليها',
+      'حل المشكلات مع الأطفال الآخرين بشكل مستقل',
+      'ذكر أسباب المشاعر التي لديه وأسباب مشاعر الآخرين',
+      'ضبط السلوك وفقاً لإدراك الطفل لمشاعره ومشاعر الآخرين',
+      'طلب التوجيه وقبوله من الكبار'
+    ]
+  }
+];
+
+/* ============================================================
+   الوحدات السبع للمنهج الوطني السعودي لرياض الأطفال
+   ============================================================ */
+const UNITS = [
+  { id:'family',    name:'الأسرة',          emoji:'👨‍👩‍👧‍👦', period:'الفصل الأول', color:'#fb7185', status:'completed',
+    objectives:['يتعرف على أفراد أسرته','يحترم كبار السن','يقدّر دور الأم والأب','يحب أقاربه'] },
+  { id:'me',        name:'أنا',             emoji:'🧒', period:'الفصل الأول', color:'#06d6a0', status:'completed',
+    objectives:['يميّز أعضاء جسمه','يحافظ على صحته','يحب ذاته ويثق بنفسه','يعبّر عن مشاعره'] },
+  { id:'kindergarten', name:'الروضة',        emoji:'🏫', period:'الفصل الأول', color:'#ffc857', status:'active',
+    objectives:['يتعرف على أركان الروضة','يلتزم بقوانين الفصل','يتعاون مع أصدقائه','يحترم معلمته'] },
+  { id:'water',     name:'الماء',           emoji:'💧', period:'الفصل الثاني', color:'#4ecdc4', status:'active',
+    objectives:['يدرك أهمية الماء','يميّز خصائصه (سائل/غاز/صلب)','يحافظ على الماء','يستكشف الأشياء التي تطفو وتغوص'] },
+  { id:'sand',      name:'الرمل',           emoji:'🏖️', period:'الفصل الثاني', color:'#ff7e5f', status:'upcoming',
+    objectives:['يستكشف خصائص الرمل','يميّز بين الرمل الجاف والرطب','يبتكر تشكيلات من الرمل','يعرف فوائده'] },
+  { id:'food',      name:'الغذاء',          emoji:'🍎', period:'الفصل الثالث', color:'#a78bfa', status:'upcoming',
+    objectives:['يميّز المجموعات الغذائية','يختار الغذاء الصحي','يقدّر نعمة الطعام','يلتزم بآداب الأكل'] },
+  { id:'plants',    name:'النبات والحيوان', emoji:'🌳', period:'الفصل الثالث', color:'#059669', status:'upcoming',
+    objectives:['يتعرف على أجزاء النبات','يميّز الحيوانات الأليفة والبرية','يهتم بالكائنات الحية','يعرف دورة حياة النبات'] }
+];
+
+/* ============================================================
+   تخزين الأطفال - بيانات مبدئية للتوضيح
+   ============================================================ */
+// مسح أي تقييمات قديمة لا تتطابق مع المجالات الجديدة
+(function migrateData() {
+  const raw = localStorage.getItem('beraem_children');
+  if (raw) {
+    try {
+      const old = JSON.parse(raw);
+      // التحقق من بنية البيانات القديمة (إذا كانت تحتوي على معرّفات قديمة)
+      const oldKeys = ['physical', 'social', 'cognitive', 'religious', 'creative'];
+      const hasOld = old.some(c => c.ratings && Object.keys(c.ratings).some(k => oldKeys.includes(k)));
+      if (hasOld) {
+        // مسح التقييمات فقط، الاحتفاظ ببيانات الأطفال
+        old.forEach(c => { c.ratings = {}; });
+        localStorage.setItem('beraem_children', JSON.stringify(old));
+      }
+    } catch(e) {}
+  }
+})();
+
+let CHILDREN = JSON.parse(localStorage.getItem('beraem_children') || 'null') || [
+  { id:'c1', name:'سارة محمد', gender:'female', level:'kg3', dob:'2020-03-15', color:'#fb7185', ratings: makeRandomRatings(0.70) },
+  { id:'c2', name:'محمد أحمد', gender:'male',   level:'kg3', dob:'2020-05-22', color:'#4ecdc4', ratings: makeRandomRatings(0.60) },
+  { id:'c3', name:'لين عبدالله', gender:'female', level:'kg2', dob:'2021-01-10', color:'#ffc857', ratings: makeRandomRatings(0.50) },
+  { id:'c4', name:'يوسف خالد', gender:'male', level:'kg3', dob:'2020-09-03', color:'#06d6a0', ratings: makeRandomRatings(0.75) },
+  { id:'c5', name:'جنى سعد', gender:'female', level:'kg2', dob:'2021-04-18', color:'#a78bfa', ratings: makeRandomRatings(0.55) },
+  { id:'c6', name:'عبدالعزيز فهد', gender:'male', level:'kg3', dob:'2020-07-25', color:'#ff7e5f', ratings: makeRandomRatings(0.65) }
+];
+
+function makeRandomRatings(targetAvg) {
+  // ينشئ تقييمات شبه عشوائية تقارب المتوسط المطلوب
+  const r = {};
+  DOMAINS.forEach(d => {
+    r[d.id] = d.skills.map(() => {
+      const v = Math.random();
+      if (v < targetAvg - 0.15) return 3;
+      if (v < targetAvg + 0.15) return 2;
+      return 1;
+    });
+  });
+  return r;
+}
+
+function saveChildren() {
+  try { localStorage.setItem('beraem_children', JSON.stringify(CHILDREN)); } catch(e) {}
+}
+
+/* ============================================================
+   حسابات التقدّم
+   ============================================================ */
+function getChildOverallProgress(child) {
+  if (!child.ratings) return 0;
+  let total = 0, count = 0;
+  Object.values(child.ratings).forEach(arr => {
+    arr.forEach(v => { if (v > 0) { total += v; count++; } });
+  });
+  if (count === 0) return 0;
+  return Math.round((total / (count * 3)) * 100);
+}
+
+function getDomainProgress(child, domainId) {
+  if (!child.ratings || !child.ratings[domainId]) return 0;
+  const arr = child.ratings[domainId];
+  const sum = arr.reduce((a,b) => a + b, 0);
+  return Math.round((sum / (arr.length * 3)) * 100);
+}
+
+function getClassAverageForDomain(domainId) {
+  if (CHILDREN.length === 0) return 0;
+  const sum = CHILDREN.reduce((a, c) => a + getDomainProgress(c, domainId), 0);
+  return Math.round(sum / CHILDREN.length);
+}
+
+function getOverallClassAverage() {
+  if (CHILDREN.length === 0) return 0;
+  const sum = CHILDREN.reduce((a, c) => a + getChildOverallProgress(c), 0);
+  return Math.round(sum / CHILDREN.length);
+}
+
+/* ============================================================
+   تحويل الأرقام إلى عربية
+   ============================================================ */
+function toArabic(num) {
+  const map = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
+  return String(num).replace(/\d/g, d => map[d]);
+}
+
+/* ============================================================
+   التنقل بين التبويبات
+   ============================================================ */
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const tab = btn.dataset.tab;
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('panel-' + tab).classList.add('active');
+    document.getElementById('panel-assessment').classList.remove('active');
+
+    if (tab === 'reports') renderReports();
+  });
+});
+
+/* ============================================================
+   لوحة التحكم
+   ============================================================ */
+function renderDashboard() {
+  document.getElementById('statChildren').textContent = toArabic(CHILDREN.length);
+  document.getElementById('statProgress').textContent = toArabic(getOverallClassAverage()) + '٪';
+
+  // مخطط الوحدات
+  const chartEl = document.getElementById('unitsBarChart');
+  chartEl.innerHTML = '';
+  UNITS.slice(0, 5).forEach(u => {
+    let pct;
+    if (u.status === 'completed') pct = 100;
+    else if (u.status === 'active') pct = 45 + Math.floor(Math.random() * 20);
+    else pct = 0;
+    const row = document.createElement('div');
+    row.className = 'bar-row';
+    row.innerHTML = `
+      <div class="bar-label">${u.emoji} ${u.name}</div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width: ${pct}%; background: ${u.color};">${pct > 15 ? pct + '٪' : ''}</div>
+      </div>
+    `;
+    chartEl.appendChild(row);
+  });
+}
+
+/* ============================================================
+   قائمة الأطفال
+   ============================================================ */
+function renderChildren() {
+  const grid = document.getElementById('childrenGrid');
+  const q = document.getElementById('childSearch').value.trim();
+  const f = document.getElementById('filterGender').value;
+  grid.innerHTML = '';
+
+  const filtered = CHILDREN.filter(c => {
+    if (q && !c.name.includes(q)) return false;
+    if (f !== 'all' && c.gender !== f) return false;
+    return true;
+  });
+
+  if (filtered.length === 0) {
+    grid.innerHTML = `
+      <div class="empty-state" style="grid-column:1/-1;">
+        <div class="empty-state-icon">🌱</div>
+        <h4>لا يوجد أطفال مطابقون</h4>
+        <p>جرّب تغيير معايير البحث أو أضف طفلاً جديداً.</p>
+      </div>`;
+    return;
+  }
+
+  filtered.forEach(c => {
+    const prog = getChildOverallProgress(c);
+    const card = document.createElement('div');
+    card.className = 'child-card';
+    card.style.cssText = `--avatar-bg: ${c.color}; --card-bg: linear-gradient(to left, ${c.color}, ${shiftColor(c.color)});`;
+    card.innerHTML = `
+      <div class="child-avatar">${c.name.charAt(0)}</div>
+      <div class="child-name">${c.name}</div>
+      <div class="child-meta">${getLevelName(c.level)} • ${calcAge(c.dob)} سنوات</div>
+      <div class="child-progress">
+        <div class="progress-row">
+          <span>التقدّم الإجمالي</span>
+          <span style="font-weight:700;">${toArabic(prog)}٪</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" style="width: ${prog}%; background: ${c.color};"></div>
+        </div>
+      </div>
+      <div class="child-actions">
+        <button class="btn btn-mint btn-sm" onclick="openAssessment('${c.id}')">📋 التقييم</button>
+        <button class="btn" style="background:#fef3c7; color:#92400e;" onclick="printChildReport('${c.id}', event)">🖨️ PDF</button>
+        <button class="btn" style="background:#fee2e2; color:#dc2626;" onclick="deleteChild('${c.id}', event)">🗑️</button>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function getLevelName(level) {
+  return { kg1: 'المستوى الأول', kg2: 'المستوى الثاني', kg3: 'المستوى الثالث' }[level] || level;
+}
+
+function calcAge(dob) {
+  if (!dob) return '-';
+  const diff = Date.now() - new Date(dob).getTime();
+  return Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
+}
+
+function shiftColor(hex) {
+  // تظليل بسيط للون
+  return hex + 'aa';
+}
+
+function deleteChild(id, evt) {
+  evt.stopPropagation();
+  if (!confirm('هل أنت متأكد من حذف هذا الطفل؟')) return;
+  CHILDREN = CHILDREN.filter(c => c.id !== id);
+  saveChildren();
+  renderChildren();
+  renderDashboard();
+}
+
+/* ============================================================
+   المعايير النمائية
+   ============================================================ */
+function renderDomains() {
+  const grid = document.getElementById('domainsGrid');
+  grid.innerHTML = '';
+  DOMAINS.forEach(d => {
+    const avg = getClassAverageForDomain(d.id);
+    const card = document.createElement('div');
+    card.className = 'domain-card';
+    card.style.cssText = `--domain-emoji: "${d.emoji}";`;
+    card.innerHTML = `
+      <div class="domain-header" style="background: linear-gradient(135deg, ${d.color}, ${shiftColor(d.color)});">
+        <div class="domain-name">${d.emoji} ${d.name}</div>
+        <div class="domain-en">${d.en}</div>
+      </div>
+      <div class="domain-body">
+        <div class="domain-stat">
+          <span>متوسط الفصل</span>
+          <strong>${toArabic(avg)}٪</strong>
+        </div>
+        <div class="domain-stat">
+          <span>عدد المهارات</span>
+          <strong>${toArabic(d.skills.length)} مهارة</strong>
+        </div>
+        <div class="domain-skills" style="max-height: 140px; overflow-y: auto; padding-left: 4px;">
+          ${d.skills.slice(0, 8).map(s => `<span class="skill-tag" title="${s}">${s.length > 35 ? s.substring(0, 35) + '…' : s}</span>`).join('')}
+          ${d.skills.length > 8 ? `<span class="skill-tag" style="background: ${d.color}; color: white; font-weight: 700;">+ ${toArabic(d.skills.length - 8)} مهارة أخرى</span>` : ''}
+        </div>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+/* ============================================================
+   الوحدات
+   ============================================================ */
+function renderUnits() {
+  const grid = document.getElementById('unitsGrid');
+  grid.innerHTML = '';
+  UNITS.forEach(u => {
+    let pct;
+    if (u.status === 'completed') pct = 100;
+    else if (u.status === 'active') pct = 45 + Math.floor(Math.random() * 25);
+    else pct = 0;
+
+    const statusText = u.status === 'completed' ? '✓ مكتملة' : u.status === 'active' ? '● جارية' : '○ قادمة';
+    const statusClass = `status-${u.status}`;
+
+    const card = document.createElement('div');
+    card.className = 'unit-card';
+    card.style.cssText = `--circle-color: ${u.color}; --pct: ${pct};`;
+    card.innerHTML = `
+      <div class="unit-status ${statusClass}">${statusText}</div>
+      <div class="unit-emoji">${u.emoji}</div>
+      <div class="unit-name">${u.name}</div>
+      <div class="unit-period">${u.period}</div>
+      <div class="unit-progress-circle">
+        <div class="circle-progress">
+          <div class="circle-bg">
+            <div class="circle-inner">${toArabic(pct)}٪</div>
+          </div>
+        </div>
+        <div class="unit-info-text">
+          <small>التقدم في الوحدة</small>
+          <strong>${u.status === 'completed' ? 'تمت بنجاح' : u.status === 'active' ? 'قيد التنفيذ' : 'لم تبدأ بعد'}</strong>
+        </div>
+      </div>
+      <div class="unit-objectives">
+        <strong>🎯 أهداف الوحدة:</strong>
+        <ul>
+          ${u.objectives.map(o => `<li>${o}</li>`).join('')}
+        </ul>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+/* ============================================================
+   التقارير
+   ============================================================ */
+function renderReports() {
+  const el = document.getElementById('reportsContent');
+  el.innerHTML = '';
+
+  const chart = document.createElement('div');
+  chart.className = 'bar-chart';
+
+  DOMAINS.forEach(d => {
+    const avg = getClassAverageForDomain(d.id);
+    const row = document.createElement('div');
+    row.className = 'bar-row';
+    row.innerHTML = `
+      <div class="bar-label">${d.emoji} ${d.name}</div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width: ${avg}%; background: linear-gradient(to left, ${d.color}, ${shiftColor(d.color)});">${avg > 15 ? toArabic(avg) + '٪' : ''}</div>
+      </div>
+    `;
+    chart.appendChild(row);
+  });
+  el.appendChild(chart);
+
+  // ملخص الأطفال الأعلى تقدماً
+  const summary = document.createElement('div');
+  summary.style.cssText = 'margin-top:32px;';
+  summary.innerHTML = `<h3 style="font-family:'Cairo'; font-size:18px; margin-bottom:14px; color:var(--c-deep);">🏆 الأطفال الأكثر تقدماً</h3>`;
+  const top = [...CHILDREN].sort((a,b) => getChildOverallProgress(b) - getChildOverallProgress(a)).slice(0, 5);
+  const list = document.createElement('div');
+  list.style.cssText = 'display: flex; flex-direction: column; gap: 10px;';
+  top.forEach((c, i) => {
+    const prog = getChildOverallProgress(c);
+    const medal = ['🥇','🥈','🥉','🏅','🏅'][i] || '✨';
+    const item = document.createElement('div');
+    item.style.cssText = `display: flex; align-items: center; gap: 14px; padding: 12px 16px; background: var(--c-soft); border-radius: 12px;`;
+    item.innerHTML = `
+      <span style="font-size:24px;">${medal}</span>
+      <div style="width: 40px; height: 40px; border-radius: 50%; background: ${c.color}; display: flex; align-items: center; justify-content: center; color: white; font-weight: 900; font-family: 'Cairo';">${c.name.charAt(0)}</div>
+      <div style="flex:1;">
+        <strong>${c.name}</strong>
+        <div style="font-size: 12px; color: #64748b;">${getLevelName(c.level)}</div>
+      </div>
+      <div style="font-family:'Lalezar','Cairo'; font-size: 26px; color: var(--c-coral);">${toArabic(prog)}٪</div>
+    `;
+    list.appendChild(item);
+  });
+  summary.appendChild(list);
+  el.appendChild(summary);
+}
+
+/* ============================================================
+   صفحة تقييم الطفل
+   ============================================================ */
+function openAssessment(childId) {
+  const child = CHILDREN.find(c => c.id === childId);
+  if (!child) return;
+  currentAssessmentChildId = childId;
+
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-assessment').classList.add('active');
+
+  document.getElementById('assessName').textContent = child.name;
+  document.getElementById('assessMeta').textContent = `${getLevelName(child.level)} • ${calcAge(child.dob)} سنوات • ${child.gender === 'female' ? 'أنثى' : 'ذكر'}`;
+  const avatar = document.getElementById('assessAvatar');
+  avatar.textContent = child.name.charAt(0);
+  avatar.style.background = child.color;
+  avatar.style.color = 'white';
+
+  const content = document.getElementById('assessmentContent');
+  content.innerHTML = '';
+
+  DOMAINS.forEach(d => {
+    const block = document.createElement('div');
+    block.className = 'assess-domain-block';
+    const ratings = (child.ratings && child.ratings[d.id]) || d.skills.map(() => 0);
+    const domainProg = getDomainProgress(child, d.id);
+
+    block.innerHTML = `
+      <div class="assess-domain-header" style="background: linear-gradient(135deg, ${d.color}, ${shiftColor(d.color)});">
+        <span>${d.emoji} ${d.name}</span>
+        <span style="background: rgba(255,255,255,0.25); padding: 4px 12px; border-radius: 12px; font-size: 13px;">${toArabic(domainProg)}٪</span>
+      </div>
+      <div class="assess-domain-body">
+        ${d.skills.map((sk, i) => `
+          <div class="skill-row">
+            <div class="skill-text">${sk}</div>
+            <div class="skill-rating">
+              ${[1,2,3].map(v => `
+                <button class="rating-btn ${ratings[i] === v ? 'active-' + v : ''}"
+                        data-child="${childId}" data-domain="${d.id}" data-skill="${i}" data-value="${v}"
+                        onclick="setRating(this)">
+                  ${v === 1 ? '😟' : v === 2 ? '🙂' : '⭐'}
+                </button>
+              `).join('')}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+    content.appendChild(block);
+  });
+
+  document.getElementById('summaryPercent').textContent = toArabic(getChildOverallProgress(child)) + '٪';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function setRating(btn) {
+  const childId = btn.dataset.child;
+  const domainId = btn.dataset.domain;
+  const skill = parseInt(btn.dataset.skill);
+  const value = parseInt(btn.dataset.value);
+
+  const child = CHILDREN.find(c => c.id === childId);
+  if (!child) return;
+  if (!child.ratings) child.ratings = {};
+  if (!child.ratings[domainId]) child.ratings[domainId] = DOMAINS.find(d => d.id === domainId).skills.map(() => 0);
+
+  child.ratings[domainId][skill] = value;
+  saveChildren();
+
+  // تحديث الأزرار
+  const parent = btn.parentElement;
+  parent.querySelectorAll('.rating-btn').forEach(b => {
+    b.classList.remove('active-1', 'active-2', 'active-3');
+  });
+  btn.classList.add('active-' + value);
+
+  // تحديث رأس المجال
+  const blockHeader = btn.closest('.assess-domain-block').querySelector('.assess-domain-header span:last-child');
+  blockHeader.textContent = toArabic(getDomainProgress(child, domainId)) + '٪';
+
+  // تحديث المجموع
+  document.getElementById('summaryPercent').textContent = toArabic(getChildOverallProgress(child)) + '٪';
+}
+
+function closeAssessment() {
+  document.getElementById('panel-assessment').classList.remove('active');
+  document.querySelector('.tab-btn[data-tab="children"]').click();
+  renderChildren();
+  renderDashboard();
+}
+
+/* ============================================================
+   مودال إضافة طفل
+   ============================================================ */
+function openAddChildModal() {
+  document.getElementById('addChildModal').classList.add('show');
+  document.getElementById('newChildName').focus();
+}
+function closeAddChildModal() {
+  document.getElementById('addChildModal').classList.remove('show');
+  document.getElementById('newChildName').value = '';
+  document.getElementById('newChildDob').value = '';
+}
+function saveNewChild() {
+  const name = document.getElementById('newChildName').value.trim();
+  const dob = document.getElementById('newChildDob').value;
+  const gender = document.getElementById('newChildGender').value;
+  const level = document.getElementById('newChildLevel').value;
+
+  if (!name) { alert('⚠️ يُرجى إدخال اسم الطفل'); return; }
+
+  const colors = ['#fb7185','#4ecdc4','#ffc857','#06d6a0','#a78bfa','#ff7e5f','#06b6d4','#f97316'];
+  const color = colors[CHILDREN.length % colors.length];
+
+  CHILDREN.push({
+    id: 'c' + Date.now(),
+    name, gender, level, dob, color,
+    ratings: {}
+  });
+  saveChildren();
+  closeAddChildModal();
+  renderChildren();
+  renderDashboard();
+  document.querySelector('.tab-btn[data-tab="children"]').click();
+}
+
+/* ============================================================
+   طباعة تقرير الطفل (PDF احترافي)
+   ============================================================ */
+function buildReportHTML(child) {
+  const overall = getChildOverallProgress(child);
+  const today = new Date().toLocaleDateString('ar-SA-u-nu-latn', {
+    year: 'numeric', month: 'long', day: 'numeric'
+  });
+
+  // حساب نقاط الإتقان
+  let countMastered = 0, countDeveloping = 0, countNeedsSupport = 0, countTotal = 0;
+  Object.values(child.ratings || {}).forEach(arr => {
+    arr.forEach(v => {
+      if (v === 3) countMastered++;
+      else if (v === 2) countDeveloping++;
+      else if (v === 1) countNeedsSupport++;
+      countTotal++;
+    });
+  });
+
+  // بناء بطاقات المجالات
+  let domainsHTML = '';
+  DOMAINS.forEach(d => {
+    const ratings = (child.ratings && child.ratings[d.id]) || d.skills.map(() => 0);
+    const pct = getDomainProgress(child, d.id);
+    let skillsHTML = '';
+    d.skills.forEach((sk, i) => {
+      const r = ratings[i] || 0;
+      const pctSkill = (r / 3) * 100;
+      const labelArr = ['—', 'يحتاج دعم', 'في طور النمو', 'أتقن'];
+      skillsHTML += `
+        <div class="report-skill">
+          <div>${sk}</div>
+          <div class="skill-bar-track">
+            <div class="skill-bar-fill" style="width:${pctSkill}%; background:${d.color};"></div>
+          </div>
+          <div class="skill-rating-badge rating-${r}-bg" title="${labelArr[r]}">${r > 0 ? toArabic(r) : '—'}</div>
+        </div>
+      `;
+    });
+    domainsHTML += `
+      <div class="report-domain ${d.skills.length > 15 ? 'large' : ''}">
+        <div class="report-domain-header" style="background: linear-gradient(135deg, ${d.color}, ${shiftColor(d.color)});">
+          <span>${d.emoji} ${d.name} <small style="opacity:0.8; font-weight:400;">(${toArabic(d.skills.length)} مهارة)</small></span>
+          <span class="pct">${toArabic(pct)}٪</span>
+        </div>
+        ${skillsHTML}
+      </div>
+    `;
+  });
+
+  return `
+    <div class="report-page">
+      <div class="report-header">
+        <div class="report-avatar" style="background:${child.color};">${child.name.charAt(0)}</div>
+        <div class="report-title-block">
+          <div class="report-platform">منصة بَراعِم — تقرير المهارات النمائية</div>
+          <div class="report-child-name">${child.name}</div>
+          <div class="report-child-meta">${getLevelName(child.level)} • ${toArabic(calcAge(child.dob))} سنوات • ${child.gender === 'female' ? 'أنثى' : 'ذكر'}</div>
+        </div>
+        <div class="report-date">📅 ${today}</div>
+      </div>
+
+      <div class="report-summary">
+        <div class="report-summary-card highlight">
+          <div class="label">التقدّم الإجمالي</div>
+          <div class="value">${toArabic(overall)}٪</div>
+        </div>
+        <div class="report-summary-card">
+          <div class="label">المهارات المُتقنة</div>
+          <div class="value" style="color:#059669;">${toArabic(countMastered)}/${toArabic(countTotal)}</div>
+        </div>
+        <div class="report-summary-card">
+          <div class="label">في طور النمو</div>
+          <div class="value" style="color:#d97706;">${toArabic(countDeveloping)}</div>
+        </div>
+      </div>
+
+      ${domainsHTML}
+
+      <div class="report-footer-section">
+        <div class="notes-box">
+          <strong>📝 ملاحظات المعلمة:</strong>
+          <div class="notes-line"></div>
+          <div class="notes-line"></div>
+          <div class="notes-line"></div>
+        </div>
+        <div class="signature-box">
+          <div class="label">توقيع المعلمة</div>
+          <div class="line">..............................</div>
+        </div>
+      </div>
+
+      <div class="report-footer">
+        منصة بَراعِم لمتابعة مهارات رياض الأطفال — وفق المعايير النمائية والمنهج الوطني
+        <br>
+        <span class="credit">تصميم د/فواز</span>
+      </div>
+    </div>
+  `;
+}
+
+function printChildReport(childId, evt) {
+  if (evt) evt.stopPropagation();
+  const child = CHILDREN.find(c => c.id === childId);
+  if (!child) return;
+  const area = document.getElementById('printArea');
+  area.innerHTML = buildReportHTML(child);
+  setTimeout(() => {
+    window.print();
+  }, 100);
+}
+
+function openPrintPickerModal() {
+  if (CHILDREN.length === 0) {
+    alert('⚠️ لا يوجد أطفال للطباعة. أضيفي طفلاً أولاً.');
+    return;
+  }
+  const list = document.getElementById('printPickerList');
+  list.innerHTML = '';
+  CHILDREN.forEach(c => {
+    const prog = getChildOverallProgress(c);
+    const btn = document.createElement('button');
+    btn.className = 'print-picker-item';
+    btn.onclick = () => {
+      closePrintPickerModal();
+      printChildReport(c.id);
+    };
+    btn.innerHTML = `
+      <div class="print-picker-avatar" style="background:${c.color};">${c.name.charAt(0)}</div>
+      <div class="print-picker-info">
+        <div class="print-picker-name">${c.name}</div>
+        <div class="print-picker-meta">${getLevelName(c.level)} • التقدّم: ${toArabic(prog)}٪</div>
+      </div>
+      <div class="print-picker-arrow">🖨️ طباعة</div>
+    `;
+    list.appendChild(btn);
+  });
+  document.getElementById('printPickerModal').classList.add('show');
+}
+
+function closePrintPickerModal() {
+  document.getElementById('printPickerModal').classList.remove('show');
+}
+
+let currentAssessmentChildId = null;
+
+function printCurrentChild() {
+  if (currentAssessmentChildId) {
+    printChildReport(currentAssessmentChildId);
+  }
+}
+
+
+function importData() {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.json';
+  input.onchange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      try {
+        const data = JSON.parse(ev.target.result);
+        if (Array.isArray(data)) {
+          CHILDREN = data;
+          saveChildren();
+          renderChildren();
+          renderDashboard();
+          alert('✅ تم استيراد البيانات بنجاح');
+        } else {
+          alert('⚠️ ملف غير صحيح');
+        }
+      } catch (err) {
+        alert('⚠️ خطأ في قراءة الملف');
+      }
+    };
+    reader.readAsText(file);
+  };
+  input.click();
+}
+
+/* ============================================================
+   التشغيل الأولي
+   ============================================================ */
+window.addEventListener('DOMContentLoaded', () => {
+  renderDashboard();
+  renderChildren();
+  renderDomains();
+  renderUnits();
+});
+</script>
+
+</body>
+</html>
