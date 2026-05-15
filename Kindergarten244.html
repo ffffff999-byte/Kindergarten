@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>روضة المهارات | منصة متابعة رياض الأطفال</title>
+  <style>
+    :root{
+      --bg1:#fff9ef; --bg2:#eef8ff; --card:#ffffff; --ink:#182033; --muted:#697386;
+      --blue:#2f80ed; --sky:#7cc7ff; --pink:#ff7aae; --mint:#44c7a1; --sun:#ffc857;
+      --purple:#8067ff; --red:#ef4f5f; --line:#e6edf5; --soft:#f4f8fc;
+      --shadow:0 22px 60px rgba(47,80,140,.13); --smallShadow:0 12px 30px rgba(47,80,140,.10);
+      --radius:28px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0; color:var(--ink); font-family:"Tahoma","Arial",sans-serif; line-height:1.7;
+      background:
+        radial-gradient(circle at 10% 8%, rgba(255,122,174,.22), transparent 28%),
+        radial-gradient(circle at 90% 12%, rgba(124,199,255,.32), transparent 32%),
+        radial-gradient(circle at 20% 95%, rgba(255,200,87,.25), transparent 31%),
+        linear-gradient(135deg,var(--bg1),var(--bg2));
+      min-height:100vh;
+    }
+    .app{width:min(1320px,100%); margin:auto; padding:22px;}
+    .hero{
+      position:relative; overflow:hidden; border-radius:38px; padding:26px; color:white; box-shadow:var(--shadow);
+      background:linear-gradient(130deg,#16315e 0%,#286ec9 45%,#5fc5f3 100%);
+      isolation:isolate;
+    }
+    .hero:before{content:""; position:absolute; inset:0; background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="420" height="240" viewBox="0 0 420 240"><g fill="none" stroke="rgba(255,255,255,.22)" stroke-width="3"><path d="M24 65c54-50 104 48 158 0s104 48 158 0"/><path d="M80 176c38-34 72 32 110 0s72 32 110 0"/></g><g font-size="28" opacity=".55"><text x="30" y="130">★</text><text x="360" y="50">✿</text><text x="320" y="205">●</text></g></svg>') center/cover; z-index:-1;}
+    .hero-grid{display:grid; grid-template-columns:1.25fr .75fr; gap:22px; align-items:center;}
+    .eyebrow{display:inline-flex; gap:8px; align-items:center; padding:8px 13px; border-radius:999px; background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.25); font-size:13px; font-weight:800; backdrop-filter:blur(10px)}
+    h1{margin:14px 0 8px; font-size:clamp(28px,4vw,52px); line-height:1.15; letter-spacing:-1px;}
+    .subtitle{margin:0; max-width:850px; color:#eef8ff; font-size:clamp(14px,1.7vw,18px)}
+    .hero-actions{display:flex; gap:10px; flex-wrap:wrap; margin-top:18px}
+    .pill{display:inline-flex; align-items:center; gap:7px; padding:8px 12px; border-radius:999px; background:rgba(255,255,255,.15); color:white; border:1px solid rgba(255,255,255,.24); font-weight:800; font-size:13px}
+    .mascot{
+      position:relative; min-height:210px; border-radius:34px; padding:18px; background:rgba(255,255,255,.17); border:1px solid rgba(255,255,255,.25); backdrop-filter:blur(12px); display:grid; place-items:center; text-align:center;
+    }
+    .mascot .face{font-size:80px; filter:drop-shadow(0 12px 16px rgba(0,0,0,.12)); animation:float 3s ease-in-out infinite;}
+    .mascot strong{display:block; margin-top:8px; font-size:18px}
+    .mascot p{margin:4px 0 0; color:#f6fbff; font-size:13px}
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+
+    .layout{display:grid; grid-template-columns:310px 1fr; gap:18px; margin-top:18px; align-items:start;}
+    .side{position:sticky; top:14px; display:grid; gap:14px;}
+    .card{background:rgba(255,255,255,.86); border:1px solid rgba(230,237,245,.95); border-radius:var(--radius); box-shadow:var(--smallShadow); backdrop-filter:blur(10px);}
+    .settings{padding:16px;}
+    .section-title{display:flex; align-items:center; justify-content:space-between; gap:10px; margin:0 0 12px; font-size:18px; color:#17355d;}
+    .mini{font-size:12px; color:var(--muted); font-weight:700}
+    label{display:block; color:#5f6f84; font-size:12px; font-weight:900; margin:0 0 6px;}
+    input,select,textarea{width:100%; border:1px solid #dbe7f3; background:white; color:var(--ink); outline:0; border-radius:16px; padding:11px 12px; font-family:inherit; font-size:14px; transition:.18s ease;}
+    input:focus,select:focus,textarea:focus{border-color:#89c8ff; box-shadow:0 0 0 4px rgba(47,128,237,.10)}
+    .field{margin-bottom:11px}
+    .segmented{display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:12px}
+    .segmented button{box-shadow:none; background:#f4f8fc; color:#36506f; border:1px solid #dbe7f3; padding:10px;}
+    .segmented button.active{background:linear-gradient(135deg,var(--blue),#58b7f7); color:white; border-color:transparent;}
+    button{border:0; cursor:pointer; border-radius:16px; padding:11px 14px; font-family:inherit; font-weight:900; color:white; background:linear-gradient(135deg,var(--blue),#53b5f6); box-shadow:0 12px 24px rgba(47,128,237,.20); transition:.18s ease;}
+    button:hover{transform:translateY(-1px); filter:saturate(1.05)}
+    button.dark{background:linear-gradient(135deg,#21304a,#172238)}
+    button.green{background:linear-gradient(135deg,#1ba979,#55d2a8)}
+    button.red{background:linear-gradient(135deg,#ef4f5f,#ff7a89)}
+    button.soft{background:#f4f8fc; color:#24405f; border:1px solid #dbe7f3; box-shadow:none;}
+    .stack{display:grid; gap:9px}
+    .credit{padding:13px 14px; text-align:center; background:#172238; color:white; border-radius:22px; font-weight:900; font-size:13px}
+    .credit a{color:white; text-decoration:none; border-bottom:1px dotted rgba(255,255,255,.75)}
+
+    .stats{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:14px;}
+    .stat{position:relative; overflow:hidden; padding:16px; border-radius:24px; background:white; border:1px solid var(--line); box-shadow:var(--smallShadow);}
+    .stat:after{content:""; position:absolute; left:-24px; bottom:-24px; width:78px; height:78px; border-radius:50%; background:rgba(124,199,255,.18)}
+    .stat small{display:block; color:var(--muted); font-weight:900; font-size:12px}
+    .stat strong{position:relative; display:block; font-size:30px; margin-top:2px; color:#17355d; z-index:1}
+    .bar{position:relative; height:10px; background:#edf3f8; border-radius:999px; overflow:hidden; margin-top:8px}
+    .bar span{display:block; height:100%; width:0%; border-radius:inherit; transition:.35s ease; background:linear-gradient(90deg,var(--blue),var(--sky))}
+    .bar.master span{background:linear-gradient(90deg,#19a979,#69d6b4)} .bar.partial span{background:linear-gradient(90deg,#f3b12c,#ffd36b)} .bar.not span{background:linear-gradient(90deg,#ef4f5f,#ff9aa5)}
+
+    .workbench{min-width:0;}
+    .topline{display:flex; justify-content:space-between; align-items:center; gap:12px; padding:14px 16px; margin-bottom:14px;}
+    .titlebox h2{margin:0; color:#17355d; font-size:24px} .titlebox p{margin:2px 0 0; color:var(--muted); font-size:13px}
+    .quick-actions{display:flex; gap:8px; flex-wrap:wrap}
+    .searchbox{display:grid; grid-template-columns:1fr auto; gap:8px; margin:12px 0 0;}
+    .table-card{overflow:hidden;}
+    .table-wrap{overflow:auto; max-height:none;}
+    table{width:100%; min-width:850px; border-collapse:separate; border-spacing:0; background:white;}
+    th,td{border-bottom:1px solid var(--line); padding:11px; vertical-align:top; text-align:right; font-size:14px;}
+    th{position:sticky; top:0; z-index:2; background:linear-gradient(180deg,#f5fbff,#eaf5ff); color:#17355d; font-weight:950; white-space:nowrap;}
+    tbody tr{transition:.15s ease} tbody tr:hover{background:#fbfdff}
+    td.num{width:46px; text-align:center; font-weight:950; color:#49627d}
+    td.skill{min-width:330px; font-weight:800}
+    .skill-edit{border:1px dashed transparent; border-radius:12px; padding:6px; min-height:34px;}
+    .skill-edit:focus{outline:0; border-color:#9bd0ff; background:#f8fcff}
+    .hit{background:#fff0a6; border-radius:8px; padding:0 3px;}
+    .radio-pill{display:flex; align-items:center; justify-content:center; gap:5px; min-width:92px; border-radius:999px; padding:8px 9px; cursor:pointer; user-select:none; font-size:12px; font-weight:950; border:1px solid #dfe8f1; background:#f9fbfd; color:#344054;}
+    .radio-pill input{width:auto; accent-color:var(--blue)}
+    .radio-pill.mastered{background:#ecfbf5; border-color:#bcebd8; color:#08774d}.radio-pill.partial{background:#fff8e6; border-color:#ffe1a1; color:#8a5b00}.radio-pill.not{background:#fff0f2; border-color:#ffcbd2; color:#b42335}
+    .note-input{min-width:210px; min-height:42px; resize:vertical; background:#fbfdff;}
+    .add-box{display:grid; grid-template-columns:1fr auto; gap:10px; padding:13px; background:#fbfdff; border-top:1px dashed #d7e8f6;}
+    .empty{padding:28px; text-align:center; color:var(--muted); font-weight:800;}
+    .toast{position:fixed; left:22px; bottom:22px; z-index:50; display:none; min-width:220px; padding:14px 16px; color:white; border-radius:20px; box-shadow:var(--shadow); background:#172238; font-weight:950;}
+    .toast.show{display:block; animation:pop .32s ease} @keyframes pop{from{transform:translateY(10px); opacity:0}to{transform:translateY(0); opacity:1}}
+    .confetti{position:fixed; inset:0; pointer-events:none; overflow:hidden; z-index:45}.confetti i{position:absolute; top:-20px; font-style:normal; animation:fall 1.4s linear forwards}@keyframes fall{to{transform:translateY(105vh) rotate(360deg); opacity:0}}
+    .topbtn{position:fixed; right:20px; bottom:22px; z-index:42; width:46px; height:46px; border-radius:16px; display:grid; place-items:center; background:#172238; color:white; text-decoration:none; box-shadow:var(--smallShadow); font-weight:950}
+    .report{display:none;}
+    .stat:has(#notCount){border-color:rgba(239,79,95,.32); background:linear-gradient(180deg,#fff,#fff5f6)}
+    .clean-hero-note{margin-top:14px}
+
+
+    @media(max-width:1050px){.layout{grid-template-columns:1fr}.side{position:relative; top:auto}.stats{grid-template-columns:repeat(2,1fr)}.hero-grid{grid-template-columns:1fr}.mascot{min-height:auto}.topline{display:block}.quick-actions{margin-top:10px}}
+    @media(max-width:650px){.app{padding:12px}.hero{border-radius:26px; padding:18px} .stats{grid-template-columns:1fr}.add-box,.searchbox{grid-template-columns:1fr} .quick-actions button,.stack button{width:100%} h1{font-size:30px}.titlebox h2{font-size:20px}}
+
+    @media print{
+      body{background:white!important; color:#111}.app{width:auto; padding:0}.hero,.side,.topline,.add-box,.quick-actions,.credit,.topbtn,.toast,.confetti,.no-print{display:none!important}
+      .layout{display:block; margin:0}.stats{grid-template-columns:repeat(4,1fr); gap:5px; margin-bottom:8px}.stat{box-shadow:none; border-radius:8px; padding:6px}.stat strong{font-size:16px}.stat small{font-size:9px}.bar{height:5px}
+      .card{box-shadow:none; border:0; border-radius:0}.table-wrap{overflow:visible}.table-card{display:none}.report{display:block; margin-bottom:8px; border:1px solid #222; padding:8px; border-radius:10px}.report h1{font-size:18px; margin:0 0 4px; color:#111}.report-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:6px; font-size:10px}.report-grid div{border:1px solid #ccc; padding:4px; border-radius:6px}.print-table{display:table!important; width:100%; min-width:0; border-collapse:collapse}.print-table th,.print-table td{font-size:9px; padding:4px; border:1px solid #999}.print-table th{position:static; background:#f1f1f1;color:#111}.radio-pill{font-size:8px; padding:0; min-width:0; border:0; background:transparent!important;color:#111!important}.note-input{border:0; padding:0; min-height:16px; font-size:8px}textarea{resize:none}.skill-edit{padding:0;border:0}@page{size:A4 portrait; margin:8mm}
+    }
+  </style>
+</head>
+<body>
+  <main class="app" id="top">
+    <section class="hero">
+      <div class="hero-grid">
+        <div>
+          <span class="eyebrow">🌟 روضة المهارات الممتعة</span>
+          <h1 contenteditable="true" id="mainTitle">منصة متابعة مهارات رياض الأطفال</h1>
+          <p class="subtitle" contenteditable="true" id="mainSubtitle">متابعة ذكية وواضحة لإتقان الطفل للمهارات وفق معايير التعلم النمائية، مع مؤشرات فورية وطباعة تقرير أنيق لكل طفل.</p>
+          <div class="hero-actions clean-hero-note">
+            <span class="pill">🖨️ طباعة / حفظ PDF</span>
+          </div>
+        </div>
+        <div class="mascot"><div><div class="face">🧸</div><strong>تعلم… متابعة… إنجاز</strong><p>منصة لطيفة للمعلمة، لا تحتاج مطاردة أوراق ولا حرب دفاتر.</p></div></div>
+      </div>
+    </section>
+
+    <section class="layout">
+      <aside class="side">
+        <div class="card settings">
+          <h3 class="section-title">بيانات المتابعة <span class="mini">تُحفظ تلقائيًا</span></h3>
+          <div class="field"><label>اسم الطفل / الطفلة</label><input id="childName" placeholder="اكتب اسم الطفل هنا"></div>
+          <div class="field"><label>الروضة / المدرسة</label><input id="schoolName" placeholder="اسم الروضة أو المدرسة"></div>
+          <div class="field"><label>المعلمة / التاريخ</label><input id="teacherDate" placeholder="اسم المعلمة - التاريخ"></div>
+          <label>الفصل الدراسي</label>
+          <div class="segmented"><button id="term1Btn" onclick="setTerm('term1')">الفصل الأول</button><button id="term2Btn" onclick="setTerm('term2')">الفصل الثاني</button></div>
+          <div class="field"><label>مجال التعلم</label><select id="domainSelect" onchange="renderSkills();saveState();"></select></div>
+          <div class="field"><label>بحث داخل المهارات</label><input id="searchInput" placeholder="اكتب كلمة للبحث..." oninput="renderSkills()"></div>
+          <div class="stack">
+            <button onclick="window.print()">🖨️ طباعة / حفظ PDF</button>
+            <button class="green" onclick="markVisibleMastered()">✅ اعتماد الظاهر كـ أتقن</button>
+            <button class="soft" onclick="expandAllNotes()">📝 توسيع الملاحظات</button>
+            <button class="red" onclick="clearCurrentDomain()">🧹 تنظيف المجال الحالي</button>
+          </div>
+        </div>
+        <div class="credit">تصميم د/فواز<br><a href="https://t.me/TAqhjT3MFVE1Yzk0" target="_blank">تفضل للمزيد هنا</a></div>
+      </aside>
+
+      <section class="workbench">
+        <div class="stats" aria-label="لوحة مؤشرات">
+          <div class="stat"><small>إجمالي المهارات</small><strong id="totalCount">0</strong><div class="bar"><span id="totalBar"></span></div></div>
+          <div class="stat"><small>أتقن</small><strong id="masteredCount">0</strong><div class="bar master"><span id="masteredBar"></span></div></div>
+          <div class="stat"><small>أتقن إلى حد ما</small><strong id="partialCount">0</strong><div class="bar partial"><span id="partialBar"></span></div></div>
+          <div class="stat"><small>لم يتقن</small><strong id="notCount">0</strong><div class="bar not"><span id="notBar"></span></div></div>
+        </div>
+
+        <div class="report">
+          <h1>تقرير متابعة مهارات رياض الأطفال</h1>
+          <div class="report-grid"><div><b>الطفل:</b> <span id="rChild"></span></div><div><b>الروضة:</b> <span id="rSchool"></span></div><div><b>الفصل:</b> <span id="rTerm"></span></div><div><b>المعلمة/التاريخ:</b> <span id="rTeacher"></span></div></div>
+        </div>
+
+        <div class="card topline">
+          <div class="titlebox"><h2 id="tableTitle">مهارات الفصل الدراسي الأول</h2><p id="summaryLine">اختر المجال وابدأ التقييم.</p></div>
+          <div class="quick-actions"><button class="soft" onclick="resetSkillsToDefault()">استعادة مهارات المجال</button><button class="dark" onclick="exportJSON()">تصدير نسخة احتياطية</button><button class="soft" onclick="document.getElementById('importFile').click()">استيراد نسخة</button><input id="importFile" class="no-print" type="file" accept="application/json" style="display:none" onchange="importJSON(event)"></div>
+        </div>
+
+        <div class="card table-card">
+          <div class="table-wrap"><table id="skillsTable"><thead><tr><th>م</th><th>المهارة / معيار التعلم النمائي</th><th>أتقن</th><th>إلى حد ما</th><th>لم يتقن</th><th>ملاحظات المعلمة</th><th class="no-print">إجراء</th></tr></thead><tbody id="skillsBody"></tbody></table></div>
+          <div class="add-box"><input id="newSkillInput" placeholder="أضف مهارة جديدة للفصل والمجال المحدد..."><button onclick="addSkill()">+ إضافة مهارة</button></div>
+        </div>
+
+        <table class="print-table" style="display:none"><thead><tr><th>م</th><th>المهارة</th><th>أتقن</th><th>إلى حد ما</th><th>لم يتقن</th><th>ملاحظات</th></tr></thead><tbody id="printBody"></tbody></table>
+      </section>
+    </section>
+  </main>
+  <a class="topbtn no-print" href="#top">↑</a><div class="toast" id="toast"></div><div class="confetti" id="confetti"></div>
+
+  <script>
+    const skillsBank={"الوطنية والدراسات الاجتماعية":["إظهار الاحترام للأقران المختلفين.","إظهار الاهتمام ببعض الألعاب التقليدية الشعبية.","إظهار المعرفة بالحياة الفطرية في المملكة العربية السعودية.","إظهار اهتمامه بمصادر المياه في المملكة العربية السعودية.","إظهار فخره واعتزازه بنفسه بوصفه مسلما.","إظهار فخره واعتزازه بنفسه بوصفه مواطنا سعوديا.","إظهار فهمهم للعلاقة بين العرض والطلب.","إظهار فهمهم لمفهوم المقايضة. إظهار معرفة تفصيلية بالملابس التقليدية في المملكة العربية السعودية.","إظهار معرفته بأن اللغة العربية هي اللغة الرسمية في المملكة العربية السعودية.","إظهار معرفتهم بملوك المملكة العربية السعودية.","الالتزام بحقوق وواجبات أعضاء المجموعات التي يشارك بها.","التحدث عن أهمية الخدمات التي يقدمها أصحاب المهن المختلفة للمجتمع.","التحدث عن بعض سمات المناخ في المناطق المختلفة في المملكة العربية السعودية.","التعاون والالتزام بالأنظمة والقواعد ولاسيما بقوانين المنزل والروضة والمجمع.","التعبير عن مدى التقدير لوطنه والاعتزاز به.","التعرف على بعض الجوانب الجغرافية في المملكة العربية السعودية.","التعرف على فئات العملة السعودية وأنواعها المختلفة.","التعريف بنفسه بوصفه عضوًا في المجتمع.","التمييز بين الرغبات والاحتياجات.","تتبع تسلسل الأحداث في قصة تاريخية.","تسمية بعض التضاريس في المملكة العربية السعودية.","تسمية بعض المعالم التاريخية في المملكة العربية السعودية.","تسمية بعض مكونات أطباق الطعام التقليدية.","شرح أهمية الموارد الطبيعية للمملكة العربية السعودية.","فهم أن العمل يعود علينا بالمنفعة الاقتصادية.","فهم عامل مرور الزمن وأحداث الماضي.","معرفة المعالم المهمة في المدينة التي يسكن بها والمدن الكبيرة في المملكة العربية السعودية.","معرفة موقع المملكة العربية السعودية.","ممارسة سلوكيات بناء المواطنة.","وصف بعض التقاليد الثقافية في المملكة العربية السعودية."],"التربية الإسلامية":["احترام الكبار من خلال التطبيق العملي وضرب الأمثلة.","التحلي بالأخلاق الإسلامية من خلال ممارستها في الحياة اليومية.","التعامل مع القرآن الكريم باحترام.","التعبير عن المشاعر الدالة على حب الإسلام والانتماء له.","ترديد بعض الأذكار بمفرده في المواقف الملائمة.","تطبيق بعض أركان الإسلام بشكل عملي.","إظهار فهمهم للعلاقة بين العرض والطلب.","تطبيق بعض الآداب الإسلامية بانتظام.","تعداد أركان الإسلام.","تلاوة بعض السور القصيرة.","ذكر الصلاة على النبي صلى الله عليه وسلم حين يذكر اسمه.","ذكر بعض أسماء الله الحسنى ومعناها من خلال ترديد المألوف منها وحفظه.","معرفة بعض المعلومات عن النبي محمد صلى الله عليه وسلم وسيرته وصفاته."],"التطور اللغوي والمعرفة المبكرة للقراءة والكتابة":["اختيار الكتب التي تناسب اهتماماتهم.","اختيار الكتب ومواد القراءة والكتابة وتقييمها والمفاضلة بينها.","إدراك أن الرموز والكلمات المطبوعة تحمل معنى ويمكن أن تقرأ.","استخدام أكثر من مفردة للتعبير عن الشيء نفسه.","استخدام الجموع بصورة صحيحة.","استخدام الرسوم والإشارات التوضيحية في السياق للتنبؤ وفهم المفردات.","استخدام الظروف لوصف الأفعال.","استخدام اللغة للعديد من الأغراض المتقدمة: الاستدلال، حل المشكلات، التواصل الاجتماعي.","استخدام المفردات التي تصف الأشياء والأحداث والخصائص في سياقي الواقع والخيال.","استخدام المفردات الدالة على الترتيب الزمني للأحداث.","استخدام النفي.","استخدام جمل تامة تراعي القواعد النحوية المتعلمة.","استخدام جمل مركبة بفاعلية.","استخدام قواعد السلوك الاجتماعي في التواصل اللفظي وغير اللفظي.","استخدام قواعد الكتابة المناسبة.","استخدام مصطلحات الملكية بشكل صحيح.","استخدام نبرة ومستوى صوت ولهجة مناسبة في سياقات مختلفة.","استنتاج الاتجاه الصحيح للقراءة من اليمين إلى اليسار.","استنتاج محتوى القصة من الغلاف.","استنتاج معاني الكلمات من السياق.","إعادة سرد القصص مع إجراء تغييرات مقصودة.","الإجابة عن أسئلة تتعلق بعناصر القصة الرئيسية: الزمان، المكان، الشخصيات، الأحداث.","الاستجابة للعبارات والتعليمات سواء كانت باللغة العربية الفصحى أو اللغة المحكية.","الاستماع إلى أفكار الآخرين والاستجابة لها.","الإمساك بأدوات الكتابة بطريقة صحيحة.","التحدث بطريقة واضحة ومفهومة للكبار.","التعاطف مع الشخصيات والأحداث في القصص أو الصور.","التعامل مع الكتب بعناية.","التعبير عن أفكارهم الإبداعية عن طريق الرسم والكتابة.","التعبير عن الذات بمهارة وبإطراد متزايد.","التعرف على السجع في اللغة.","التعرف على أنواع مختلفة من المواد المطبوعة.","التمييز بين المذكر والمؤنث في الأسماء والصفات.","التوفيق بين أجزاء الكلام بدقة.","السؤال عن معاني اللافتات.","الطلب من المعلمة كتابة قصص أو معلومات يسردونها.","المشاركة في الأنشطة التي تركز على القراءة والكتابة باهتمام.","المشاركة في حوار أو نقاش مستمر ضمن مجموعة صغيرة أو كبيرة.","إنشاء 4-5 كلمات متفقة في القافية.","بناء أنماط من الكلمات المتشابهة في الصوت.","تأليف القصص القصيرة بأسلوبه سواء أكانت واقعية أم خيالية.","تجزئة أصوات الكلمات المكتوبة.","تحليل كلمات مكونة من مقطع واحد وتحتوي على حرف علة ممدود.","تذكر بعض معلومات النصوص الواقعية والنصوص الخيالية.","تذكر موضوع القصة بعد معرفة عنوانها والنظر إلى غلافها.","تعديل وضعية الجسد للجلوس جلسة مناسبة.","تقسيم المفردات إلى مقطعين.","تمييز الاسم الشخصي وأسماء الأقران مكتوبة.","تمييز العناصر الرئيسية للقصة: عنوان القصة، المؤلف، الشخصيات، تسلسل الأحداث.","تمييز زمن الفعل الماضي والمضارع والمستقبل.","تنفيذ التعليمات المكونة من أكثر من خطوة.","تهجئة كلمات مطبوعة ذات حروف مألوفة بدقة.","توقع أحداث في القصة بناء على أجزائها المختلفة.","حذف/استبدال بعض الأصوات في الكلمات.","دمج/فصل الأصوات شفهيًا للمفردات المكونة من مقطع واحد.","دمج/فصل الكلمات المركبة باستخدام الصور.","ذكر الكلمات التي تبدأ بالصوت نفسه.","ربط أسماء الحروف بأشكالها الثلاثة المطبوعة: أول الكلمة ووسطها وآخرها.","ربط مواقف القصص المسموعة بالتجارب الخاصة.","سرد الأحداث والقصص بتلقائية سواء كانت واقعية أم خيالية.","فهم تعليمات متعددة الخطوات في المواقف التعليمية.","فهم معظم الأسئلة التي تبدأ بـ: لماذا، وأين، ومن، حول ما يستمع إليه.","فهم معظم الإيماءات والإرشادات غير اللفظية التي يستخدمها الآخرون للتواصل.","كتابة الاسم بطريقة صحيحة وواضحة.","كتابة الحروف بأشكالها الثلاثة: أول ووسط وآخر الكلمة.","كتابة الحروف بتحكم ودقة عالية.","كتابة الكلمات باستخدام حروف يمكن تمييزها.","محاكاة قواعد الكتابة الصحيحة.","معرفة أضداد مفردات مألوفة والتمثيل بنظائر لها.","معرفة علامات الترقيم الشائعة.","معرفة مرادف مفردات مألوفة والتمثيل بنظائر لها.","معرفة مؤلفي كتب مألوفة.","نطق حروف الهجاء بوضوح.","وضع مسافات مناسبة بين الكلمات."],"الفنون":["ابتكار سلسلة من الحركات الخاصة مع أناشيد مصاحبة أو بدونها.","أداء أدوار مختارة من قبل المعلمة.","أداء حركات تتماشى مع سرعات الإيقاع المختلفة والتجاوب معها.","أداء سلسلة من الحركات المرافقة للأناشيد فرديًا أو جماعيًا.","استخدام الحركات الإيقاعية مع الأصوات أو بدونها للتعبير عن مشاعرهم.","استخدام الملابس وملحقاتها أثناء أداء الحركات المرافقة للأنشودة.","استكشاف الأفكار والخواطر والعواطف من خلال حواريات اللعب الدرامي.","التحدث عن الأناشيد والشخصيات والأحداث التي يصفونها.","التعبير عن التجارب الشخصية بطريقة صنع أعمال فنية.","التعبير عن معاني الأناشيد المختلفة.","التمييز بين الواقع والخيال خلال سيناريوهات اللعب الدرامي.","القدرة على التخطيط للعمل الفني.","المشاركة بالأناشيد ذات الألحان والإيقاعات المتكررة والمحددة.","المشاركة في الأناشيد بكاملها أو مقطع منها بشكل فردي أو جماعي.","إنتاج عمل فني بإبراز تفاصيله الواضحة يمكن التعرف عليه.","إنشاد أناشيد ذات مقاطع متعددة بكاملها أو مقطع منها بمفرده أو في مجموعات.","تأليف الأناشيد والألحان والإيقاعات التي تعبر عن الأفكار والمشاعر والعواطف المختلفة.","تخطيط سيناريوهات اللعب الدرامي بالتعاون مع الآخرين.","تذوق العمل الفني من خلال وصف بعض الجوانب الفنية وإبداء الرأي حولها مثل: الموضوع واللون والخطوط.","تقبل الاختلافات في التعبير الفني.","تقليد الكبار والأقران واتباع حركاتهم.","تمثيل الأدوار الاجتماعية والخيالية بمفرده أو مع الآخرين.","تمييز بعض الأنماط السهلة من الإيقاع والنغمة والحدة.","عرض الأعمال الفنية والتحدث عنها.","مناقشة الأفكار مع أقرانهم حول ما سيحدث خلال اللعب."],"العلوم":["إجراء تجارب توضح خصائص المواد الفيزيائية المختلفة.","استكشاف كيفية تحرك الأشياء من خلال قوة الدفع والسحب إلى أعلى وأسفل.","إظهار الاهتمام وحب الاستطلاع وإثارة التفكير لكيفية عمل العالم.","إظهار فهم أن المقدار والكمية تبقى ثابتة ما دام لا يضاف إليها أو يؤخذ منها شيء على الرغم من أن المظهر قد يتغير.","البدء في تحمل مسؤولية رعاية الكائنات الحية.","التحقق من الفرضيات عن طريق تسجيل وتنظيم المعلومات والبيانات من خلال الرصد والرسومات.","القيام بالأعمال التي تظهر اهتمامًا بالبيئة.","الوصول إلى الاستنتاجات من خلال تحليل الأدلة والمعرفة السابقة ودعمها بالأسباب المنطقية.","تحديد الفروق بين الخصائص الفيزيائية للأشياء وأسبابها.","تفسير تغير مواطن الكائنات الحية تبعًا لنموها.","توضيح العلاقة بين الكائنات الحية ودور الإنسان في رعايتها والمحافظة عليها.","جمع المعلومات من خلال ملاحظات الأشياء والأحداث ووصفها بالتفصيل لفظيًا ومن خلال قوائم الرصد.","شرح أحوال الطقس والتغيرات الجوية وتأثيرها على لباسنا.","شرح التغيرات بين الفصول الأربعة وتأثيرها على لباسنا وأعمالنا.","شرح دورة حياة الكائنات الحية والتغيرات التي تحدث خلالها والتي تتضمن الإنجاب والموت والنمو والتطور.","شرح كيف تلبي مواطن الكائنات الحية احتياجاتها المختلفة.","طرح الأسئلة والمشاركة في تصميم التجارب.","مقارنة السمات الأساسية لدورة حياة النبات أو الحيوانات.","مقارنة خصائص بعض المواد والأجسام الطبيعية.","وصف بعض خصائص وأنماط الأجسام في السماء.","وصف خصائص بعض المواد والأجسام الطبيعية.","وصف كيفية تغير الخصائص الفيزيائية للأشياء الملاحظة بالتفصيل.","وضع الفرضيات من خلال البدء في استخدام أدوات القياس باستقلالية."],"نهج التعلم":["استمرارية المشاركة والانخراط في مهمة أو نشاط ما.","الاستدلال عن أسباب بعض الظواهر الطبيعية.","البحث عن أنشطة جديدة يكونون فيها أكثر استقلالية.","البحث والتجربة لاكتشاف المعلومات واختبار الأفكار.","المثابرة على إكمال مهمة أو هدف محدد عند مواجهة تحديات وعوائق بتركيز وانتباه.","تحديد المشكلات ومحاولة حلها باستخدام استراتيجيات متنوعة ومختلفة.","تقديم الاقتراحات والأفكار حول كيفية تجربة اللعب.","توظيف المعارف السابقة في المهام والمواقف الجديدة لإيجاد حلول مبتكرة للمشكلات.","طرح أسئلة تحليلية عن العديد من المواضيع."],"الرياضيات":["اتباع تعليمات محددة تتعلق بتغيير حركة ومكان الأشياء.","استخدام الأعداد الترتيبية: الأول، الثاني، الثالث؛ لوصف عناصر السلسلة.","استخدام البيانات الموجودة في رسم بياني بسيط للإجابة على أسئلة محددة.","استخدام مصطلحات رياضية لوصف الكميات والأحجام مثل: طويل/الأطول، قصير/الأقصر، ثقيل.","استخدام وحدات قياس معيارية وغير معيارية.","التعبير عن الاحتمال باستخدام كلمات مثل: مؤكد، أقل احتمالًا.","التعرف على الأنماط التي يستخدم فيها عدة عناصر متكررة سواء كانت عددية أم غير عددية.","العد التنازلي من 20 إلى الأعداد السابقة.","العد بالعشرات حتى 100.","العد حتى 100.","المقارنة بين نوعين أو ثلاثة أنواع من البيانات.","إنشاء نماذج بسيطة لأشكال متماثلة بمفردهم.","تحديد العدد السابق والتالي لعدد ضمن 20.","ترتيب الأحداث اليومية: صباحًا، ظهرًا، مساءً، أو الأسبوعية أو الشهرية.","ترتيب خمسة أشياء حسب أحجامها.","تسمية الأشكال الثنائية وثلاثية الأبعاد الشائعة في البيئة.","تصنيف الأشكال ثلاثية الأبعاد.","تصنيف البيانات إلى مجموعات حسب خصائص معينة.","تعيين مواقع الأشياء باستخدام الكلمات.","تكوين رسوم مختلفة بالأشكال الثنائية وثلاثية الأبعاد.","تمثيل البيانات باستخدام المحسوسات أو الصور والرسوم البيانية البسيطة.","تمثيل العمليات السهلة في الجمع والطرح.","تمديد أو إكمال الأنماط التي تستخدم عناصر متكررة سواء كانت عددية أم غير عددية.","رسم الأشكال ثلاثية الأبعاد.","فرز الأشياء وتصنيفها طبقًا لأكثر من خاصية.","قراءة لوحة التقويم والأنشطة المرتبطة بالروتين اليومي أو الأسبوعي.","قراءة الأعداد من 0 - 100.","قراءة البيانات التي تم تمثيلها باستخدام المحسوسات أو الصور والرسوم البيانية البسيطة.","كتابة الأعداد من 0 - 20.","مقارنة الأشياء طبقًا لسمات قياس متنوعة: الطول والارتفاع والوزن والسرعة.","وصف احتمالية وقوع بعض الأحداث في مواقف معينة."],"التقنية":["استخدام تطبيقات معالجة نصوص أو إنتاج الرسوم أو التطبيقات الصوتية.","التعرف على بعض الرموز المختلفة في لوحة المفاتيح واختيارها.","التعرف على كيفية عمل بعض الألعاب الميكانيكية.","التمييز بين الأجهزة الرقمية من حيث إمكانية اتصالها بشبكة الإنترنت.","تحديد بعض قواعد السلوك المناسب لاستخدام الأجهزة الرقمية والمواقع الإلكترونية.","ترتيب الخطوات لإكمال مهمة محددة بشكل تتابعي باستخدام الخرائط الذهنية.","تسمية إحدى أدوات التواصل الشائعة وتوضيح استخدامها.","تسمية التقنيات المألوفة والتمييز بينها بحسب الهدف من استخدامها.","تسمية موقع إلكتروني محدد وموثوق وتصفحه بدعم الكبار.","تشغيل بعض الأجهزة الرقمية وإغلاقها."],"الصحة والتطور البدني":["اتباع قواعد السلامة باستقلالية.","أداء أنشطة العناية الشخصية والنظافة باستقلالية ومناقشة أهميتها.","استخدام اليد بشكل مناسب للقيام بمهام محددة.","استخدام عضلات الأصابع الدقيقة للقيام بمهام محددة.","إظهار التناسق والتحكم باستخدام العضلات الكبرى.","إظهار التوافق بين اليد والعين عند ممارسة الأنشطة الحركية المختلفة.","إظهار تصرفات مناسبة لحالات الطوارئ.","التحكم والتناسق في العضلات الكبرى في الأنشطة الحركية.","التوافق الحركي البصري عند ممارسة الأنشطة الحركية المختلفة.","الحفاظ على التوازن والثبات أثناء أداء حركات معقدة باستخدام العضلات الكبرى.","المعرفة ببعض أجزاء الجسم الداخلية وبعض وظائفها.","تسمية بعض أنواع الأطعمة الصحية والمجموعات الغذائية التي تنتمي إليها وإسهامها في الغذاء الصحي.","تعديل السلوك للالتزام بممارسات السلامة وتجنب الأخطار.","توظيف الممارسات التي تقي من انتشار الأمراض المعدية.","معرفة الأغذية غير الصحية وأهمية تجنبها.","وصف المشاعر والحاجات الجسدية بمزيد من التحديد والدقة."],"التطور الاجتماعي العاطفي":["اتباع القواعد والإجراءات باستقلالية.","استخدام لغة أكثر نضجًا للتعبير عن مشاعره وأسبابها.","استخدام مجموعة واسعة من الكلمات أو الأفعال لإظهار التعاطف مع الآخرين.","إظهار استقلالية متزايدة في القيام بمجموعة من الأنشطة والمهام.","إظهار الفخر والاعتزاز بمنجزاتهم والتعبير عنها.","إظهار القدرة على الانتظار لفترات طويلة من الوقت.","إظهار فهم عميق للعلاقة بين الأسباب والنتائج.","الانخراط في لعب تعاوني أكثر استدامة بما في ذلك اللعب والألعاب البسيطة ذات القواعد.","الانفصال عن الكبار المألوفين لديه بسهولة.","التعبير عن محبته لبعض الكبار المألوفين لديه.","التفاعل والتواصل المتبادل مع الكبار باحترام.","التفاوض مع أقرانه للاتفاق على أدوارهم في اللعب أو لحل مشكلة ما.","الشعور بقيمة الذات من خلال القدرة والكفاءة وإظهار مهارات جديدة.","القدرة على التحكم بعواطفه وتهدئة نفسه وإدارة إحباطاته.","القدرة على فهم مشاعره ومشاعر الآخرين ووجهات نظرهم.","تحديد الطفل لاحتياجاته ومشاعره واهتماماته.","تعريف الطفل بنفسه بوصفه جزءًا من مجموعة.","تكوين الصداقات مع الأقران والحفاظ عليها.","حل المشكلات مع الأطفال الآخرين بشكل مستقل وقد يطلب المساعدة من الكبار عند الحاجة.","ذكر أسباب المشاعر التي لديه وأسباب مشاعر الآخرين.","ضبط السلوك وفقًا لإدراك الطفل لمشاعره ومشاعر الآخرين.","طلب التوجيه وقبوله من الكبار.","مشاركة المشاعر مع الآخرين بطرق مقبولة اجتماعيًا، وممارسة سلوكيات مقبولة أثناء اللعب مثل: الاعتذار، الترحيب بالصديق، المفاوضة، التسوية."]};
+    const domains=Object.keys(skillsBank);
+    const cloneBank=()=>JSON.parse(JSON.stringify(skillsBank));
+    const emptyRatings=()=>Object.fromEntries(domains.map(d=>[d,{}]));
+    let appData=JSON.parse(localStorage.getItem('kgJoyTracker_v1')||'null')||{childName:'',schoolName:'',teacherDate:'',termSelect:'term1',domainSelect:domains[0],skills:{term1:cloneBank(),term2:cloneBank()},ratings:{term1:emptyRatings(),term2:emptyRatings()},notes:{term1:emptyRatings(),term2:emptyRatings()}};
+    const $=id=>document.getElementById(id);
+    const term=()=>appData.termSelect||'term1'; const domain=()=>$('domainSelect').value||domains[0];
+    function ensure(){['term1','term2'].forEach(t=>domains.forEach(d=>{appData.skills[t]??=cloneBank();appData.ratings[t]??=emptyRatings();appData.notes[t]??=emptyRatings();appData.skills[t][d]??=[...skillsBank[d]];appData.ratings[t][d]??={};appData.notes[t][d]??={};}));}
+    function saveState(){appData.childName=$('childName').value; appData.schoolName=$('schoolName').value; appData.teacherDate=$('teacherDate').value; appData.domainSelect=domain(); localStorage.setItem('kgJoyTracker_v1',JSON.stringify(appData)); updateReport();}
+    function fillDomains(){ $('domainSelect').innerHTML=domains.map(d=>`<option value="${d}">${d}</option>`).join(''); }
+    function load(){ensure();fillDomains();$('childName').value=appData.childName||'';$('schoolName').value=appData.schoolName||'';$('teacherDate').value=appData.teacherDate||'';$('domainSelect').value=appData.domainSelect||domains[0];['childName','schoolName','teacherDate'].forEach(id=>$(id).addEventListener('input',saveState));renderSkills();}
+    function setTerm(t){appData.termSelect=t; renderSkills(); saveState();}
+    function escapeHTML(s){return String(s??'').replace(/[&<>'"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#039;','"':'&quot;'}[m]));}
+    function highlight(text,q){let safe=escapeHTML(text); if(!q) return safe; try{const r=new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi'); return safe.replace(r,'<span class="hit">$1</span>');}catch(e){return safe}}
+    function visibleItems(){const t=term(),d=domain(),q=($('searchInput').value||'').trim(); return appData.skills[t][d].map((skill,index)=>({skill,index})).filter(x=>!q||x.skill.includes(q));}
+    function renderSkills(){ensure(); const t=term(),d=domain(); $('term1Btn').classList.toggle('active',t==='term1'); $('term2Btn').classList.toggle('active',t==='term2'); $('tableTitle').textContent=(t==='term1'?'مهارات الفصل الدراسي الأول':'مهارات الفصل الدراسي الثاني')+' — '+d; const list=visibleItems(); const q=($('searchInput').value||'').trim(); $('skillsBody').innerHTML=list.length?list.map(({skill,index},n)=>rowHTML(skill,index,n+1,q)).join(''):`<tr><td colspan="7"><div class="empty">لا توجد نتيجة مطابقة للبحث. جرّب كلمة أقصر… البحث هنا حساس شوي مثل الأطفال وقت النوم.</div></td></tr>`; $('printBody').innerHTML=appData.skills[t][d].map((skill,index)=>printRow(skill,index)).join(''); updateStats(); updateReport(); saveState();}
+    function rowHTML(skill,index,num,q){const t=term(),d=domain(),rating=appData.ratings[t][d][index]||'',note=appData.notes[t][d][index]||''; return `<tr data-index="${index}"><td class="num">${num}</td><td class="skill"><div class="skill-edit" contenteditable="true" onblur="editSkill(${index},this.textContent)">${highlight(skill,q)}</div></td><td><label class="radio-pill mastered"><input type="radio" data-rate="mastered" data-index="${index}" name="skill_${index}" ${rating==='mastered'?'checked':''} onclick="setRating(${index},'mastered')" onchange="setRating(${index},'mastered')">أتقن</label></td><td><label class="radio-pill partial"><input type="radio" data-rate="partial" data-index="${index}" name="skill_${index}" ${rating==='partial'?'checked':''} onclick="setRating(${index},'partial')" onchange="setRating(${index},'partial')">إلى حد ما</label></td><td><label class="radio-pill not"><input type="radio" data-rate="not" data-index="${index}" name="skill_${index}" ${rating==='not'?'checked':''} onclick="setRating(${index},'not')" onchange="setRating(${index},'not')">لم يتقن</label></td><td><textarea class="note-input" placeholder="ملاحظة مختصرة..." oninput="setNote(${index},this.value)">${escapeHTML(note)}</textarea></td><td class="no-print"><button class="red" onclick="deleteSkill(${index})">حذف</button></td></tr>`;}
+    function mark(r,val){return r===val?'✓':''}
+    function printRow(skill,index){const r=appData.ratings[term()][domain()][index]||'',n=appData.notes[term()][domain()][index]||'';return `<tr><td>${index+1}</td><td>${escapeHTML(skill)}</td><td>${mark(r,'mastered')}</td><td>${mark(r,'partial')}</td><td>${mark(r,'not')}</td><td>${escapeHTML(n)}</td></tr>`}
+    function setRating(i,v){
+      const t=term(), d=domain();
+      if(!appData.ratings[t]) appData.ratings[t]=emptyRatings();
+      if(!appData.ratings[t][d]) appData.ratings[t][d]={};
+      if(appData.ratings[t][d][i]===v){ updateStats(); return; }
+      appData.ratings[t][d][i]=v;
+      saveState();
+      updateStats();
+      updateReport();
+      $('printBody').innerHTML=appData.skills[t][d].map((skill,index)=>printRow(skill,index)).join('');
+      if(v==='mastered'){toast('ياسلام 🌟 تم تسجيل الإتقان'); confetti();}
+      else if(v==='partial'){toast('جميل… يحتاج دعم بسيط ✨');}
+      else if(v==='not'){toast('تم تسجيل: لم يتقن — نحتاج خطة دعم 💪');}
+    }
+    function setNote(i,v){appData.notes[term()][domain()][i]=v; saveState();}
+    function editSkill(i,v){const clean=v.replace(/\s+/g,' ').trim(); if(clean) appData.skills[term()][domain()][i]=clean; renderSkills();}
+    function addSkill(){const input=$('newSkillInput'),v=input.value.trim(); if(!v){toast('اكتب المهارة أولاً ✏️'); return;} appData.skills[term()][domain()].push(v); input.value=''; renderSkills(); toast('تمت إضافة المهارة ✅');}
+    function deleteSkill(i){if(!confirm('هل تريد حذف هذه المهارة؟'))return; const t=term(),d=domain(); appData.skills[t][d].splice(i,1); delete appData.ratings[t][d][i]; delete appData.notes[t][d][i]; reindex(t,d); renderSkills();}
+    function reindex(t,d){const r={},n={}; appData.skills[t][d].forEach((_,i)=>{r[i]=appData.ratings[t][d][i]||''; n[i]=appData.notes[t][d][i]||''}); appData.ratings[t][d]=r; appData.notes[t][d]=n;}
+    function clearCurrentDomain(){if(!confirm('سيتم مسح تقييمات وملاحظات المجال الحالي فقط.'))return; appData.ratings[term()][domain()]={};appData.notes[term()][domain()]={};renderSkills();toast('تم تنظيف المجال الحالي 🧹');}
+    function resetSkillsToDefault(){if(!confirm('سيتم استعادة مهارات المجال من القائمة الأصلية.'))return; appData.skills[term()][domain()]=[...skillsBank[domain()]]; appData.ratings[term()][domain()]={}; appData.notes[term()][domain()]={}; renderSkills();}
+    function expandAllNotes(){document.querySelectorAll('.note-input').forEach(t=>t.style.minHeight='92px'); toast('تم توسيع خانات الملاحظات 📝');}
+    function markVisibleMastered(){visibleItems().forEach(({index})=>appData.ratings[term()][domain()][index]='mastered'); renderSkills(); confetti(); toast('ياسلام… تم اعتماد المهارات الظاهرة 🌟');}
+    function updateStats(){
+      const total=appData.skills[term()][domain()].length;
+      let m=0,p=0,n=0;
+      Object.values(appData.ratings[term()][domain()]).forEach(v=>{
+        if(v==='mastered')m++;
+        if(v==='partial')p++;
+        if(v==='not' || v==='notMastered' || v==='not_mastered')n++;
+      });
+      $('totalCount').textContent=total;
+      $('masteredCount').textContent=m;
+      $('partialCount').textContent=p;
+      $('notCount').textContent=n;
+      $('totalBar').style.width=total?'100%':'0%';
+      $('masteredBar').style.width=total?(m/total*100)+'%':'0%';
+      $('partialBar').style.width=total?(p/total*100)+'%':'0%';
+      $('notBar').style.width=total?(n/total*100)+'%':'0%';
+      $('summaryLine').textContent=`تم تقييم ${m+p+n} من ${total} مهارة في مجال ${domain()} — أتقن: ${m}، إلى حد ما: ${p}، لم يتقن: ${n}.`;
+    }
+    function updateReport(){$('rChild').textContent=$('childName').value||'—'; $('rSchool').textContent=$('schoolName').value||'—'; $('rTeacher').textContent=$('teacherDate').value||'—'; $('rTerm').textContent=term()==='term1'?'الفصل الدراسي الأول':'الفصل الدراسي الثاني';}
+    function toast(msg){const el=$('toast'); el.textContent=msg; el.classList.add('show'); clearTimeout(window.__toast); window.__toast=setTimeout(()=>el.classList.remove('show'),1800);}
+    function confetti(){const box=$('confetti'); const icons=['🌟','✨','💛','🎈','⭐']; for(let i=0;i<32;i++){const s=document.createElement('i'); s.textContent=icons[Math.floor(Math.random()*icons.length)]; s.style.left=Math.random()*100+'vw'; s.style.fontSize=(16+Math.random()*18)+'px'; s.style.animationDelay=(Math.random()*.25)+'s'; box.appendChild(s); setTimeout(()=>s.remove(),1600);}}
+    document.addEventListener('change',e=>{const el=e.target; if(el && el.matches('input[type="radio"][data-rate]')){setRating(Number(el.dataset.index),el.dataset.rate);}});
+    function exportJSON(){const blob=new Blob([JSON.stringify(appData,null,2)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='kg-skills-backup.json'; a.click(); URL.revokeObjectURL(a.href);}
+    function importJSON(e){const file=e.target.files[0]; if(!file)return; const reader=new FileReader(); reader.onload=()=>{try{appData=JSON.parse(reader.result); ensure(); renderSkills(); toast('تم استيراد النسخة ✅');}catch(err){alert('الملف غير مناسب.')}}; reader.readAsText(file); e.target.value='';}
+    load();
+  </script>
+</body>
+</html>
