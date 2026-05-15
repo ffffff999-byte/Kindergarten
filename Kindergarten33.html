@@ -1,0 +1,1987 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>منصة متابعة مهارات ووحدات رياض الأطفال</title>
+<style>
+:root{
+  --ink:#172033;
+  --muted:#6b7280;
+  --bg:#f4f8fb;
+  --panel:#ffffff;
+  --line:#dce6ed;
+  --blue:#2d7df0;
+  --cyan:#57c7d4;
+  --mint:#81d8a5;
+  --cream:#fff7e6;
+  --gold:#d9a441;
+  --rose:#f6a7b8;
+  --violet:#8777d9;
+  --green:#26a269;
+  --red:#dc4c64;
+  --shadow:0 18px 50px rgba(24,43,78,.12);
+  --radius:24px;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:
+    radial-gradient(circle at 10% 10%, rgba(87,199,212,.22), transparent 26%),
+    radial-gradient(circle at 90% 20%, rgba(217,164,65,.18), transparent 30%),
+    linear-gradient(135deg,#eef7fb 0%,#f8fbff 55%,#fff8ec 100%);
+  color:var(--ink);
+  font-family: "Arial", "Tahoma", sans-serif;
+}
+.app{
+  display:grid;
+  grid-template-columns: 330px 1fr;
+  min-height:100vh;
+}
+.sidebar{
+  position:sticky; top:0; height:100vh; overflow:auto;
+  padding:20px;
+  background:rgba(255,255,255,.86);
+  border-left:1px solid var(--line);
+  backdrop-filter: blur(12px);
+}
+.brand{
+  border-radius:28px;
+  background:linear-gradient(145deg,#14345c,#2674d8 58%,#59c5d2);
+  color:#fff; padding:20px; box-shadow:var(--shadow);
+  position:relative; overflow:hidden;
+}
+.brand:before{
+  content:""; position:absolute; inset:auto -55px -55px auto;
+  width:170px; height:170px; border-radius:50%;
+  background:rgba(255,255,255,.18);
+}
+.brand h1{font-size:24px; line-height:1.35; margin:0 0 8px}
+.brand p{margin:0; color:rgba(255,255,255,.86); font-size:13px}
+.designer{
+  margin-top:12px; padding:10px 12px;
+  border-radius:16px; background:rgba(255,255,255,.12);
+  font-size:13px
+}
+.nav{display:grid; gap:10px; margin-top:18px}
+.nav button,.smallbtn,.printbtn{
+  border:0; cursor:pointer; font-weight:700;
+  border-radius:16px; padding:12px 14px;
+  color:#1e293b; background:#eef5fb;
+  display:flex; align-items:center; gap:10px;
+  transition:.2s;
+}
+.nav button.active,.nav button:hover{background:#173b6d;color:#fff;transform:translateY(-1px)}
+.icon{
+  width:34px; height:34px; border-radius:12px;
+  display:inline-grid; place-items:center;
+  background:rgba(255,255,255,.7); flex:0 0 auto;
+}
+.nav button.active .icon,.nav button:hover .icon{color:#173b6d;background:#fff}
+.sidebar .box{
+  margin-top:16px; background:#fff; border:1px solid var(--line);
+  border-radius:22px; padding:14px; box-shadow:0 10px 24px rgba(20,52,92,.06);
+}
+.box h3{margin:0 0 10px; font-size:15px}
+.field{display:grid; gap:6px; margin-bottom:10px}
+label{font-size:12px; color:#536171; font-weight:700}
+input,select,textarea{
+  width:100%; border:1px solid var(--line); border-radius:14px;
+  padding:10px 12px; font-family:inherit; background:#fff; color:var(--ink);
+}
+textarea{min-height:76px; resize:vertical}
+.smallrow{display:grid; grid-template-columns:1fr 1fr; gap:8px}
+.smallbtn{justify-content:center; width:100%; background:#173b6d; color:#fff}
+.smallbtn.light{background:#edf5f8;color:#173b6d}
+.smallbtn.warn{background:#fff0d7;color:#895b00}
+.smallbtn.danger{background:#ffe8ee;color:#a82038}
+.main{padding:24px 28px 60px; overflow:hidden}
+.topbar{
+  display:flex; gap:14px; justify-content:space-between; align-items:center;
+  margin-bottom:18px;
+}
+.titleblock h2{font-size:30px; margin:0 0 4px}
+.titleblock p{margin:0; color:var(--muted)}
+.logoBox{
+  width:86px;height:86px;border-radius:24px;background:#fff;
+  display:grid;place-items:center;border:1px dashed #aec0ce;overflow:hidden;
+  box-shadow:0 8px 20px rgba(24,43,78,.08); font-size:13px; color:#718096;
+}
+.logoBox img{width:100%;height:100%;object-fit:contain}
+.cards{
+  display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; margin-bottom:18px;
+}
+.card{
+  background:rgba(255,255,255,.92);
+  border:1px solid var(--line); border-radius:var(--radius);
+  padding:18px; box-shadow:var(--shadow); position:relative; overflow:hidden;
+}
+.card:after{
+  content:""; position:absolute; left:-30px; bottom:-42px; width:120px; height:120px; border-radius:50%;
+  background:rgba(45,125,240,.08);
+}
+.metric{font-size:33px;font-weight:900;margin-bottom:4px}
+.card span{font-size:13px;color:var(--muted);font-weight:700}
+.section{display:none; animation:fade .25s ease}
+.section.active{display:block}
+@keyframes fade{from{opacity:.4; transform:translateY(6px)} to{opacity:1; transform:none}}
+.grid2{display:grid; grid-template-columns:1.1fr .9fr; gap:18px}
+.panel{
+  background:rgba(255,255,255,.94);
+  border:1px solid var(--line); border-radius:var(--radius);
+  padding:18px; box-shadow:var(--shadow); margin-bottom:18px;
+}
+.panel h3{margin:0 0 12px; font-size:20px}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;align-items:center}
+.term-pill{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;background:#fff7e6;color:#8a6100;font-weight:900;font-size:12px;border:1px solid #ffe1a3}
+.badge{
+  display:inline-flex; align-items:center; gap:6px;
+  padding:7px 10px; border-radius:999px;
+  background:#eef5fb; color:#173b6d; font-weight:800; font-size:12px;
+}
+.tablewrap{overflow:auto;border:1px solid var(--line);border-radius:18px;background:#fff}
+table{border-collapse:separate;border-spacing:0;width:100%;min-width:780px}
+th,td{padding:11px 10px;border-bottom:1px solid var(--line);text-align:right;vertical-align:top}
+th{background:#f0f7fb;font-size:12px;color:#34465a;position:sticky;top:0;z-index:1}
+td{font-size:13px}
+tr:last-child td{border-bottom:0}
+.status{
+  border:0;border-radius:999px;padding:8px 10px;font-weight:900;cursor:pointer;white-space:nowrap
+}
+.s0{background:#f1f5f9;color:#64748b}
+.s1{background:#fff1c2;color:#8a6100}
+.s2{background:#dff7e9;color:#117143}
+.s3{background:#e6efff;color:#2357b8}
+.child-card{
+  display:grid; grid-template-columns:auto 1fr auto; gap:12px; align-items:center;
+  padding:12px; border:1px solid var(--line); border-radius:18px; margin-bottom:10px;
+  background:#fff;
+}
+.avatar{
+  width:44px;height:44px;border-radius:16px;display:grid;place-items:center;
+  background:linear-gradient(135deg,#eaf5ff,#fff3cd);font-weight:900;color:#173b6d
+}
+.progress{
+  height:12px;background:#edf2f7;border-radius:999px;overflow:hidden;
+}
+.progress b{display:block;height:100%;background:linear-gradient(90deg,var(--cyan),var(--blue));border-radius:inherit;width:0%}
+.unitGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.unit{
+  border:1px solid var(--line); border-radius:20px; padding:14px; background:#fff;
+  position:relative; overflow:hidden;
+}
+.unit:before{content:"";position:absolute;inset:0 0 auto 0;height:6px;background:linear-gradient(90deg,var(--cyan),var(--gold))}
+.unit h4{margin:8px 0 6px;font-size:17px}
+.unit p{margin:0;color:var(--muted);font-size:13px;line-height:1.7}
+.tagrow{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.tag{font-size:11px;padding:5px 8px;border-radius:999px;background:#f1f7fb;color:#335}
+.print-area{
+  background:#fff;border:1px solid var(--line);border-radius:22px;padding:18px
+}
+.reportHeader{
+  display:grid;grid-template-columns:90px 1fr 90px;gap:14px;align-items:center;
+  border:2px solid #173b6d;border-radius:18px;padding:12px;margin-bottom:12px
+}
+.reportLogo{
+  height:70px;border:1px dashed #cbd5e1;border-radius:14px;display:grid;place-items:center;overflow:hidden;color:#94a3b8
+}
+.reportLogo img{width:100%;height:100%;object-fit:contain}
+.reportTitle{text-align:center}
+.reportTitle h2{margin:0 0 4px;font-size:22px}
+.reportTitle p{margin:0;color:#475569;font-size:13px}
+.note{
+  padding:10px 12px;background:#fffaf0;border:1px solid #ffe0a3;border-radius:16px;
+  color:#72510c;font-size:13px;line-height:1.8
+}
+.hidden{display:none!important}
+.footerCredit{
+  margin-top:10px; font-size:12px; color:#64748b; text-align:center;
+  border-top:1px dashed var(--line); padding-top:10px
+}
+@media(max-width:1100px){
+  .app{grid-template-columns:1fr}
+  .sidebar{position:relative;height:auto}
+  .cards{grid-template-columns:repeat(2,1fr)}
+  .grid2{grid-template-columns:1fr}
+  .unitGrid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:700px){
+  .main{padding:16px}
+  .cards,.unitGrid{grid-template-columns:1fr}
+  .topbar{align-items:flex-start}
+  .titleblock h2{font-size:24px}
+}
+@media print{
+  @page{size:A4 portrait;margin:8mm}
+  body{background:#fff}
+  .sidebar,.topbar,.cards,.no-print,.nav,.box,.toolbar{display:none!important}
+  .app{display:block}
+  .main{padding:0}
+  .section{display:none!important}
+  .section.printme{display:block!important}
+  .panel,.print-area{box-shadow:none;border:0;padding:0;margin:0}
+  table{min-width:0;font-size:10px}
+  th,td{padding:6px 5px;font-size:10px}
+  .reportHeader{break-inside:avoid}
+  .footerCredit{display:none!important}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <h1 contenteditable="true">منصة متابعة مهارات ووحدات رياض الأطفال</h1>
+      <p contenteditable="true">رصد مهارات نور 1446هـ حسب مجالات التعلم ووحدات المنهج الوطني.</p>
+      <div class="designer">تصميم د/فواز · <a href="https://t.me/TAqhjT3MFVE1Yzk0" target="_blank" style="color:#fff">تفضل للمزيد هنا</a></div>
+    </div>
+    <div class="nav">
+      <button class="active" data-tab="dash"><span class="icon">🏡</span> لوحة المتابعة</button>
+      <button data-tab="children"><span class="icon">👧</span> الأطفال والمجموعات</button>
+      <button data-tab="skills"><span class="icon">🌱</span> المهارات النمائية</button>
+      <button data-tab="units"><span class="icon">🧩</span> وحدات المنهج</button>
+      <button data-tab="record"><span class="icon">✅</span> الرصد اليومي</button>
+      <button data-tab="report"><span class="icon">📄</span> تقرير الطفل</button>
+      <button data-tab="settings"><span class="icon">⚙️</span> الإعدادات</button>
+    </div>
+
+    <div class="box">
+      <h3>بيانات الروضة</h3>
+      <div class="field"><label>اسم الروضة</label><input id="schoolName" value="روضة المستقبل"></div>
+      <div class="field"><label>الفصل / المستوى</label><input id="className" value="المستوى الثالث - أ"></div>
+      <div class="field"><label>المعلمة</label><input id="teacherName" value="المعلمة: ................"></div>
+      <div class="field"><label>استيراد الشعار</label><input id="logoInput" type="file" accept="image/*"></div>
+    </div>
+
+    <div class="box">
+      <h3>الفصل الدراسي</h3>
+      <div class="field">
+        <label>اختر الفصل الذي تريد متابعته</label>
+        <select id="termSelect" onchange="setCurrentTerm(this.value)">
+          <option value="t1">الفصل الأول</option>
+          <option value="t2">الفصل الثاني</option>
+        </select>
+      </div>
+      <div class="note" style="font-size:12px">كل فصل له مهاراته ووحداته ورصده وتقريره، ويمكن نقل أي مهارة أو وحدة بين الفصلين من جداول التحرير.</div>
+    </div>
+
+    <div class="box">
+      <h3>إجراءات سريعة</h3>
+      <div class="smallrow">
+        <button class="smallbtn" onclick="quickPrintSelectedChild()">طباعة طفل / PDF</button>
+        <button class="smallbtn light" onclick="goReport()">اختيار الطفل</button>
+      </div>
+      <div class="field" style="margin-top:10px">
+        <label>الطفل المراد طباعة تقريره</label>
+        <select id="quickPrintChild"></select>
+      </div>
+      <button class="smallbtn warn" onclick="resetDemo()">إعادة البيانات التجريبية</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div class="titleblock">
+        <h2 id="pageTitle">لوحة متابعة النمو والتعلم</h2>
+        <p>منصة عملية للرصد: طفل ← وحدة ← مجال تعلم ← مهارة نور ← مؤشر إتقان. يعني لا تضيع المهارة بين الدفاتر مثل قلم السبورة آخر الحصة.</p>
+      </div>
+      <div class="logoBox" id="logoBox">شعار</div>
+    </div>
+
+    <div class="cards">
+      <div class="card"><div class="metric" id="mChildren">0</div><span>عدد الأطفال</span></div>
+      <div class="card"><div class="metric" id="mSkills">0</div><span>المهارات المرصودة</span></div>
+      <div class="card"><div class="metric" id="mUnits">0</div><span>وحدات المنهج</span></div>
+      <div class="card"><div class="metric" id="mMastery">0%</div><span>متوسط الإتقان</span></div>
+    </div>
+
+    <section id="dash" class="section active">
+      <div class="toolbar"><span class="term-pill" id="activeTermBadge">الفصل الأول</span></div>
+      <div class="grid2">
+        <div class="panel">
+          <h3>خريطة تقدم الأطفال</h3>
+          <div id="childProgress"></div>
+        </div>
+        <div class="panel">
+          <h3>تنبيه تربوي ذكي</h3>
+          <div class="note" id="smartNote">سيظهر التحليل بعد الرصد.</div>
+          <h3 style="margin-top:18px">مفتاح الرصد</h3>
+          <div class="tagrow">
+            <span class="badge">⚪ لم يُرصد</span>
+            <span class="badge">🟡 في طور النمو</span>
+            <span class="badge">🟢 أتقن</span>
+            <span class="badge">🔵 يفوق المتوقع</span>
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <h3>مصفوفة الربط: الوحدات × المجالات النمائية</h3>
+        <div class="tablewrap"><table id="matrixTable"></table></div>
+      </div>
+    </section>
+
+    <section id="children" class="section">
+      <div class="panel">
+        <h3>إضافة طفل / طفلة</h3>
+        <div class="toolbar">
+          <input id="newChild" placeholder="اسم الطفل / الطفلة" style="max-width:260px">
+          <select id="newGroup" style="max-width:180px"><option>المجموعة الوردية</option><option>المجموعة الزرقاء</option><option>المجموعة الخضراء</option></select>
+          <button class="smallbtn" style="max-width:160px" onclick="addChild()">إضافة</button>
+        </div>
+        <div class="tablewrap"><table id="childrenTable"></table></div>
+      </div>
+    </section>
+
+    <section id="skills" class="section">
+      <div class="panel">
+        <h3>بنك مهارات نور 1446هـ</h3>
+        <div class="toolbar">
+          <input id="skillText" placeholder="أدخل مؤشر مهارة جديد" style="max-width:360px">
+          <select id="skillDomain" style="max-width:230px"></select>
+          <button class="smallbtn" style="max-width:160px" onclick="addSkill()">إضافة مهارة</button>
+        </div>
+        <div class="tablewrap"><table id="skillsTable"></table></div>
+      </div>
+    </section>
+
+    <section id="units" class="section">
+      <div class="panel">
+        <h3>وحدات المنهج الوطني</h3>
+        <div class="toolbar">
+          <input id="unitName" placeholder="اسم وحدة جديدة" style="max-width:260px">
+          <input id="unitFocus" placeholder="محور الوحدة / نواتجها" style="max-width:360px">
+          <button class="smallbtn" style="max-width:160px" onclick="addUnit()">إضافة وحدة</button>
+        </div>
+        <div class="unitGrid" id="unitGrid"></div>
+      </div>
+    </section>
+
+    <section id="record" class="section">
+      <div class="panel">
+        <h3>الرصد اليومي حسب الطفل والوحدة</h3>
+        <div class="toolbar">
+          <select id="filterChild"></select>
+          <select id="filterUnit"></select>
+          <select id="filterDomain"><option value="">كل المجالات</option></select>
+          <button class="smallbtn light" style="max-width:180px" onclick="renderRecord()">تحديث العرض</button>
+        </div>
+        <div class="tablewrap"><table id="recordTable"></table></div>
+      </div>
+    </section>
+
+    <section id="report" class="section printme">
+      <div class="panel print-area">
+        <div class="toolbar no-print">
+          <select id="reportChild"></select>
+          <button class="smallbtn" style="max-width:220px" onclick="printReport()">طباعة / حفظ PDF لهذا الطفل</button>
+        </div>
+        <div class="reportHeader">
+          <div class="reportLogo" id="reportLogoRight">شعار</div>
+          <div class="reportTitle">
+            <h2 contenteditable="true">تقرير متابعة المهارات والوحدات</h2>
+            <p><span id="rSchool">اسم الروضة</span> · <span id="rClass">الفصل</span> · <span id="rTeacher">المعلمة</span></p>
+          </div>
+          <div class="reportLogo" id="reportLogoLeft">شعار</div>
+        </div>
+        <div id="reportContent"></div>
+        <div class="footerCredit">تصميم د/فواز · تفضل للمزيد هنا https://t.me/TAqhjT3MFVE1Yzk0</div>
+      </div>
+    </section>
+
+    <section id="settings" class="section">
+      <div class="panel">
+        <h3>إعدادات المنصة</h3>
+        <div class="note">تم تحميل 254 مهارة من ملف مهارات نور 1446هـ، وتم فصل المهارات والوحدات إلى الفصل الأول والفصل الثاني، ويمكن نقل أي مهارة أو وحدة بين الفصلين وتعديلها مباشرة. البيانات تُحفظ تلقائيًا في المتصفح، ويمكن طباعة أو حفظ تقرير PDF مستقل لكل طفل.</div>
+        <div class="toolbar" style="margin-top:14px">
+          <button class="smallbtn danger" style="max-width:230px" onclick="clearStorage()">مسح البيانات المحفوظة</button>
+          <button class="smallbtn light" style="max-width:230px" onclick="saveAll()">حفظ الآن</button>
+        </div>
+        <div class="note">
+          تصميم د/فواز — تفضل للمزيد هنا:
+          <a href="https://t.me/TAqhjT3MFVE1Yzk0" target="_blank">https://t.me/TAqhjT3MFVE1Yzk0</a>
+          <br>هذه العبارة في الإعدادات فقط ولا تظهر عند الطباعة.
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+const domains = [
+  "الوطنية والدراسات الاجتماعية",
+  "التربية الإسلامية",
+  "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+  "الفنون",
+  "العلوم",
+  "نهج التعلم",
+  "الرياضيات",
+  "التقنية",
+  "الصحة والتطور البدني",
+  "التطور الاجتماعي العاطفي"
+];
+
+const defaultState = {
+  logo:"",
+  currentTerm:"t1",
+  children:[
+    {id:"c1", name:"سارة محمد", group:"المجموعة الوردية"},
+    {id:"c2", name:"عبدالله خالد", group:"المجموعة الزرقاء"},
+    {id:"c3", name:"لين فهد", group:"المجموعة الخضراء"}
+  ],
+  units:[
+    {id:"u1", name:"من أنا؟", focus:"الهوية، المشاعر، الاستقلال، العناية بالذات"},
+    {id:"u2", name:"أسرتي وبيتي", focus:"العلاقات، المسؤولية، المفردات اليومية"},
+    {id:"u3", name:"صحتي وسلامتي", focus:"العادات الصحية، السلامة، الحركة الكبرى والدقيقة"},
+    {id:"u4", name:"عالمي من حولي", focus:"الاستقصاء، التصنيف، الملاحظة، البيئة"},
+    {id:"u5", name:"الماء والهواء", focus:"التجريب، السبب والنتيجة، المفاهيم العلمية"},
+    {id:"u6", name:"وطني السعودية", focus:"الانتماء، الرموز الوطنية، السلوك القيمي"}
+  ],
+  skills:[
+    {
+        "id": "noor_1",
+        "domain": "الوطنية والدراسات الاجتماعية",
+        "text": "إظهار الاحترام للأقران المختلفين."
+    },
+    {
+        "id": "noor_2",
+        "domain": "الوطنية والدراسات الاجتماعية",
+        "text": "إظهار الاهتمام ببعض الألعاب التقليدية الشعبية."
+    },
+    {
+        "id": "noor_3",
+        "domain": "الوطنية والدراسات الاجتماعية",
+        "text": "إظهار المعرفة بالحياة الفطرية في المملكة العربية السعودية."
+    },
+    {
+        "id": "noor_4",
+        "domain": "الوطنية والدراسات الاجتماعية",
+        "text": "إظهار اهتمامه بمصادر المياه في المملكة العربية السعودية."
+    },
+    {
+        "id": "noor_5",
+        "domain": "الوطنية والدراسات الاجتماعية",
+        "text": "إظهار فخره واعتزازه بنفسه بوصفه مسلما."
+    },
+    {
+        "id": "noor_6",
+        "domain": "الوطنية والدراسات الاجتماعية",
+        "text": "إظهار فخره واعتزازه بنفسه بوصفه مواطنا سعوديا."
+    },
+    {
+        "id": "noor_7",
+        "domain": "الوطنية والدراسات الاجتماعية",
+        "text": "إظهار فهمهم للعلاقة بين العرض والطلب."
+    },
+    {
+        "id": "noor_8",
+        "domain": "الوطنية والدراسات الاجتماعية",
+        "text": "إظهار فهمهم لمفهوم المقايضة. إظهار معرفة تفصيلية بالملابس التقليدية في المملكة العربية السعودية."
+    },
+    {
+        "id": "noor_9",
+        "domain": "الوطنية والدراسات الاجتماعية",
+        "text": "إظهار معرفته بأن اللغة العربية هي اللغة الرسمية في المملكة العربية السعودية."
+    },
+    {
+        "id": "noor_10",
+        "domain": "الوطنية والدراسات الاجتماعية",
+        "text": "إظهار معرفتهم بملوك المملكة العربية السعودية."
+    },
+    {
+        "id": "noor_11",
+        "domain": "الوطنية والدراسات الاجتماعية",
+        "text": "الالتزام بحقوق وواجبات أعضاء المجموعات التي يشارك بها."
+    },
+    {
+        "id": "noor_12",
+        "domain": "الوطنية والدراسات الاجتماعية",
+        "text": "التحدث عن أهمية الخدمات التي يقدمها أصحاب المهن المختلفة للمجتمع."
+    },
+    {
+        "id": "noor_13",
+        "domain": "الوطنية والدراسات الاجتماعية",
+        "text": "التحدث عن بعض سمات المناخ في المناطق المختلفة في المملكة العربية السعودية."
+    },
+    {
+        "id": "noor_14",
+        "domain": "الوطنية والدراسات الاجتماعية",
+        "text": "التعاون والالتزام بالأنظمة والقواعد ولاسيما بقوانين المنزل والروضة والمجمع."
+    },
+    {
+        "id": "noor_15",
+        "domain": "الوطنية والدراسات الاجتماعية",
+        "text": "التعبير عن مدى التقدير لوطنه والاعتزاز به."
+    },
+    {
+        "id": "noor_16",
+        "domain": "الوطنية والدراسات الاجتماعية",
+        "text": "التعرف على بعض الجوانب الجغرافية في المملكة العربية السعودية."
+    },
+    {
+        "id": "noor_17",
+        "domain": "الوطنية والدراسات الاجتماعية",
+        "text": "التعرف على فئات العملة السعودية وأنواعها المختلفة."
+    },
+    {
+        "id": "noor_18",
+        "domain": "الوطنية والدراسات الاجتماعية",
+        "text": "التعريف بنفسه بوصفه عظما في المجتمع."
+    },
+    {
+        "id": "noor_19",
+        "domain": "الوطنية والدراسات الاجتماعية",
+        "text": "التمييز بين الرغبات والاحتياجات."
+    },
+    {
+        "id": "noor_20",
+        "domain": "الوطنية والدراسات الاجتماعية",
+        "text": "تتبع تسلسل الأحداث في قصة تاريخية."
+    },
+    {
+        "id": "noor_21",
+        "domain": "الوطنية والدراسات الاجتماعية",
+        "text": "تسمية بعض التضاريس في المملكة العربية السعودية."
+    },
+    {
+        "id": "noor_22",
+        "domain": "الوطنية والدراسات الاجتماعية",
+        "text": "تسمية بعض المعالم التاريخية في المملكة العربية السعودية."
+    },
+    {
+        "id": "noor_23",
+        "domain": "الوطنية والدراسات الاجتماعية",
+        "text": "تسمية بعض مكونات أطباق الطعام التقليدية."
+    },
+    {
+        "id": "noor_24",
+        "domain": "الوطنية والدراسات الاجتماعية",
+        "text": "شرح أهمية الموارد الطبيعية للمملكة العربية السعودية."
+    },
+    {
+        "id": "noor_25",
+        "domain": "الوطنية والدراسات الاجتماعية",
+        "text": "فهم أن العمل يعود علينا بالمنفعة الاقتصادية."
+    },
+    {
+        "id": "noor_26",
+        "domain": "الوطنية والدراسات الاجتماعية",
+        "text": "فهم عامل مرور الزمن وأحداث الماضي."
+    },
+    {
+        "id": "noor_27",
+        "domain": "الوطنية والدراسات الاجتماعية",
+        "text": "معرفة المعالم المهمة في المدينة التي يسكن بها والمدن الكبيرة في المملكة العربية السعودية."
+    },
+    {
+        "id": "noor_28",
+        "domain": "الوطنية والدراسات الاجتماعية",
+        "text": "معرفة موقع المملكة العربية السعودية."
+    },
+    {
+        "id": "noor_29",
+        "domain": "الوطنية والدراسات الاجتماعية",
+        "text": "ممارسة سلوكيات بناء المواطنة."
+    },
+    {
+        "id": "noor_30",
+        "domain": "الوطنية والدراسات الاجتماعية",
+        "text": "وصف بعض التقاليد الثقافية في المملكة العربية السعودية."
+    },
+    {
+        "id": "noor_31",
+        "domain": "التربية الإسلامية",
+        "text": "احترام الكبار من خلال التطبيق العملي وضرب الأمثلة."
+    },
+    {
+        "id": "noor_32",
+        "domain": "التربية الإسلامية",
+        "text": "التحلي بالأخلاق الإسلامية من خلال ممارستها في الحياة اليومية."
+    },
+    {
+        "id": "noor_33",
+        "domain": "التربية الإسلامية",
+        "text": "التعامل مع القرآن الكريم باحترام."
+    },
+    {
+        "id": "noor_34",
+        "domain": "التربية الإسلامية",
+        "text": "التعبير عن المشاعر الدالة على حب الإسلام والانتماء له."
+    },
+    {
+        "id": "noor_35",
+        "domain": "التربية الإسلامية",
+        "text": "ترديد بعض الأذكار بمفرده في المواقف الملائمة."
+    },
+    {
+        "id": "noor_36",
+        "domain": "التربية الإسلامية",
+        "text": "تطبيق بعض أركان الإسلام بشكل عملي."
+    },
+    {
+        "id": "noor_37",
+        "domain": "التربية الإسلامية",
+        "text": "إظهار فهمهم للعلاقة بين العرض والطلب."
+    },
+    {
+        "id": "noor_38",
+        "domain": "التربية الإسلامية",
+        "text": "تطبيق بعض الآداب الإسلامية بانتظام."
+    },
+    {
+        "id": "noor_39",
+        "domain": "التربية الإسلامية",
+        "text": "تعداد أركان الإسلام."
+    },
+    {
+        "id": "noor_40",
+        "domain": "التربية الإسلامية",
+        "text": "تلاوة بعض الصور القصيرة."
+    },
+    {
+        "id": "noor_41",
+        "domain": "التربية الإسلامية",
+        "text": "ذكر الصلاة على النبي صلى الله عليه وسلم حين يذكر اسمه."
+    },
+    {
+        "id": "noor_42",
+        "domain": "التربية الإسلامية",
+        "text": "ذكر بعض أسماء الله الحسنى ومعناها من خلال ترديد المألوف منها وحفظه."
+    },
+    {
+        "id": "noor_43",
+        "domain": "التربية الإسلامية",
+        "text": "معرفة بعض المعلومات عن النبي محمد صلى الله عليه وسلم وسيرته وصفاته."
+    },
+    {
+        "id": "noor_44",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "اختيار الكتب التي تناسب اهتماماتهم."
+    },
+    {
+        "id": "noor_45",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "اختيار الكتب ومواد القراءة والكتابة وتقييمها والمفاضلة بينها."
+    },
+    {
+        "id": "noor_46",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "إدراك أن الرموز والكلمات المطبوعة تحمل معنى ويمكن أن تقرأ."
+    },
+    {
+        "id": "noor_47",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "استخدام أكثر من مفردة للتعبير عن الشيء نفسه."
+    },
+    {
+        "id": "noor_48",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "استخدام الجموع بصورة صحيحة."
+    },
+    {
+        "id": "noor_49",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "استخدام الرسوم والإشارات التوضيحية في السياق للتنبؤ وفهم المفردات."
+    },
+    {
+        "id": "noor_50",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "استخدام الظروف لوصف الأفعال."
+    },
+    {
+        "id": "noor_51",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "استخدام اللغة للعديد من الأغراض المتقدمة) الاستدلال، حل المشكلات، التواصل الاجتماعي.("
+    },
+    {
+        "id": "noor_52",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "استخدام المفردات التي تصف الأشياء والأحداث والخصائص في سياقي الواقع والخيال ."
+    },
+    {
+        "id": "noor_53",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "استخدام المفردات الدالة على الترتيب الزمني للأحداث."
+    },
+    {
+        "id": "noor_54",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "استخدام النفي."
+    },
+    {
+        "id": "noor_55",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "استخدام جمال تامة تراعي القواعد النحوية المتعلمة."
+    },
+    {
+        "id": "noor_56",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "استخدام جمل مركبة بفاعلية."
+    },
+    {
+        "id": "noor_57",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "استخدام قواعد السلوك الاجتماعي في التواصل ال وغير اللفظي."
+    },
+    {
+        "id": "noor_58",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "استخدام قواعد الكتابة المناسبة."
+    },
+    {
+        "id": "noor_59",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "استخدام مصطلحات الملكية بشكل صحيح."
+    },
+    {
+        "id": "noor_60",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "استخدام نبرة ومستوى صوت ولهجة مناسبة في سياقات مختلفة."
+    },
+    {
+        "id": "noor_61",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "استنتاج الاتجاه الصحيح للقراءة من اليمين إلى اليسار."
+    },
+    {
+        "id": "noor_62",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "استنتاج محتوى القصة من الغلاف."
+    },
+    {
+        "id": "noor_63",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "استنتاج معاني الكلمات من السياق."
+    },
+    {
+        "id": "noor_64",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "إعادة سرد القصص مع إجراء تغييرات مقصودة."
+    },
+    {
+        "id": "noor_65",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "الإجابة عن أسئلة تتعلق بعناصر القصة الرئيسية (الزمان، المكان، الشخصيات، الأحداث).."
+    },
+    {
+        "id": "noor_66",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "الاستجابة للعبارات والتعليمات سواء كانت باللغة العربية الفصحى أو اللغة المحكية."
+    },
+    {
+        "id": "noor_67",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "الاستماع إلى أفكار الآخرين والاستجابة لها."
+    },
+    {
+        "id": "noor_68",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "الإمساك بأدوات الكتابة بطريقة صحيحة."
+    },
+    {
+        "id": "noor_69",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "التحدث بطريقة واضحة ومفهومة للكبار."
+    },
+    {
+        "id": "noor_70",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "التعاطف مع الشخصيات والأحداث في القصص أو الصور."
+    },
+    {
+        "id": "noor_71",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "التعامل مع الكتب بعناية."
+    },
+    {
+        "id": "noor_72",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "التعبير عن أفكارهم الإبداعية عن طريق الرسم والكتابة."
+    },
+    {
+        "id": "noor_73",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "التعبير عن الذات بمهارة وبإطراد متزايد."
+    },
+    {
+        "id": "noor_74",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "التعرف على السجع في اللغة."
+    },
+    {
+        "id": "noor_75",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "التعرف على أنواع مختلفة من المواد المطبوعة."
+    },
+    {
+        "id": "noor_76",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "التمييز بين المذكر والمؤنث في الأسماء والصفات."
+    },
+    {
+        "id": "noor_77",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "التوفيق بين أجزاء الكلام بدقة."
+    },
+    {
+        "id": "noor_78",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "السؤال عن معاني اللافتات."
+    },
+    {
+        "id": "noor_79",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "الطلب من المعلمة كتابة قصص أو معلومات يسردونها."
+    },
+    {
+        "id": "noor_80",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "المشاركة في الأنشطة التي تركز على القراءة والكتابة باهتمام."
+    },
+    {
+        "id": "noor_81",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "المشاركة في حوار أو نقاش مستمر ضمن مجموعة صغيرة أو كبيرة."
+    },
+    {
+        "id": "noor_82",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "إنشاء 5-4 كلمات متفقة في القافية."
+    },
+    {
+        "id": "noor_83",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "بناء أنماط من الكلمات المتشابهة في الصوت."
+    },
+    {
+        "id": "noor_84",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "تأليف القصص القصيرة بأسلوبه سواء أكانت واقعية أم خيالية."
+    },
+    {
+        "id": "noor_85",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "تجزئات أصوات الكلمات المكتوبة."
+    },
+    {
+        "id": "noor_86",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "تحليل كلمات مكونة من مقطع واحد وتحتوي على حرف علة ممدود."
+    },
+    {
+        "id": "noor_87",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "تذكر بعض معلومات النصوص الواقعية والنصوص الخيالية."
+    },
+    {
+        "id": "noor_88",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "تذكر موضوع القصة بعد معرفة عنوانها والنظر إلى غلافها."
+    },
+    {
+        "id": "noor_89",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "في تعديل وضعية الجسد للجلوس جلسة مناسبة."
+    },
+    {
+        "id": "noor_90",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "تقسيم المفردات إلى مقطعين."
+    },
+    {
+        "id": "noor_91",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "تمييز الاسم الشخصي وأسماء الأقران مكتوبة"
+    },
+    {
+        "id": "noor_92",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "تمييز العناصر الرئيسية للقصة )عنوان القصة، المؤلف، الشخصيات في القصة، تسلسل الأحداث.("
+    },
+    {
+        "id": "noor_93",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "تمييز زمن الفعل الماضي والمضارع والمستقبل."
+    },
+    {
+        "id": "noor_94",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "تنفيذ التعليمات مكونة من أكثر من خطوة."
+    },
+    {
+        "id": "noor_95",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "تهجئة كلمات مطبوعة ذات حروف مألوفة بدقة."
+    },
+    {
+        "id": "noor_96",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "توقع أحداث في القصة بناء على أجزائها المختلفة."
+    },
+    {
+        "id": "noor_97",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "حذف/استبدال بعض الأصوات في الكلمات."
+    },
+    {
+        "id": "noor_98",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "دمج/فصل الأصوات شفهيا للمفردات المكونة من مقطع واحد."
+    },
+    {
+        "id": "noor_99",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "دمج/فصل الكلمات المركبة باستخدام الصور."
+    },
+    {
+        "id": "noor_100",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "ذكر الكلمات التي تبدأ بالصوت نفسه."
+    },
+    {
+        "id": "noor_101",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "ربط أسماء الحروف بأشكالها الثلاثة المطبوعة) أول الكلمة ووسطها وآخرها.("
+    },
+    {
+        "id": "noor_102",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "ربط مواقف القصص المسموعة بالتجارب الخاصة."
+    },
+    {
+        "id": "noor_103",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "سرد الأحداث والقصص بتلقائية سواء كانت واقعية أم خيالية."
+    },
+    {
+        "id": "noor_104",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "فهم تعليمات متعددة الخطوات في المواقف التعليمية."
+    },
+    {
+        "id": "noor_105",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "معظم الأسئلة التي تبدأ ب لماذا واينن ومن حول ما يستمع إليه."
+    },
+    {
+        "id": "noor_106",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "فهم معظم الإيماءات الإرشادات غير الآخرون للتواصل."
+    },
+    {
+        "id": "noor_107",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "كتابة الاسم بطريقة صحيحة وواضحة."
+    },
+    {
+        "id": "noor_108",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "كتابة الحروف بأشكالها الثلاثة أول وسط آخر الكلمة."
+    },
+    {
+        "id": "noor_109",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "كتابة الحروف بتحكم ودقة عالية."
+    },
+    {
+        "id": "noor_110",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "كتابة الكلمات باستخدام حروف يمكن تمييزها."
+    },
+    {
+        "id": "noor_111",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "محاكاة قواعد الكتابة الصحيحة."
+    },
+    {
+        "id": "noor_112",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "معرفة أضداد مفردات مألوفة والتمثيل بنظائر لها."
+    },
+    {
+        "id": "noor_113",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "معرفة علامات الترقيم الشائعة."
+    },
+    {
+        "id": "noor_114",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "معرفة مرادف مفردات مألوفة والتمثيل بنظائر لها."
+    },
+    {
+        "id": "noor_115",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "معرفة مؤلفي كتب مألوفة."
+    },
+    {
+        "id": "noor_116",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "نطق حروف الهجاء بوضوح."
+    },
+    {
+        "id": "noor_117",
+        "domain": "التطور اللغوي والمعرفة المبكرة للقراءة والكتابة",
+        "text": "وضع مسافات مناسبة بين الكلمات.."
+    },
+    {
+        "id": "noor_118",
+        "domain": "الفنون",
+        "text": "ابتكار سلسلة من الحركات الخاصة مع أناشيد مصاحبة أو بدونها."
+    },
+    {
+        "id": "noor_119",
+        "domain": "الفنون",
+        "text": "أداء أدوار مختارة من قبل المعلمة."
+    },
+    {
+        "id": "noor_120",
+        "domain": "الفنون",
+        "text": "أداء حركات تتماشى مع سرعات الإيقاع المختلفة والتجاوب معها."
+    },
+    {
+        "id": "noor_121",
+        "domain": "الفنون",
+        "text": "أداء سلسلة من الحركات المرافقة للأناشيد فرديا أو جماعيا."
+    },
+    {
+        "id": "noor_122",
+        "domain": "الفنون",
+        "text": "استخدام الحركات الإيقاعية مع الأصوات أو بدونها للتعبير عن مشاعرهم."
+    },
+    {
+        "id": "noor_123",
+        "domain": "الفنون",
+        "text": "استخدام الملابس وملحقاتها أثناء أداء الحركات المرافقة للأنشودة."
+    },
+    {
+        "id": "noor_124",
+        "domain": "الفنون",
+        "text": "استكشاف الأفكار والخواطر والعواطف من خلال حواريات اللعب الدرامي."
+    },
+    {
+        "id": "noor_125",
+        "domain": "الفنون",
+        "text": "التحدث عن الأناشيد والشخصيات والأحداث التي يصفونها."
+    },
+    {
+        "id": "noor_126",
+        "domain": "الفنون",
+        "text": "التعبير عن التجارب الشخصية بطريقة صنع أعمال فنية."
+    },
+    {
+        "id": "noor_127",
+        "domain": "الفنون",
+        "text": "التعبير عن معاني الأناشيد المختلفة."
+    },
+    {
+        "id": "noor_128",
+        "domain": "الفنون",
+        "text": "التمييز بين الواقع والخيال خلال سيناريوهات اللعب الدرامي."
+    },
+    {
+        "id": "noor_129",
+        "domain": "الفنون",
+        "text": "القدرة على التخطيط للعمل الفني."
+    },
+    {
+        "id": "noor_130",
+        "domain": "الفنون",
+        "text": "المشاركة بالأناشيد ذات الألحان والإيقاعات المتكررة والمحددة."
+    },
+    {
+        "id": "noor_131",
+        "domain": "الفنون",
+        "text": "المشاركة في الأناشيد بكاملها أو مقطع منها بشكل فردي أو جماعي."
+    },
+    {
+        "id": "noor_132",
+        "domain": "الفنون",
+        "text": "إنتاج عمل فني بإبراز تفاصيله الواضحة يمكن التعرف عليه."
+    },
+    {
+        "id": "noor_133",
+        "domain": "الفنون",
+        "text": "إنشاد أناشيد ذات مقاطع متعددة بكاملها أو مقطع منها بمفرده أو في مجموعات."
+    },
+    {
+        "id": "noor_134",
+        "domain": "الفنون",
+        "text": "تأليف الأناشيد والألحان والإيقاعات التي تعبر عن الأفكار والمشاعر والعواطف المختلفة."
+    },
+    {
+        "id": "noor_135",
+        "domain": "الفنون",
+        "text": "تخطيط السيناريوهات اللعب الدرامي بالتعاون مع الآخرين."
+    },
+    {
+        "id": "noor_136",
+        "domain": "الفنون",
+        "text": "تذوق العمل الفني من خلال وصف بعض الجوانب الفنية وابدئي حولها مثال الموضوع واللون والخطوط."
+    },
+    {
+        "id": "noor_137",
+        "domain": "الفنون",
+        "text": "تقبل الاختلافات في التعبير الفني."
+    },
+    {
+        "id": "noor_138",
+        "domain": "الفنون",
+        "text": "تقليد الكبار والأقران واتباع حركاتهم."
+    },
+    {
+        "id": "noor_139",
+        "domain": "الفنون",
+        "text": "تمثيل الأدوار الاجتماعية والخيالية بمفرده او مع الآخرين"
+    },
+    {
+        "id": "noor_140",
+        "domain": "الفنون",
+        "text": "تمييز بعض الأنماط السهلة من الإيقاع والنغمة والحدة."
+    },
+    {
+        "id": "noor_141",
+        "domain": "الفنون",
+        "text": "عرض الأعمال الفنية والتحدث عنها."
+    },
+    {
+        "id": "noor_142",
+        "domain": "الفنون",
+        "text": "مناقشة الأفكار مع أقرانهم حول ما سيحدث خلال اللعب."
+    },
+    {
+        "id": "noor_143",
+        "domain": "العلوم",
+        "text": "إجراء تجارب توضح خصائص المواد الفيزيائية المختلفة."
+    },
+    {
+        "id": "noor_144",
+        "domain": "العلوم",
+        "text": "استكشاف كيفية تحرك الأشياء من خلال قوة الدفع والسحب إلى أعلى وأسفل."
+    },
+    {
+        "id": "noor_145",
+        "domain": "العلوم",
+        "text": "إظهار الاهتمام وحب الاستطلاع وإثارة التفكير لكيفية عمل العالم."
+    },
+    {
+        "id": "noor_146",
+        "domain": "العلوم",
+        "text": "إظهار فهم أن المقدار والكمية تبقى ثابتة ما دام يضف إليها أو يؤخذ منها شيء على الرغم أن المظهر قد يتغير."
+    },
+    {
+        "id": "noor_147",
+        "domain": "العلوم",
+        "text": "البدء في تحمل مسؤولية رعاية الكائنات الحية."
+    },
+    {
+        "id": "noor_148",
+        "domain": "العلوم",
+        "text": "التحقق من الفرضيات عن طريق تسجيل وتنظيم المعلومات والبيانات من خلال الرصد والرسومات ."
+    },
+    {
+        "id": "noor_149",
+        "domain": "العلوم",
+        "text": "القيام بالأعمال التي تظهر اهتماما بالبيئة."
+    },
+    {
+        "id": "noor_150",
+        "domain": "العلوم",
+        "text": "الوصول إلى الاستنتاجات من خلال تحليل الأدلة والمعرفة السابقة دعمها بالأسباب المنطقية."
+    },
+    {
+        "id": "noor_151",
+        "domain": "العلوم",
+        "text": "تحديد الفروق بين الخصائص الفيزيائية للأشياء وأسبابها."
+    },
+    {
+        "id": "noor_152",
+        "domain": "العلوم",
+        "text": "تفسير تغير مواطن الكائنات الحية تبعا لنموها."
+    },
+    {
+        "id": "noor_153",
+        "domain": "العلوم",
+        "text": "توضيح العلاقة بين الكائنات الحية ودور الإنسان في رعايتها والمحافظة عليها."
+    },
+    {
+        "id": "noor_154",
+        "domain": "العلوم",
+        "text": "جمع المعلومات من خلال ملاحظات الأشياء والأحداث وضى ووصفها بالتفصيل لفظيا ومن خلال قوائم الرصد."
+    },
+    {
+        "id": "noor_155",
+        "domain": "العلوم",
+        "text": "شرح أحوال الطقس والتغيرات الجوية وتأثيرها على لباسنا."
+    },
+    {
+        "id": "noor_156",
+        "domain": "العلوم",
+        "text": "شرح التغيرات بين الفصول الأربعة وتأثيرها على لباسنا وأعمالنا."
+    },
+    {
+        "id": "noor_157",
+        "domain": "العلوم",
+        "text": "شرح دورة حياة الكائنات الحية والتغيرات التي تحدث خلالها والتي تتضمن الإنجاب والمت والنمو والتطور."
+    },
+    {
+        "id": "noor_158",
+        "domain": "العلوم",
+        "text": "شرح كيف تلبي مواطن الكائنات الحية احتياجاتها المختلفة."
+    },
+    {
+        "id": "noor_159",
+        "domain": "العلوم",
+        "text": "طرح الأسئلة والمشاركة في تصميم التجارب."
+    },
+    {
+        "id": "noor_160",
+        "domain": "العلوم",
+        "text": "مقارنة السمات الأساسية لدورة حياة النبات أو الحيوانات."
+    },
+    {
+        "id": "noor_161",
+        "domain": "العلوم",
+        "text": "مقارنة خصائص بعض المواد والأجسام الطبيعية."
+    },
+    {
+        "id": "noor_162",
+        "domain": "العلوم",
+        "text": "وصف بعض خصائص وأنماط الأجسام في السماء."
+    },
+    {
+        "id": "noor_163",
+        "domain": "العلوم",
+        "text": "وصف خصائص بعض المواد والأجسام الطبيعية."
+    },
+    {
+        "id": "noor_164",
+        "domain": "العلوم",
+        "text": "وصف كيفية تغير الخصائص الفيزيائية للأشياء الملاحظة بالتفصيل"
+    },
+    {
+        "id": "noor_165",
+        "domain": "العلوم",
+        "text": "وضع الفرضيات من خلال البدء في استخدام أدوات الم لقياس باستقلالية."
+    },
+    {
+        "id": "noor_166",
+        "domain": "نهج التعلم",
+        "text": "استمرارية المشاركة والانخراط في مهمة أو نشاط ما."
+    },
+    {
+        "id": "noor_167",
+        "domain": "نهج التعلم",
+        "text": "الاستدلال عن أسباب بعض الظواهر الطبيعية."
+    },
+    {
+        "id": "noor_168",
+        "domain": "نهج التعلم",
+        "text": "البحث عن أنشطة جديدة يكونون فيها أكثر استقلالية."
+    },
+    {
+        "id": "noor_169",
+        "domain": "نهج التعلم",
+        "text": "البحث والتجربة لاكتشاف المعلومات واختبار الأفكار."
+    },
+    {
+        "id": "noor_170",
+        "domain": "نهج التعلم",
+        "text": "المسا برة على إكمال مهمة أو هدف محدد عند مواجهة تحديات وعوائق بتركيز وانتباه."
+    },
+    {
+        "id": "noor_171",
+        "domain": "نهج التعلم",
+        "text": "تحديد المشكلات ومحاولة حلها باستخدام استراتيجيات متنوعة ومختلفة."
+    },
+    {
+        "id": "noor_172",
+        "domain": "نهج التعلم",
+        "text": "تقديم الاقتراحات والأفكار حول كيفية تجربة اللعب."
+    },
+    {
+        "id": "noor_173",
+        "domain": "نهج التعلم",
+        "text": "توظيف المعارف السابقة في المهام والمواقف الجديدة لإيجاد حلول مبتكرة للمشكلات."
+    },
+    {
+        "id": "noor_174",
+        "domain": "نهج التعلم",
+        "text": "طرح أسئلة تحليلية عن العديد من المواضيع."
+    },
+    {
+        "id": "noor_175",
+        "domain": "الرياضيات",
+        "text": "اتباع تعليمات محددة تتعلق بتغيير حركة ومكان الأشياء."
+    },
+    {
+        "id": "noor_176",
+        "domain": "الرياضيات",
+        "text": "استخدام الأعداد الترتيبية)الأول الثاني، الثالث(.. ليوصف عناصر السلسلة ما."
+    },
+    {
+        "id": "noor_177",
+        "domain": "الرياضيات",
+        "text": "استخدام البيانات الموجودة في رسم بياني بسيط للإجابة على أسئلة محددة."
+    },
+    {
+        "id": "noor_178",
+        "domain": "الرياضيات",
+        "text": "استخدام مصطلحات رياضية لوصف الكميات والأحجام مسال طويل الأطول قصير الأقصر ثقيل..."
+    },
+    {
+        "id": "noor_179",
+        "domain": "الرياضيات",
+        "text": "استخدام وحدات قياس معيارية وغير معيارية."
+    },
+    {
+        "id": "noor_180",
+        "domain": "الرياضيات",
+        "text": "التعبير عن الاحتمال باستخدام الكلمات مؤكد أقل احتمالا."
+    },
+    {
+        "id": "noor_181",
+        "domain": "الرياضيات",
+        "text": "التعرف على الأنماط التي يستخدم فيها عدة عناصر متكررة سواء كانت عددية أم عددية."
+    },
+    {
+        "id": "noor_182",
+        "domain": "الرياضيات",
+        "text": "العد التنازلي من 20 إلى الأعداد السابقة ."
+    },
+    {
+        "id": "noor_183",
+        "domain": "الرياضيات",
+        "text": "العد بالعشرات حتى.100"
+    },
+    {
+        "id": "noor_184",
+        "domain": "الرياضيات",
+        "text": "العد حتى.100"
+    },
+    {
+        "id": "noor_185",
+        "domain": "الرياضيات",
+        "text": "المقارنة بين نوعين أو ثلاثة أنواع من البيانات."
+    },
+    {
+        "id": "noor_186",
+        "domain": "الرياضيات",
+        "text": "إنشاء نماذج بسيطة لأشكال متماثلة بمفردهم."
+    },
+    {
+        "id": "noor_187",
+        "domain": "الرياضيات",
+        "text": "تحديد العدد السابق والتالي لعدد ضمن .20"
+    },
+    {
+        "id": "noor_188",
+        "domain": "الرياضيات",
+        "text": "و ترتيب الأحداث اليومية )صباحا ظهرا مساء( أو الأسبوعية أو الشهرية،."
+    },
+    {
+        "id": "noor_189",
+        "domain": "الرياضيات",
+        "text": "ترتيب خمسة أشياء حسب أحجامها."
+    },
+    {
+        "id": "noor_190",
+        "domain": "الرياضيات",
+        "text": "تسمية الأشكال الثنائية وثلاثية الأبعاد الشائعة في البيئة."
+    },
+    {
+        "id": "noor_191",
+        "domain": "الرياضيات",
+        "text": "تصنيف الأشكال ثلاثية الأبعاد."
+    },
+    {
+        "id": "noor_192",
+        "domain": "الرياضيات",
+        "text": "تصنيف البيانات إلى مجموعات حسب خصائص معينة."
+    },
+    {
+        "id": "noor_193",
+        "domain": "الرياضيات",
+        "text": "تعيين مواقع الأشياء باستخدام الكلمات."
+    },
+    {
+        "id": "noor_194",
+        "domain": "الرياضيات",
+        "text": "تكوين رسوم مختلفة بالأشكال الثنائية وثلاثية الأبعاد."
+    },
+    {
+        "id": "noor_195",
+        "domain": "الرياضيات",
+        "text": "تمثيل البيانات باستخدام المحسوسات أو الصور والرسوم البيانية البسيطة."
+    },
+    {
+        "id": "noor_196",
+        "domain": "الرياضيات",
+        "text": "تمثيل العمليات السهلة في الجمع والطرح"
+    },
+    {
+        "id": "noor_197",
+        "domain": "الرياضيات",
+        "text": "تمديد أو إكمال الأنماط التي تستخدم عناصر متكررة سواء كانت عدة أم غير عددية"
+    },
+    {
+        "id": "noor_198",
+        "domain": "الرياضيات",
+        "text": "رسم الأشكال ثلاثية الأبعاد."
+    },
+    {
+        "id": "noor_199",
+        "domain": "الرياضيات",
+        "text": "فرز الأشياء وتصنيفها طبقا لأكثر من خاصية."
+    },
+    {
+        "id": "noor_200",
+        "domain": "الرياضيات",
+        "text": "قراءة لوحة التقويم والأنشطة المرتبطة بالروتين اليومي أو الأسبوعي."
+    },
+    {
+        "id": "noor_201",
+        "domain": "الرياضيات",
+        "text": "قراءة الأعداد من -0 .100"
+    },
+    {
+        "id": "noor_202",
+        "domain": "الرياضيات",
+        "text": "قراءة البيانات التي تم تمثيلها باستخدام محسوسات أو الصور والرسوم البيانية السيطة."
+    },
+    {
+        "id": "noor_203",
+        "domain": "الرياضيات",
+        "text": "كتابة الأعداد من 0 - .20"
+    },
+    {
+        "id": "noor_204",
+        "domain": "الرياضيات",
+        "text": "في مقارنة الأشياء طبقا لسمات قياس متنوعة الطول والارتفاع والوزن والسرعة."
+    },
+    {
+        "id": "noor_205",
+        "domain": "الرياضيات",
+        "text": "وصف احتمالية وقوع بعض الأحداث في مواقف معينة."
+    },
+    {
+        "id": "noor_206",
+        "domain": "التقنية",
+        "text": "استخدام تطبيقات معالجة نصوص أو إنتاج الرسوم أو التطبيقات الصوتية."
+    },
+    {
+        "id": "noor_207",
+        "domain": "التقنية",
+        "text": "التعرف على بعض الرموز المختلفة في لوحة المفاتيح واختيارها."
+    },
+    {
+        "id": "noor_208",
+        "domain": "التقنية",
+        "text": "التعرف على كيفية عمل بعض الألعاب الميكانيكية."
+    },
+    {
+        "id": "noor_209",
+        "domain": "التقنية",
+        "text": "التمييز بين الأجهزة الرقمية من حيث إمكانية اتصالها بشبكة الإنترنت"
+    },
+    {
+        "id": "noor_210",
+        "domain": "التقنية",
+        "text": "تحديد بعض قواعد السلوك المناسب لاستخدام الأجهزة الرقمية والمواقع الإلكترونية."
+    },
+    {
+        "id": "noor_211",
+        "domain": "التقنية",
+        "text": "ترتيب الخطوات لإكمال مهمة محددة بشكل تتابعي باستخدام الخرائط الذهنية."
+    },
+    {
+        "id": "noor_212",
+        "domain": "التقنية",
+        "text": "تسمية إحدى أدوات التواصل الشائعة وتوضيح استخدامها."
+    },
+    {
+        "id": "noor_213",
+        "domain": "التقنية",
+        "text": "تسمية التقنيات المألوفة والتمييز بينها بحسب الهدف من استخدامها."
+    },
+    {
+        "id": "noor_214",
+        "domain": "التقنية",
+        "text": "تسمية موقع إلكتروني محدد وموثوق وتصفحه بدعم الكبار."
+    },
+    {
+        "id": "noor_215",
+        "domain": "التقنية",
+        "text": "تشغيل بعض الأجهزة الرقمية وإغلاقها"
+    },
+    {
+        "id": "noor_216",
+        "domain": "الصحة والتطور البدني",
+        "text": "اتباع قواعد السلامة باستقلالية."
+    },
+    {
+        "id": "noor_217",
+        "domain": "الصحة والتطور البدني",
+        "text": "أداء أنشطة العناية الشخصية والنظافة باستقلالية ومناقشة أهميتها."
+    },
+    {
+        "id": "noor_218",
+        "domain": "الصحة والتطور البدني",
+        "text": "استخدام اليد بشكل مناسب للقيام بمهام محددة."
+    },
+    {
+        "id": "noor_219",
+        "domain": "الصحة والتطور البدني",
+        "text": "استخدام عضلات الأصابع الدقيقة للقيام بمهام محددة"
+    },
+    {
+        "id": "noor_220",
+        "domain": "الصحة والتطور البدني",
+        "text": "إظهار التناسق والتحكم باستخدام العضلات الكبرى."
+    },
+    {
+        "id": "noor_221",
+        "domain": "الصحة والتطور البدني",
+        "text": "إظهار التوافق بين اليد والعين عند ممارسة الأنشطة الحركية المختلفة."
+    },
+    {
+        "id": "noor_222",
+        "domain": "الصحة والتطور البدني",
+        "text": "اظهار تصرفات مناسبة لحالات الطوارئ."
+    },
+    {
+        "id": "noor_223",
+        "domain": "الصحة والتطور البدني",
+        "text": "التحكم والتناسق في العضلات الكبرى في الأنشطة الحركية."
+    },
+    {
+        "id": "noor_224",
+        "domain": "الصحة والتطور البدني",
+        "text": "التوافق الحركي البصري عند ممارسة الأنشطة الحركية المختلفة."
+    },
+    {
+        "id": "noor_225",
+        "domain": "الصحة والتطور البدني",
+        "text": "الحفاظ على التوازن والثبات أثناء أداء حركات معقدة باستخدام العضلات الكبرى."
+    },
+    {
+        "id": "noor_226",
+        "domain": "الصحة والتطور البدني",
+        "text": "المعرفة ببعض أجزاء الجسم الداخلية وبعض وظائفها."
+    },
+    {
+        "id": "noor_227",
+        "domain": "الصحة والتطور البدني",
+        "text": "تسمية بعض أنواع الأطعمة الصحية والمجموعات الغذاء التي تنتمي إليها وإسهامها الغذاء الصحي."
+    },
+    {
+        "id": "noor_228",
+        "domain": "الصحة والتطور البدني",
+        "text": "تعديل السلوك للإلتزام بممارسات السلامة وتجنب الأخطار"
+    },
+    {
+        "id": "noor_229",
+        "domain": "الصحة والتطور البدني",
+        "text": "توظيف الممارسات التي تقي من انتشار الأمراض المعدية،."
+    },
+    {
+        "id": "noor_230",
+        "domain": "الصحة والتطور البدني",
+        "text": "معرفة الأغذية غير الصحية وأهمية تجنبها."
+    },
+    {
+        "id": "noor_231",
+        "domain": "الصحة والتطور البدني",
+        "text": "وصف المشاعر والحاجات الجسدية بمزيد من التحديد والدقة."
+    },
+    {
+        "id": "noor_232",
+        "domain": "التطور الاجتماعي العاطفي",
+        "text": "اتباع القواعد والإجراءات باستقلالية"
+    },
+    {
+        "id": "noor_233",
+        "domain": "التطور الاجتماعي العاطفي",
+        "text": "استخدام لغة أكثر نضجا للتعبير عن مشاعره وأسبابها.."
+    },
+    {
+        "id": "noor_234",
+        "domain": "التطور الاجتماعي العاطفي",
+        "text": "استخدام مجموعة واسعة من الكلمات أو الأفعال لإظهار التعاطف مع الآخرين."
+    },
+    {
+        "id": "noor_235",
+        "domain": "التطور الاجتماعي العاطفي",
+        "text": "في إظهار استقلالية متزايدة في القيام بمجموعة من الأنشطة والمهام"
+    },
+    {
+        "id": "noor_236",
+        "domain": "التطور الاجتماعي العاطفي",
+        "text": "إظهار الفخر والاعتزاز بمنجزاتهم والتعبير عنها."
+    },
+    {
+        "id": "noor_237",
+        "domain": "التطور الاجتماعي العاطفي",
+        "text": "إظهار القدرة على الانتظار )مكافئة التأخير( لفترات طويلة من الوقت.."
+    },
+    {
+        "id": "noor_238",
+        "domain": "التطور الاجتماعي العاطفي",
+        "text": "إظهار فهم عميق للعلاقة بينالأفعال والنتائج."
+    },
+    {
+        "id": "noor_239",
+        "domain": "التطور الاجتماعي العاطفي",
+        "text": "الانخراط في لعب تعاوني أكثر استدامة بما في ذلك اللعب والألعاب البسيطة ذات القواعد."
+    },
+    {
+        "id": "noor_240",
+        "domain": "التطور الاجتماعي العاطفي",
+        "text": "الانفصال عن الكبار المألوفين لديه بسهولة"
+    },
+    {
+        "id": "noor_241",
+        "domain": "التطور الاجتماعي العاطفي",
+        "text": "إي التعبير عن محبته لبعض الكبار المألوف لديه"
+    },
+    {
+        "id": "noor_242",
+        "domain": "التطور الاجتماعي العاطفي",
+        "text": "التفاعل والتواصل المتبادل مع الكبار باحترام."
+    },
+    {
+        "id": "noor_243",
+        "domain": "التطور الاجتماعي العاطفي",
+        "text": "التفاوض مع أقرانه للاتفاق على أدوارهم في اللعب أو لحل شكلة ما."
+    },
+    {
+        "id": "noor_244",
+        "domain": "التطور الاجتماعي العاطفي",
+        "text": "الشعور بقيمة الذات من خلال القدرة والكفاءة وإظهار مهارات جديدة"
+    },
+    {
+        "id": "noor_245",
+        "domain": "التطور الاجتماعي العاطفي",
+        "text": "القدرة على التحكم بعواطفه وتهدئة نفسه وإداراة و إحباطاته،."
+    },
+    {
+        "id": "noor_246",
+        "domain": "التطور الاجتماعي العاطفي",
+        "text": "القدرة على فهم مشاعره ومشاعر الآخرين ووجهات نظرهم."
+    },
+    {
+        "id": "noor_247",
+        "domain": "التطور الاجتماعي العاطفي",
+        "text": "تحديد الطفل لاحتياجاته ومشاعره واهتماماته."
+    },
+    {
+        "id": "noor_248",
+        "domain": "التطور الاجتماعي العاطفي",
+        "text": "تعريف الطفل بنفسه بوصفه جزء من مجموعة."
+    },
+    {
+        "id": "noor_249",
+        "domain": "التطور الاجتماعي العاطفي",
+        "text": "تكوين الصداقات مع الأقران والحفاظ عليها."
+    },
+    {
+        "id": "noor_250",
+        "domain": "التطور الاجتماعي العاطفي",
+        "text": "حل المشكلات مع الأطفال الآخرين بشكل مستقل وقد يطلب المساعدة من الكبار عند الحاجة."
+    },
+    {
+        "id": "noor_251",
+        "domain": "التطور الاجتماعي العاطفي",
+        "text": "ذكر أسباب المشاعر التي لديه وأسباب مشاعر الآخرين."
+    },
+    {
+        "id": "noor_252",
+        "domain": "التطور الاجتماعي العاطفي",
+        "text": "ضبط السلوك وفقا لإدراك الطفل لمشاعره ومشاعر الآخرين."
+    },
+    {
+        "id": "noor_253",
+        "domain": "التطور الاجتماعي العاطفي",
+        "text": "طلب التوجيه وقبوله من الكبار"
+    },
+    {
+        "id": "noor_254",
+        "domain": "التطور الاجتماعي العاطفي",
+        "text": "مشاركة مشاعر مع الآخرين بطرق مقبولة اجتماعيا ممارسة سلوكات مقبولة أثناء اللعب الاعتذار- الترحيب بالصديق- المفاوضة التسوية"
+    }
+],
+  records:{}
+};
+const termNames = {t1:"الفصل الأول", t2:"الفصل الثاني"};
+const termOneDomains = ["الوطنية والدراسات الاجتماعية","التربية الإسلامية","التطور اللغوي والمعرفة المبكرة للقراءة والكتابة","الفنون","نهج التعلم"];
+function termByDomain(domain){ return termOneDomains.includes(domain) ? "t1" : "t2"; }
+function migrateTerms(){
+  if(!state.currentTerm) state.currentTerm = "t1";
+  if(!state.records) state.records = {};
+  if(Array.isArray(state.units)){
+    const midpoint = Math.ceil(state.units.length/2);
+    state.units.forEach((u,i)=>{ if(!u.term) u.term = i < midpoint ? "t1" : "t2"; });
+  }
+  if(Array.isArray(state.skills)){
+    state.skills.forEach((s,i)=>{ if(!s.term) s.term = termByDomain(s.domain) || (i % 2 ? "t2" : "t1"); });
+  }
+}
+function activeUnits(){ return (state.units||[]).filter(u=>(u.term||"t1")===state.currentTerm); }
+function activeSkills(){ return (state.skills||[]).filter(s=>(s.term||"t1")===state.currentTerm); }
+function termSelectHtml(value, onChange){
+  return `<select onchange="${onChange}" style="min-width:135px"><option value="t1" ${value==='t1'?'selected':''}>الفصل الأول</option><option value="t2" ${value==='t2'?'selected':''}>الفصل الثاني</option></select>`;
+}
+function setCurrentTerm(term){ state.currentTerm = term; saveAll(); renderAll(); }
+let state = loadState();
+migrateTerms();
+
+function loadState(){
+  try{
+    return JSON.parse(localStorage.getItem("kgTrackerStateNoor1446")) || structuredClone(defaultState);
+  }catch(e){ return structuredClone(defaultState); }
+}
+function saveAll(){
+  migrateTerms();
+  localStorage.setItem("kgTrackerStateNoor1446", JSON.stringify(state));
+  localStorage.setItem("kgTrackerMetaNoor1446", JSON.stringify({
+    schoolName:schoolName.value, className:className.value, teacherName:teacherName.value
+  }));
+  toast("تم الحفظ");
+}
+function loadMeta(){
+  try{
+    const m = JSON.parse(localStorage.getItem("kgTrackerMetaNoor1446")) || {};
+    schoolName.value = m.schoolName || schoolName.value;
+    className.value = m.className || className.value;
+    teacherName.value = m.teacherName || teacherName.value;
+  }catch(e){}
+}
+function toast(msg){
+  const t=document.createElement("div");
+  t.textContent=msg;
+  t.style.cssText="position:fixed;bottom:22px;left:22px;background:#173b6d;color:#fff;padding:12px 18px;border-radius:16px;box-shadow:0 14px 30px rgba(0,0,0,.18);z-index:9999;font-weight:800";
+  document.body.appendChild(t); setTimeout(()=>t.remove(),1500);
+}
+function statusLabel(v){return ["لم يُرصد","في طور النمو","أتقن","يفوق المتوقع"][v||0]}
+function statusClass(v){return "s"+(v||0)}
+function nextStatus(childId,unitId,skillId){
+  const key = childId+"|"+unitId+"|"+skillId;
+  state.records[key] = ((state.records[key]||0)+1)%4;
+  saveAll(); renderAll();
+}
+function getStatus(childId,unitId,skillId){ return state.records[childId+"|"+unitId+"|"+skillId] || 0 }
+function masteryForChild(childId){
+  const units = activeUnits(), skills = activeSkills();
+  const total = units.length * skills.length;
+  if(!total) return 0;
+  let sum=0;
+  units.forEach(u=>skills.forEach(s=>{ sum += getStatus(childId,u.id,s.id)>=2 ? 1 : 0; }));
+  return Math.round(sum/total*100);
+}
+function averageMastery(){
+  if(!state.children.length) return 0;
+  return Math.round(state.children.reduce((a,c)=>a+masteryForChild(c.id),0)/state.children.length);
+}
+function setLogo(src){
+  state.logo=src; saveAll();
+  const html = src ? `<img src="${src}">` : "شعار";
+  logoBox.innerHTML=html; reportLogoRight.innerHTML=html; reportLogoLeft.innerHTML=html;
+}
+logoInput.addEventListener("change", e=>{
+  const file=e.target.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=()=>setLogo(reader.result);
+  reader.readAsDataURL(file);
+});
+document.querySelectorAll(".nav button").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+    document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+    document.getElementById(btn.dataset.tab).classList.add("active");
+    pageTitle.textContent = btn.textContent.trim();
+    renderAll();
+  });
+});
+[schoolName,className,teacherName].forEach(el=>el.addEventListener("input",()=>{saveAll(); renderReport()}));
+
+function renderChildren(){
+  childrenTable.innerHTML = `<thead><tr><th>م</th><th>الاسم</th><th>المجموعة</th><th>الإتقان</th><th>إجراء</th></tr></thead><tbody>`+
+  state.children.map((c,i)=>`<tr>
+    <td>${i+1}</td>
+    <td contenteditable onblur="state.children[${i}].name=this.textContent;saveAll();renderAll()">${c.name}</td>
+    <td contenteditable onblur="state.children[${i}].group=this.textContent;saveAll();renderAll()">${c.group}</td>
+    <td><span class="badge">${masteryForChild(c.id)}%</span></td>
+    <td><button class="status s0" onclick="deleteChild('${c.id}')">حذف</button></td>
+  </tr>`).join("")+`</tbody>`;
+}
+function addChild(){
+  const name=newChild.value.trim(); if(!name) return toast("اكتب اسم الطفل أولًا");
+  state.children.push({id:"c"+Date.now(), name, group:newGroup.value});
+  newChild.value=""; saveAll(); renderAll();
+}
+function deleteChild(id){
+  state.children=state.children.filter(c=>c.id!==id);
+  Object.keys(state.records).forEach(k=>{if(k.startsWith(id+"|")) delete state.records[k]});
+  saveAll(); renderAll();
+}
+function renderSkills(){
+  const skills = activeSkills();
+  skillDomain.innerHTML=domains.map(d=>`<option>${d}</option>`).join("");
+  filterDomain.innerHTML=`<option value="">كل المجالات</option>`+domains.map(d=>`<option>${d}</option>`).join("");
+  skillsTable.innerHTML=`<thead><tr><th>م</th><th>الفصل</th><th>المجال</th><th>مؤشر المهارة</th><th>إجراء</th></tr></thead><tbody>`+
+  skills.map((s,i)=>{
+    const idx = state.skills.findIndex(x=>x.id===s.id);
+    return `<tr>
+    <td>${i+1}</td>
+    <td>${termSelectHtml(s.term||state.currentTerm, `state.skills[${idx}].term=this.value;saveAll();renderAll()`)}</td>
+    <td>${s.domain}</td>
+    <td contenteditable onblur="state.skills[${idx}].text=this.textContent;saveAll();renderAll()">${s.text}</td>
+    <td><button class="status s0" onclick="deleteSkill('${s.id}')">حذف</button></td>
+  </tr>`}).join("")+`</tbody>`;
+}
+function addSkill(){
+  const text=skillText.value.trim(); if(!text) return toast("اكتب المهارة");
+  state.skills.push({id:"s"+Date.now(), domain:skillDomain.value, term:state.currentTerm, text});
+  skillText.value=""; saveAll(); renderAll();
+}
+function deleteSkill(id){
+  state.skills=state.skills.filter(s=>s.id!==id);
+  Object.keys(state.records).forEach(k=>{if(k.endsWith("|"+id)) delete state.records[k]});
+  saveAll(); renderAll();
+}
+function renderUnits(){
+  const units = activeUnits();
+  unitGrid.innerHTML = units.map((u,i)=>{
+    const idx = state.units.findIndex(x=>x.id===u.id);
+    return `<div class="unit">
+    <span class="badge">${termNames[u.term||state.currentTerm]} · وحدة ${i+1}</span>
+    <h4 contenteditable onblur="state.units[${idx}].name=this.textContent;saveAll();renderAll()">${u.name}</h4>
+    <p contenteditable onblur="state.units[${idx}].focus=this.textContent;saveAll();renderAll()">${u.focus}</p>
+    <div class="field" style="margin-top:10px"><label>الفصل</label>${termSelectHtml(u.term||state.currentTerm, `state.units[${idx}].term=this.value;saveAll();renderAll()`)}</div>
+    <div class="tagrow">${domains.slice(0,4).map(d=>`<span class="tag">${d}</span>`).join("")}</div>
+    <button class="status s0" style="margin-top:10px" onclick="deleteUnit('${u.id}')">حذف الوحدة</button>
+  </div>`}).join("");
+}
+function addUnit(){
+  const name=unitName.value.trim(), focus=unitFocus.value.trim();
+  if(!name) return toast("اكتب اسم الوحدة");
+  state.units.push({id:"u"+Date.now(), name, focus:focus||"محور قابل للتعديل", term:state.currentTerm});
+  unitName.value="";unitFocus.value=""; saveAll(); renderAll();
+}
+function deleteUnit(id){
+  state.units=state.units.filter(u=>u.id!==id);
+  Object.keys(state.records).forEach(k=>{if(k.includes("|"+id+"|")) delete state.records[k]});
+  saveAll(); renderAll();
+}
+function renderSelectors(){
+  const childOpts=state.children.map(c=>`<option value="${c.id}">${c.name}</option>`).join("");
+  const unitOpts=activeUnits().map(u=>`<option value="${u.id}">${u.name}</option>`).join("");
+  filterChild.innerHTML=childOpts; reportChild.innerHTML=childOpts; if(typeof quickPrintChild !== "undefined") quickPrintChild.innerHTML=childOpts; filterUnit.innerHTML=unitOpts;
+}
+function renderRecord(){
+  const c = filterChild.value || state.children[0]?.id;
+  const u = filterUnit.value || activeUnits()[0]?.id;
+  const d = filterDomain.value || "";
+  const skills = activeSkills().filter(s=>!d || s.domain===d);
+  const child=state.children.find(x=>x.id===c), unit=activeUnits().find(x=>x.id===u);
+  recordTable.innerHTML=`<thead><tr><th colspan="4">الرصد: ${child?.name||""} / ${unit?.name||""}</th></tr>
+  <tr><th>م</th><th>المجال</th><th>المهارة</th><th>الحالة</th></tr></thead><tbody>`+
+  skills.map((s,i)=>{
+    const v=getStatus(c,u,s.id);
+    return `<tr><td>${i+1}</td><td>${s.domain}</td><td>${s.text}</td>
+      <td><button class="status ${statusClass(v)}" onclick="nextStatus('${c}','${u}','${s.id}')">${statusLabel(v)}</button></td></tr>`
+  }).join("")+`</tbody>`;
+}
+function renderProgress(){
+  childProgress.innerHTML=state.children.map(c=>{
+    const p=masteryForChild(c.id);
+    return `<div class="child-card"><div class="avatar">${c.name.slice(0,1)}</div>
+      <div><strong>${c.name}</strong><div style="font-size:12px;color:#64748b">${c.group}</div><div class="progress"><b style="width:${p}%"></b></div></div>
+      <span class="badge">${p}%</span></div>`
+  }).join("");
+  smartNote.textContent = averageMastery()>=80 ? "المؤشرات ممتازة. ركّزوا الآن على الإثراء الفردي والتحدي والاستقصاء." :
+    averageMastery()>=50 ? "الوضع جيد لكنه يحتاج تدخلات قصيرة: إعادة تقديم المهارة باللعب، ثم رصد جديد بعد نشاطين." :
+    "تحتاج الروضة إلى خطة دعم مركزة: اختيار 3 مهارات ذات أولوية لكل وحدة بدل مطاردة كل شيء مرة واحدة.";
+}
+function renderMatrix(){
+  const units = activeUnits(), skills = activeSkills();
+  const rows = domains.map(d=>{
+    const count = skills.filter(s=>s.domain===d).length;
+    return `<tr><td><strong>${d}</strong></td>${units.map(u=>`<td><span class="badge">${count} مهارات</span><br><small>${u.name}</small></td>`).join("")}</tr>`
+  }).join("");
+  matrixTable.innerHTML=`<thead><tr><th>المجال النمائي</th>${units.map(u=>`<th>${u.name}</th>`).join("")}</tr></thead><tbody>${rows}</tbody>`;
+}
+function renderReport(){
+  rSchool.textContent=schoolName.value; rClass.textContent=className.value; rTeacher.textContent=teacherName.value;
+  const cid=reportChild.value || state.children[0]?.id;
+  const child=state.children.find(c=>c.id===cid);
+  if(!child){ reportContent.innerHTML="<div class='note'>لا يوجد أطفال مضافون.</div>"; return; }
+  const domainRows = domains.map(d=>{
+    let total=0, done=0;
+    activeUnits().forEach(u=>activeSkills().filter(s=>s.domain===d).forEach(s=>{total++; if(getStatus(child.id,u.id,s.id)>=2) done++;}));
+    const p=total?Math.round(done/total*100):0;
+    return `<tr><td>${d}</td><td>${done}/${total}</td><td>${p}%</td><td>${p>=80?"إثراء":p>=50?"تعزيز":"دعم عاجل"}</td></tr>`;
+  }).join("");
+  const unitRows=activeUnits().map(u=>{
+    let total=0, done=0;
+    activeSkills().forEach(s=>{total++; if(getStatus(child.id,u.id,s.id)>=2) done++;});
+    const p=total?Math.round(done/total*100):0;
+    return `<tr><td>${u.name}</td><td>${u.focus}</td><td>${p}%</td></tr>`;
+  }).join("");
+  reportContent.innerHTML=`
+    <div class="note"><strong>اسم الطفل/الطفلة:</strong> ${child.name} — <strong>المجموعة:</strong> ${child.group} — <strong>الفصل:</strong> ${termNames[state.currentTerm]} — <strong>متوسط الإتقان:</strong> ${masteryForChild(child.id)}%</div>
+    <h3>أولًا: ملخص المجالات النمائية</h3>
+    <div class="tablewrap"><table><thead><tr><th>المجال</th><th>المتقن</th><th>النسبة</th><th>التوجيه</th></tr></thead><tbody>${domainRows}</tbody></table></div>
+    <h3>ثانيًا: ملخص وحدات المنهج</h3>
+    <div class="tablewrap"><table><thead><tr><th>الوحدة</th><th>محورها</th><th>نسبة الإتقان</th></tr></thead><tbody>${unitRows}</tbody></table></div>
+    <div class="note" style="margin-top:12px"><strong>توصية تربوية:</strong> يتم دعم الطفل عبر أنشطة لعب موجهة، وملاحظة موقفية، وشراكة الأسرة، ثم إعادة الرصد بعد أسبوعين.</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:18px"><div>توقيع المعلمة: ................</div><div>توقيع المديرة: ................</div></div>
+  `;
+}
+function printReport(){
+  document.querySelectorAll(".section").forEach(s=>s.classList.remove("printme"));
+  report.classList.add("printme"); window.print();
+}
+function renderMetrics(){
+  mChildren.textContent=state.children.length;
+  mSkills.textContent=activeSkills().length;
+  mUnits.textContent=activeUnits().length;
+  mMastery.textContent=averageMastery()+"%";
+}
+function goReport(){
+  document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));
+  const reportBtn = document.querySelector('.nav button[data-tab="report"]');
+  if(reportBtn) reportBtn.classList.add("active");
+  document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+  report.classList.add("active");
+  pageTitle.textContent = "تقرير الطفل";
+  if(quickPrintChild && quickPrintChild.value){
+    reportChild.value = quickPrintChild.value;
+  }
+  renderReport();
+}
+function quickPrintSelectedChild(){
+  goReport();
+  if(quickPrintChild && quickPrintChild.value){
+    reportChild.value = quickPrintChild.value;
+  }
+  renderReport();
+  printReport();
+}
+
+function clearStorage(){
+  if(confirm("مسح البيانات المحفوظة؟")){ localStorage.removeItem("kgTrackerStateNoor1446"); localStorage.removeItem("kgTrackerMetaNoor1446"); location.reload(); }
+}
+function resetDemo(){
+  if(confirm("إعادة البيانات التجريبية؟")){ state=structuredClone(defaultState); saveAll(); renderAll(); }
+}
+function renderAll(){
+  migrateTerms();
+  if(typeof termSelect!=="undefined") termSelect.value=state.currentTerm;
+  if(typeof activeTermBadge!=="undefined") activeTermBadge.textContent="المعروض الآن: "+termNames[state.currentTerm];
+  renderMetrics(); renderSelectors(); renderChildren(); renderSkills(); renderUnits(); renderRecord(); renderProgress(); renderMatrix(); renderReport();
+  setLogo(state.logo||"");
+}
+loadMeta(); renderAll();
+</script>
+</body>
+</html>
