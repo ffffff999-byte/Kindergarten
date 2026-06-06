@@ -1,158 +1,180 @@
-@import "tailwindcss";
-@import "tw-animate-css";
+import { mkdirSync, writeFileSync } from "fs";
+import path from "path";
+import glob from "fast-glob";
+import chokidar from "chokidar";
+import type { FSWatcher } from "chokidar";
+import type { Plugin } from "vite";
 
-@custom-variant dark (&:is(.dark *));
+const MOCKUPS_DIR = "src/components/mockups";
+const GENERATED_MODULE = "src/.generated/mockup-components.ts";
 
-@theme inline {
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --color-background: hsl(var(--background));
-  --color-foreground: hsl(var(--foreground));
-  --color-card: hsl(var(--card));
-  --color-card-foreground: hsl(var(--card-foreground));
-  --color-popover: hsl(var(--popover));
-  --color-popover-foreground: hsl(var(--popover-foreground));
-  --color-primary: hsl(var(--primary));
-  --color-primary-foreground: hsl(var(--primary-foreground));
-  --color-secondary: hsl(var(--secondary));
-  --color-secondary-foreground: hsl(var(--secondary-foreground));
-  --color-muted: hsl(var(--muted));
-  --color-muted-foreground: hsl(var(--muted-foreground));
-  --color-accent: hsl(var(--accent));
-  --color-accent-foreground: hsl(var(--accent-foreground));
-  --color-destructive: hsl(var(--destructive));
-  --color-destructive-foreground: hsl(var(--destructive-foreground));
-  --color-border: hsl(var(--border));
-  --color-input: hsl(var(--input));
-  --color-ring: hsl(var(--ring));
-  --color-chart-1: hsl(var(--chart-1));
-  --color-chart-2: hsl(var(--chart-2));
-  --color-chart-3: hsl(var(--chart-3));
-  --color-chart-4: hsl(var(--chart-4));
-  --color-chart-5: hsl(var(--chart-5));
-  --color-sidebar: hsl(var(--sidebar));
-  --color-sidebar-foreground: hsl(var(--sidebar-foreground));
-  --color-sidebar-primary: hsl(var(--sidebar-primary));
-  --color-sidebar-primary-foreground: hsl(var(--sidebar-primary-foreground));
-  --color-sidebar-accent: hsl(var(--sidebar-accent));
-  --color-sidebar-accent-foreground: hsl(var(--sidebar-accent-foreground));
-  --color-sidebar-border: hsl(var(--sidebar-border));
-  --color-sidebar-ring: hsl(var(--sidebar-ring));
+interface DiscoveredComponent {
+  globKey: string;
+  importPath: string;
 }
 
-/* LIGHT MODE - Default theme with placeholder values */
-:root {
-  --button-outline: rgba(0,0,0, .10);
-  --badge-outline: rgba(0,0,0, .05);
-  --opaque-button-border-intensity: -8;
+export function mockupPreviewPlugin(): Plugin {
+  let root = "";
+  let currentSource = "";
+  let watcher: FSWatcher | null = null;
 
-  --elevate-1: rgba(0,0,0, .03);
-  --elevate-2: rgba(0,0,0, .08);
-
-  --background: 0 0% 100%;
-  --foreground: 240 10% 3.9%;
-  --card: 0 0% 100%;
-  --card-foreground: 240 10% 3.9%;
-  --popover: 0 0% 100%;
-  --popover-foreground: 240 10% 3.9%;
-  --primary: 240 5.9% 10%;
-  --primary-foreground: 0 0% 98%;
-  --secondary: 240 4.8% 95.9%;
-  --secondary-foreground: 240 5.9% 10%;
-  --muted: 240 4.8% 95.9%;
-  --muted-foreground: 240 3.8% 46.1%;
-  --accent: 240 4.8% 95.9%;
-  --accent-foreground: 240 5.9% 10%;
-  --destructive: 0 84.2% 60.2%;
-  --destructive-foreground: 0 0% 98%;
-  --border: 240 5.9% 90%;
-  --input: 240 5.9% 90%;
-  --ring: 240 5.9% 10%;
-  --chart-1: 12 76% 61%;
-  --chart-2: 173 58% 39%;
-  --chart-3: 197 37% 24%;
-  --chart-4: 43 74% 66%;
-  --chart-5: 27 87% 67%;
-  --sidebar: 0 0% 98%;
-  --sidebar-foreground: 240 5.3% 26.1%;
-  --sidebar-primary: 240 5.9% 10%;
-  --sidebar-primary-foreground: 0 0% 98%;
-  --sidebar-accent: 240 4.8% 95.9%;
-  --sidebar-accent-foreground: 240 5.9% 10%;
-  --sidebar-border: 220 13% 91%;
-  --sidebar-ring: 240 5.9% 10%;
-
-  --font-sans: 'Inter', sans-serif;
-  --font-serif: Georgia, serif;
-  --font-mono: Menlo, monospace;
-  --radius: .5rem;
-  --spacing: 0.25rem;
-}
-
-/* DARK MODE */
-.dark {
-  --button-outline: rgba(255,255,255, .10);
-  --badge-outline: rgba(255,255,255, .05);
-  --opaque-button-border-intensity: 9;
-
-  --elevate-1: rgba(255,255,255, .04);
-  --elevate-2: rgba(255,255,255, .09);
-
-  --background: 240 10% 3.9%;
-  --foreground: 0 0% 98%;
-  --card: 240 10% 3.9%;
-  --card-foreground: 0 0% 98%;
-  --popover: 240 10% 3.9%;
-  --popover-foreground: 0 0% 98%;
-  --primary: 0 0% 98%;
-  --primary-foreground: 240 5.9% 10%;
-  --secondary: 240 3.7% 15.9%;
-  --secondary-foreground: 0 0% 98%;
-  --muted: 240 3.7% 15.9%;
-  --muted-foreground: 240 5% 64.9%;
-  --accent: 240 3.7% 15.9%;
-  --accent-foreground: 0 0% 98%;
-  --destructive: 0 62.8% 30.6%;
-  --destructive-foreground: 0 0% 98%;
-  --border: 240 3.7% 15.9%;
-  --input: 240 3.7% 15.9%;
-  --ring: 240 4.9% 83.9%;
-  --chart-1: 220 70% 50%;
-  --chart-2: 160 60% 45%;
-  --chart-3: 30 80% 55%;
-  --chart-4: 280 65% 60%;
-  --chart-5: 340 75% 55%;
-  --sidebar: 240 5.9% 10%;
-  --sidebar-foreground: 240 4.8% 95.9%;
-  --sidebar-primary: 224.3 76.3% 48%;
-  --sidebar-primary-foreground: 0 0% 100%;
-  --sidebar-accent: 240 3.7% 15.9%;
-  --sidebar-accent-foreground: 240 4.8% 95.9%;
-  --sidebar-border: 240 3.7% 15.9%;
-  --sidebar-ring: 240 4.9% 83.9%;
-}
-
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply font-sans antialiased bg-background text-foreground;
-  }
-}
-
-@layer utilities {
-  /* Hide ugly search cancel button in Chrome */
-  input[type="search"]::-webkit-search-cancel-button {
-    @apply hidden;
+  function getMockupsAbsDir(): string {
+    return path.join(root, MOCKUPS_DIR);
   }
 
-  /* Placeholder styling for contentEditable div */
-  [contenteditable][data-placeholder]:empty::before {
-    content: attr(data-placeholder);
-    color: hsl(var(--muted-foreground));
-    pointer-events: none;
+  function getGeneratedModuleAbsPath(): string {
+    return path.join(root, GENERATED_MODULE);
   }
+
+  function isMockupFile(absolutePath: string): boolean {
+    const rel = path.relative(getMockupsAbsDir(), absolutePath);
+    return (
+      !rel.startsWith("..") && !path.isAbsolute(rel) && rel.endsWith(".tsx")
+    );
+  }
+
+  function isPreviewTarget(relativeToMockups: string): boolean {
+    return relativeToMockups
+      .split(path.sep)
+      .every((segment) => !segment.startsWith("_"));
+  }
+
+  async function discoverComponents(): Promise<Array<DiscoveredComponent>> {
+    const files = await glob(`${MOCKUPS_DIR}/**/*.tsx`, {
+      cwd: root,
+      ignore: ["**/_*/**", "**/_*.tsx"],
+    });
+
+    return files.map((f) => ({
+      globKey: "./" + f.slice("src/".length),
+      importPath: path.posix.relative("src/.generated", f),
+    }));
+  }
+
+  function generateSource(components: Array<DiscoveredComponent>): string {
+    const entries = components
+      .map(
+        (c) =>
+          `  ${JSON.stringify(c.globKey)}: () => import(${JSON.stringify(c.importPath)})`,
+      )
+      .join(",\n");
+
+    return [
+      "// This file is auto-generated by mockupPreviewPlugin.ts.",
+      "type ModuleMap = Record<string, () => Promise<Record<string, unknown>>>;",
+      "export const modules: ModuleMap = {",
+      entries,
+      "};",
+      "",
+    ].join("\n");
+  }
+
+  function shouldAutoRescan(pathname: string): boolean {
+    return (
+      pathname.includes("/components/mockups/") ||
+      pathname.includes("/.generated/mockup-components")
+    );
+  }
+
+  let refreshInFlight = false;
+  let refreshQueued = false;
+
+  async function refresh(): Promise<boolean> {
+    if (refreshInFlight) {
+      refreshQueued = true;
+      return false;
+    }
+
+    refreshInFlight = true;
+    let changed = false;
+    try {
+      const components = await discoverComponents();
+      const newSource = generateSource(components);
+      if (newSource !== currentSource) {
+        currentSource = newSource;
+        const generatedModuleAbsPath = getGeneratedModuleAbsPath();
+        mkdirSync(path.dirname(generatedModuleAbsPath), { recursive: true });
+        writeFileSync(generatedModuleAbsPath, currentSource);
+        changed = true;
+      }
+    } finally {
+      refreshInFlight = false;
+    }
+
+    if (refreshQueued) {
+      refreshQueued = false;
+      const followUp = await refresh();
+      return changed || followUp;
+    }
+
+    return changed;
+  }
+
+  async function onFileAddedOrRemoved(): Promise<void> {
+    await refresh();
+  }
+
+  return {
+    name: "mockup-preview",
+    enforce: "pre",
+
+    configResolved(config) {
+      root = config.root;
+    },
+
+    async buildStart() {
+      await refresh();
+    },
+
+    async configureServer(viteServer) {
+      await refresh();
+
+      const mockupsAbsDir = getMockupsAbsDir();
+      mkdirSync(mockupsAbsDir, { recursive: true });
+
+      watcher = chokidar.watch(mockupsAbsDir, {
+        ignoreInitial: true,
+        awaitWriteFinish: {
+          stabilityThreshold: 100,
+          pollInterval: 50,
+        },
+      });
+
+      watcher.on("add", (file) => {
+        if (
+          isMockupFile(file) &&
+          isPreviewTarget(path.relative(mockupsAbsDir, file))
+        ) {
+          void onFileAddedOrRemoved();
+        }
+      });
+
+      watcher.on("unlink", (file) => {
+        if (isMockupFile(file)) {
+          void onFileAddedOrRemoved();
+        }
+      });
+
+      viteServer.middlewares.use((req, res, next) => {
+        const requestUrl = new URL(req.url ?? "/", "http://127.0.0.1");
+        const pathname = requestUrl.pathname;
+        const originalEnd = res.end.bind(res);
+
+        res.end = ((...args: Parameters<typeof originalEnd>) => {
+          if (res.statusCode === 404 && shouldAutoRescan(pathname)) {
+            void refresh();
+          }
+          return originalEnd(...args);
+        }) as typeof res.end;
+
+        next();
+      });
+    },
+
+    async closeWatcher() {
+      if (watcher) {
+        await watcher.close();
+      }
+    },
+  };
 }
