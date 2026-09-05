@@ -308,10 +308,18 @@ tr:last-child td{border-bottom:0}
 
     <section id="children" class="section">
       <div class="panel">
+        <h3>إدارة المجموعات</h3>
+        <div class="toolbar">
+          <input id="newGroupName" placeholder="اسم مجموعة جديدة (مثال: المجموعة الصفراء)" style="max-width:280px">
+          <button class="smallbtn" style="max-width:160px" onclick="addGroup()">إضافة مجموعة</button>
+        </div>
+        <div id="groupsList" style="display:flex;flex-wrap:wrap;gap:8px"></div>
+      </div>
+      <div class="panel">
         <h3>إضافة طفل / طفلة</h3>
         <div class="toolbar">
           <input id="newChild" placeholder="اسم الطفل / الطفلة" style="max-width:260px">
-          <select id="newGroup" style="max-width:180px"><option>المجموعة الوردية</option><option>المجموعة الزرقاء</option><option>المجموعة الخضراء</option></select>
+          <select id="newGroup" style="max-width:180px"></select>
           <button class="smallbtn" style="max-width:160px" onclick="addChild()">إضافة</button>
         </div>
         <div class="tablewrap"><table id="childrenTable"></table></div>
@@ -346,9 +354,9 @@ tr:last-child td{border-bottom:0}
       <div class="panel">
         <h3>الرصد اليومي حسب الطفل والوحدة</h3>
         <div class="toolbar">
-          <select id="filterChild"></select>
-          <select id="filterUnit"></select>
-          <select id="filterDomain"><option value="">كل المجالات</option></select>
+          <select id="filterChild" onchange="renderRecord()"></select>
+          <select id="filterUnit" onchange="renderRecord()"></select>
+          <select id="filterDomain" onchange="renderRecord()"><option value="">كل المجالات</option></select>
           <button class="smallbtn light" style="max-width:180px" onclick="renderRecord()">تحديث العرض</button>
         </div>
         <div class="tablewrap"><table id="recordTable"></table></div>
@@ -408,6 +416,7 @@ const domains = [
 
 const defaultState = {
   logo:"",
+  groups:["المجموعة الوردية","المجموعة الزرقاء","المجموعة الخضراء"],
   children:[
     {id:"c1", name:"سارة محمد", group:"المجموعة الوردية"},
     {id:"c2", name:"عبدالله خالد", group:"المجموعة الزرقاء"},
@@ -1696,6 +1705,10 @@ const defaultState = {
   records:{}
 };
 let state = loadState();
+if(!Array.isArray(state.groups) || !state.groups.length){
+  const uniqGroups=[...new Set((state.children||[]).map(c=>c.group).filter(Boolean))];
+  state.groups = uniqGroups.length ? uniqGroups : ["المجموعة الوردية","المجموعة الزرقاء","المجموعة الخضراء"];
+}
 
 function loadState(){
   try{
@@ -1780,14 +1793,33 @@ function addChild(){
   state.children.push({id:"c"+Date.now(), name, group:newGroup.value});
   newChild.value=""; saveAll(); renderAll();
 }
+function renderGroups(){
+  groupsList.innerHTML = state.groups.map((g,i)=>`<span class="badge">${g}
+    <button onclick="deleteGroup(${i})" style="border:0;background:transparent;color:#a82038;font-weight:900;cursor:pointer;margin-right:6px;font-size:14px">×</button></span>`).join("");
+  newGroup.innerHTML = state.groups.map(g=>`<option>${g}</option>`).join("");
+}
+function addGroup(){
+  const name=newGroupName.value.trim(); if(!name) return toast("اكتب اسم المجموعة أولًا");
+  if(state.groups.includes(name)) return toast("هذه المجموعة موجودة بالفعل");
+  state.groups.push(name);
+  newGroupName.value=""; saveAll(); renderAll();
+}
+function deleteGroup(i){
+  if(state.groups.length<=1) return toast("يجب إبقاء مجموعة واحدة على الأقل");
+  if(!confirm("حذف هذه المجموعة؟ لن يتم حذف الأطفال المرتبطين بها.")) return;
+  state.groups.splice(i,1);
+  saveAll(); renderAll();
+}
 function deleteChild(id){
   state.children=state.children.filter(c=>c.id!==id);
   Object.keys(state.records).forEach(k=>{if(k.startsWith(id+"|")) delete state.records[k]});
   saveAll(); renderAll();
 }
 function renderSkills(){
+  const prevFilterDomain = filterDomain.value;
   skillDomain.innerHTML=domains.map(d=>`<option>${d}</option>`).join("");
   filterDomain.innerHTML=`<option value="">كل المجالات</option>`+domains.map(d=>`<option>${d}</option>`).join("");
+  if([...filterDomain.options].some(o=>o.value===prevFilterDomain)) filterDomain.value=prevFilterDomain;
   skillsTable.innerHTML=`<thead><tr><th>م</th><th>المجال</th><th>مؤشر المهارة</th><th>إجراء</th></tr></thead><tbody>`+
   state.skills.map((s,i)=>`<tr>
     <td>${i+1}</td>
@@ -1827,9 +1859,17 @@ function deleteUnit(id){
   saveAll(); renderAll();
 }
 function renderSelectors(){
+  const prevFilterChild = filterChild.value;
+  const prevReportChild = reportChild.value;
+  const prevQuickChild = (typeof quickPrintChild !== "undefined" && quickPrintChild) ? quickPrintChild.value : "";
+  const prevFilterUnit = filterUnit.value;
   const childOpts=state.children.map(c=>`<option value="${c.id}">${c.name}</option>`).join("");
   const unitOpts=state.units.map(u=>`<option value="${u.id}">${u.name}</option>`).join("");
-  filterChild.innerHTML=childOpts; reportChild.innerHTML=childOpts; if(typeof quickPrintChild !== "undefined") quickPrintChild.innerHTML=childOpts; filterUnit.innerHTML=unitOpts;
+  filterChild.innerHTML=childOpts; reportChild.innerHTML=childOpts; if(typeof quickPrintChild !== "undefined" && quickPrintChild) quickPrintChild.innerHTML=childOpts; filterUnit.innerHTML=unitOpts;
+  if(state.children.some(c=>c.id===prevFilterChild)) filterChild.value=prevFilterChild;
+  if(state.children.some(c=>c.id===prevReportChild)) reportChild.value=prevReportChild;
+  if(typeof quickPrintChild !== "undefined" && quickPrintChild && state.children.some(c=>c.id===prevQuickChild)) quickPrintChild.value=prevQuickChild;
+  if(state.units.some(u=>u.id===prevFilterUnit)) filterUnit.value=prevFilterUnit;
 }
 function renderRecord(){
   const c = filterChild.value || state.children[0]?.id;
@@ -1928,7 +1968,7 @@ function resetDemo(){
   if(confirm("إعادة البيانات التجريبية؟")){ state=structuredClone(defaultState); saveAll(); renderAll(); }
 }
 function renderAll(){
-  renderMetrics(); renderSelectors(); renderChildren(); renderSkills(); renderUnits(); renderRecord(); renderProgress(); renderMatrix(); renderReport();
+  renderMetrics(); renderGroups(); renderSelectors(); renderChildren(); renderSkills(); renderUnits(); renderRecord(); renderProgress(); renderMatrix(); renderReport();
   setLogo(state.logo||"");
 }
 loadMeta(); renderAll();
